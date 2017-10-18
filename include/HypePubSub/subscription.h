@@ -1,16 +1,22 @@
-#include "sha_1.h"
+#include <stdlib.h>
 
+#include "sha_1.h"
+#include "constants.h"
+
+/**
+ * @brief
+ */
 typedef struct Subscription
 {
-    string serviceName;
-    char serviceKey[SHA1_KEY_BYTE_SIZE];
-    char managerID[HYPE_ID_BYTE_SIZE];
+    char* serviceName; /**< Name of the service subscribed. */
+    char serviceKey[SHA1_KEY_BYTE_SIZE]; /**< Key of the service subscribed. */
+    char managerID[HYPE_ID_BYTE_SIZE]; /**< Hype ID of the manager of the service */
 } Subscription;
 
 /**
- * @brief create
+ * @brief createSubscription
  * @param servName
  * @param manID
  * @return
  */
-Subscription create(string servName, char manID[12]);
+Subscription* createSubscription(char* servName, char manID[12]);

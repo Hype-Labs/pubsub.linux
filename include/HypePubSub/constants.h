@@ -1,0 +1,1 @@
+#define HYPE_ID_BYTE_SIZE 12
