@@ -5,7 +5,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 
 # Define the directory of the source code and of the headers 
 set(SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src")
-set(INC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/include"
+set(INC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/include")
 
 FILE(GLOB_RECURSE MY_C_SOURCES "${SRC_DIR}/*.c")
 FILE(GLOB_RECURSE MY_C_INCLUDES "${INC_DIR}/*.h")
