@@ -1,6 +1,5 @@
 #include <stdlib.h>
 
-#include "sha_1.h"
 #include "constants.h"
 
 /**
@@ -19,4 +18,4 @@ typedef struct Subscription
  * @param manID
  * @return
  */
-Subscription* createSubscription(char* servName, char manID[12]);
+Subscription* createSubscription(char* servName, char manID[HYPE_ID_BYTE_SIZE]);

@@ -23,14 +23,14 @@ HypePubSub* createHypePubSub();
  * @param serviceKey
  * @return
  */
-int issueSubscribeServiceReq(char serviceKey[20]);
+int issueSubscribeServiceReq(char serviceKey[SHA1_KEY_BYTE_SIZE]);
 
 /**
  * @brief issueUnsubscribeServiceReq
  * @param serviceKey
  * @return
  */
-int issueUnsubscribeServiceReq(char serviceKey[20]);
+int issueUnsubscribeServiceReq(char serviceKey[SHA1_KEY_BYTE_SIZE]);
 
 /**
  * @brief issuePublishReq
@@ -38,7 +38,7 @@ int issueUnsubscribeServiceReq(char serviceKey[20]);
  * @param msg
  * @return
  */
-int issuePublishReq(char serviceKey[20], char* msg);
+int issuePublishReq(char serviceKey[SHA1_KEY_BYTE_SIZE], char* msg);
 
 /**
  * @brief processSubscribeReq
@@ -46,7 +46,7 @@ int issuePublishReq(char serviceKey[20], char* msg);
  * @param requesterClientId
  * @return
  */
-int processSubscribeReq(char serviceKey[20], char requesterClientId[12]);
+int processSubscribeReq(char serviceKey[SHA1_KEY_BYTE_SIZE], char requesterClientId[HYPE_ID_BYTE_SIZE]);
 
 /**
  * @brief processUnsubscribeReq
@@ -54,7 +54,7 @@ int processSubscribeReq(char serviceKey[20], char requesterClientId[12]);
  * @param requesterClientId
  * @return
  */
-int processUnsubscribeReq(char serviceKey[20], char requesterClientId[12]);
+int processUnsubscribeReq(char serviceKey[SHA1_KEY_BYTE_SIZE], char requesterClientId[HYPE_ID_BYTE_SIZE]);
 
 /**
  * @brief processPublishReq
@@ -62,7 +62,7 @@ int processUnsubscribeReq(char serviceKey[20], char requesterClientId[12]);
  * @param msg
  * @return
  */
-int processPublishReq(char serviceKey[20], char* msg);
+int processPublishReq(char serviceKey[SHA1_KEY_BYTE_SIZE], char* msg);
 
 /**
  * @brief processChangeServiceManagerReq
@@ -71,7 +71,7 @@ int processPublishReq(char serviceKey[20], char* msg);
  * @param subscribersId
  * @return
  */
-int processChangeServiceManagerReq(char serviceKey[20], char newManagerId[12], char** subscribersId[12]);
+int processChangeServiceManagerReq(char serviceKey[SHA1_KEY_BYTE_SIZE], char newManagerId[HYPE_ID_BYTE_SIZE], char** subscribersId[HYPE_ID_BYTE_SIZE]);
 
 /**
  * @brief updateSubscriptionsManager
@@ -86,18 +86,18 @@ static int updateSubscriptionsManager();
  * @param subscribersId
  * @return
  */
-static int issueChangeServiceManagerReq(char serviceKey[20], char newManagerId[12], char** subscribersId[12]);
+static int issueChangeServiceManagerReq(char serviceKey[SHA1_KEY_BYTE_SIZE], char newManagerId[HYPE_ID_BYTE_SIZE], char** subscribersId[HYPE_ID_BYTE_SIZE]);
 
 /**
  * @brief removeServiceManager
  * @param serviceKey
  * @return
  */
-static int removeServiceManager(char serviceKey[20]);
+static int removeServiceManager(char serviceKey[SHA1_KEY_BYTE_SIZE]);
 
 /**
  * @brief sendInfoMsg
  * @param destNetworkIds
  * @return
  */
-static int sendInfoMsg(char** destNetworkIds[12]);
+static int sendInfoMsg(char** destNetworkIds[HYPE_ID_BYTE_SIZE]);

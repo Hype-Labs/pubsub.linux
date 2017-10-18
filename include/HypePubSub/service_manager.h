@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#include "sha_1.h"
 #include "constants.h"
 
 /**
