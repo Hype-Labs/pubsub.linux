@@ -1,5 +1,5 @@
 
-#include "hype_sub_sub/protocol.h"
+#include "hype_pub_sub/protocol.h"
 
 ProtocolManager *hype_pub_sub_protocol_manager_create(HypePubSub *pub_sub)
 {

@@ -2,8 +2,8 @@
 #ifndef HYPE_PUB_SUB_PROTOCOL_H_INCLUDED_
 #define HYPE_PUB_SUB_PROTOCOL_H_INCLUDED_
 
-#include "hype_pub_sub/constants.h"
-#include "hype_pub_sub/hype_pub_sub.h"
+#include "constants.h"
+#include "hype_pub_sub.h"
 
 typedef enum  {SUBSCRIBE_SERVICE,
                UNSUBSCRIBE_SERVICE,

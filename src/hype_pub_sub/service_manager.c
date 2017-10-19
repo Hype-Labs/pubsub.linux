@@ -1,5 +1,5 @@
 
-#include "HypePubSub/service_manager.h"
+#include "hype_pub_sub/service_manager.h"
 
 ServiceManager *hype_pub_sub_service_manager_create(char service_key[])
 {
