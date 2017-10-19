@@ -1,67 +1,67 @@
 
 #include "HypePubSub/protocol_manager.h"
 
-int sendCreateServicePacket(char serviceKey[SHA1_KEY_BYTE_SIZE], char destNetworkId[HYPE_ID_BYTE_SIZE])
+ProtocolManager *hype_pub_sub_protocol_manager_create(HypePubSub *pub_sub)
+{
+    return NULL;
+}
+
+int hype_pub_sub_protocol_manager_send_subscribe_packet(char service_key[], char dest_network_id[])
 {
     return 0;
 }
 
-int sendSubscribePacket(char serviceKey[SHA1_KEY_BYTE_SIZE], char destNetworkId[HYPE_ID_BYTE_SIZE])
+int hype_pub_sub_protocol_manager_send_unsubscribe_packet(char service_key[], char dest_network_id[])
 {
     return 0;
 }
 
-int sendUnsubscribePacket(char serviceKey[SHA1_KEY_BYTE_SIZE], char destNetworkId[HYPE_ID_BYTE_SIZE])
+int hype_pub_sub_protocol_manager_send_publish_packet(char service_key[], char dest_network_id[], char *msg)
 {
     return 0;
 }
 
-int sendPublishPacket(char serviceKey[SHA1_KEY_BYTE_SIZE], char destNetworkId[HYPE_ID_BYTE_SIZE], char* msg)
+int hype_pub_sub_protocol_manager_send_change_service_manager_packet(char service_key[], char dest_network_id[], char **subscribers_ids[])
 {
     return 0;
 }
 
-int sendChangeServiceManagerPacket(char serviceKey[SHA1_KEY_BYTE_SIZE], char destNetworkId[HYPE_ID_BYTE_SIZE], char** subscribersIds[SHA1_KEY_BYTE_SIZE])
+int hype_pub_sub_protocol_manager_send_info_packet(ProtocolManager *protocol, char dest_network_id[], char *string)
 {
     return 0;
 }
 
-int sendInfoPacket(char destNetworkId[HYPE_ID_BYTE_SIZE], char* string)
+int hype_pub_sub_protocol_manager_receive_msg(ProtocolManager *protocol, char origin_network_id[])
 {
     return 0;
 }
 
-int receiveMsg(char originNetworkId[HYPE_ID_BYTE_SIZE])
+int hype_pub_sub_protocol_manager_receive_subscribe_packet(ProtocolManager *protocol, char *msg)
 {
     return 0;
 }
 
-int receiveSubscribePacket(char* msg)
+int hype_pub_sub_protocol_manager_receive_unsubscribe_packet(ProtocolManager *protocol, char *msg)
 {
     return 0;
 }
 
-int receiveUnsubscribePacket(char* msg)
+int hype_pub_sub_protocol_manager_receive_publish_packet(ProtocolManager *protocol, char *msg)
 {
     return 0;
 }
 
-int receivePublishPacket(char* msg)
+int hype_pub_sub_protocol_manager_receive_change_service_manager_packet(ProtocolManager *protocol, char *msg)
 {
     return 0;
 }
 
-int receiveChangeServiceManagerPacket(char* msg)
+int hype_pub_sub_protocol_manager_receive_info_packet(ProtocolManager *protocol, char *msg)
 {
     return 0;
 }
 
-int receiveInfoPacket(char* msg)
-{
-    return 0;
-}
-
-message_type getMessageType(char* msg)
+MessageType hype_pub_sub_protocol_manager_get_message_type(char *msg)
 {
     return 0;
 }

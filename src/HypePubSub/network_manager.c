@@ -1,27 +1,27 @@
 
 #include "HypePubSub/network_manager.h"
 
-NetworkManager* createNetworkManager()
+NetworkManager *hype_pub_sub_network_manager_create()
 {
     return NULL;
 }
 
-char* getServiceManagerId(char serviceKey[SHA1_KEY_BYTE_SIZE])
+char *hype_pub_sub_network_manager_get_service_manager_id(char service_key[])
 {
     return NULL;
 }
 
-int updateNetworkClients()
+int hype_pub_sub_network_manager_update_clients()
 {
     return 0;
 }
 
-bool isClientOnline(char clientId[HYPE_ID_BYTE_SIZE])
+bool hype_pub_sub_network_manager_is_client_online(char client_id[])
 {
     return false;
 }
 
-char* getOwnClientId()
+char *hype_pub_sub_network_manager_get_own_client_id()
 {
     return NULL;
 }

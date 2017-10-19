@@ -1,25 +1,22 @@
 
 #include "HypePubSub/service_manager.h"
 
-ServiceManager* createServiceManager(char serviceKey[SHA1_KEY_BYTE_SIZE])
+ServiceManager *hype_pub_sub_service_manager_create(char service_key[])
 {
-
     return NULL;
 }
 
-int addSubscriberToServiceManager(ServiceManager* servMan, char subscriberId[HYPE_ID_BYTE_SIZE])
+int hype_pub_sub_service_manager_add_subscriber(ServiceManager *serv_man, char subscriber_id[])
 {
     return 0;
 }
 
-int removeSubscriberFromServiceManager(ServiceManager* servMan, char subscriberId[HYPE_ID_BYTE_SIZE])
+int hype_pub_sub_service_manager_remove_subscriber(ServiceManager *serv_man, char subscriber_id[])
 {
-
     return 0;
 }
 
-bool isSubscriberInServiceManager(ServiceManager* servMan, char subscriberId[HYPE_ID_BYTE_SIZE])
+bool hype_pub_sub_service_manager_is_subscriber(ServiceManager *serv_man, char subscriber_id[])
 {
-
     return 0;
 }

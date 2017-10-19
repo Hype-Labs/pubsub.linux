@@ -1,3 +1,7 @@
+
+#ifndef HYPE_PUB_SUB_SERVICE_MANAGER_H_INCLUDED_
+#define HYPE_PUB_SUB_SERVICE_MANAGER_H_INCLUDED_
+
 #include <stdlib.h>
 #include <stdbool.h>
 
@@ -6,40 +10,41 @@
 /**
  * @brief
  */
-typedef struct ServiceManager
+typedef struct ServiceManager_
 {
-    char serviceKey[SHA1_KEY_BYTE_SIZE]; /**< Key of the managed service. */
+    char service_key[SHA1_KEY_BYTE_SIZE]; /**< Key of the managed service. */
     char ** subscribers[HYPE_ID_BYTE_SIZE]; /**< Subscribers of the service. */
 } ServiceManager;
 
 /**
- * @brief createServiceManager
- * @param serviceKey
+ * @brief hype_pub_sub_service_manager_create
+ * @param service_key
  * @return
  */
-ServiceManager* createServiceManager(char serviceKey[SHA1_KEY_BYTE_SIZE]);
+ServiceManager* hype_pub_sub_service_manager_create(char service_key[SHA1_KEY_BYTE_SIZE]);
 
 /**
- * @brief addSubscriberToServiceManager
- * @param servMan
- * @param subscriberId
+ * @brief hype_pub_sub_service_manager_add_subscriber
+ * @param serv_man
+ * @param subscriber_id
  * @return
  */
-int addSubscriberToServiceManager(ServiceManager* servMan, char subscriberId[HYPE_ID_BYTE_SIZE]);
+int hype_pub_sub_service_manager_add_subscriber(ServiceManager* serv_man, char subscriber_id[HYPE_ID_BYTE_SIZE]);
 
 /**
- * @brief removeSubscriberFromServiceManager
- * @param servMan
- * @param subscriberId
+ * @brief hype_pub_sub_service_manager_remove_subscriber
+ * @param serv_man
+ * @param subscriber_id
  * @return
  */
-int removeSubscriberFromServiceManager(ServiceManager* servMan, char subscriberId[HYPE_ID_BYTE_SIZE]);
+int hype_pub_sub_service_manager_remove_subscriber(ServiceManager* serv_man, char subscriber_id[HYPE_ID_BYTE_SIZE]);
 
 /**
- * @brief isSubscriberInServiceManager
- * @param servMan
- * @param subscriberId
+ * @brief hype_pub_sub_service_manager_is_subscriber
+ * @param serv_man
+ * @param subscriber_id
  * @return
  */
-bool isSubscriberInServiceManager(ServiceManager* servMan, char subscriberId[HYPE_ID_BYTE_SIZE]);
+bool hype_pub_sub_service_manager_is_subscriber(ServiceManager* serv_man, char subscriber_id[HYPE_ID_BYTE_SIZE]);
 
+#endif /* HYPE_PUB_SUB_SERVICE_MANAGER_H_INCLUDED_ */

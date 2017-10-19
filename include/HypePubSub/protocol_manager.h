@@ -1,106 +1,127 @@
+
+#ifndef HYPE_PUB_SUB_PROTOCOL_MANAGER_H_INCLUDED_
+#define HYPE_PUB_SUB_PROTOCOL_MANAGER_H_INCLUDED_
+
 #include "HypePubSub/constants.h"
+#include "HypePubSub/hype_pub_sub.h"
 
 typedef enum  {SUBSCRIBE_SERVICE,
                UNSUBSCRIBE_SERVICE,
                PUBLISH,
                INFO,
-               CHANGE_SERVICE_MANAGER} message_type;
+               CHANGE_SERVICE_MANAGER} MessageType;
 
 /**
- * @brief sendCreateServicePacket
- * @param serviceKey
- * @param destNetworkId
+ * @brief
+ */
+typedef struct ProtocolManager_
+{
+    HypePubSub* application; /**< Hype ID of this client. */
+} ProtocolManager;
+
+/**
+ * @brief hype_pub_sub_protocol_manager_create
+ * @param pub_sub
  * @return
  */
-int sendCreateServicePacket(char serviceKey[SHA1_KEY_BYTE_SIZE], char destNetworkId[HYPE_ID_BYTE_SIZE]);
+ProtocolManager* hype_pub_sub_protocol_manager_create(HypePubSub* pub_sub);
 
 /**
- * @brief sendSubscribePacket
- * @param serviceKey
- * @param destNetworkId
+ * @brief hype_pub_sub_protocol_manager_send_subscribe_packet
+ * @param service_key
+ * @param dest_network_id
  * @return
  */
-int sendSubscribePacket(char serviceKey[SHA1_KEY_BYTE_SIZE], char destNetworkId[HYPE_ID_BYTE_SIZE]);
+int hype_pub_sub_protocol_manager_send_subscribe_packet(char service_key[SHA1_KEY_BYTE_SIZE], char dest_network_id[HYPE_ID_BYTE_SIZE]);
 
 /**
- * @brief sendUnsubscribePacket
- * @param serviceKey
- * @param destNetworkId
+ * @brief hype_pub_sub_protocol_manager_send_unsubscribe_packet
+ * @param service_key
+ * @param dest_network_id
  * @return
  */
-int sendUnsubscribePacket(char serviceKey[SHA1_KEY_BYTE_SIZE], char destNetworkId[HYPE_ID_BYTE_SIZE]);
+int hype_pub_sub_protocol_manager_send_unsubscribe_packet(char service_key[SHA1_KEY_BYTE_SIZE], char dest_network_id[HYPE_ID_BYTE_SIZE]);
 
 /**
- * @brief sendPublishPacket
- * @param serviceKey
- * @param destNetworkId
+ * @brief hype_pub_sub_protocol_manager_send_publish_packet
+ * @param service_key
+ * @param dest_network_id
  * @param msg
  * @return
  */
-int sendPublishPacket(char serviceKey[SHA1_KEY_BYTE_SIZE], char destNetworkId[HYPE_ID_BYTE_SIZE], char* msg);
+int hype_pub_sub_protocol_manager_send_publish_packet(char service_key[SHA1_KEY_BYTE_SIZE], char dest_network_id[HYPE_ID_BYTE_SIZE], char* msg);
 
 /**
- * @brief sendChangeServiceManagerPacket
- * @param serviceKey
- * @param destNetworkId
- * @param subscribersIds
+ * @brief hype_pub_sub_protocol_manager_send_change_service_manager_packet
+ * @param service_key
+ * @param dest_network_id
+ * @param subscribers_ids
  * @return
  */
-int sendChangeServiceManagerPacket(char serviceKey[SHA1_KEY_BYTE_SIZE], char destNetworkId[HYPE_ID_BYTE_SIZE], char** subscribersIds[SHA1_KEY_BYTE_SIZE]);
+int hype_pub_sub_protocol_manager_send_change_service_manager_packet(char service_key[SHA1_KEY_BYTE_SIZE], char dest_network_id[HYPE_ID_BYTE_SIZE], char** subscribers_ids[SHA1_KEY_BYTE_SIZE]);
 
 /**
- * @brief sendInfoPacket
- * @param destNetworkId
+ * @brief hype_pub_sub_protocol_manager_send_info_packet
+ * @param protocol
+ * @param dest_network_id
  * @param string
  * @return
  */
-int sendInfoPacket(char destNetworkId[HYPE_ID_BYTE_SIZE], char* string);
+int hype_pub_sub_protocol_manager_send_info_packet(ProtocolManager* protocol, char dest_network_id[HYPE_ID_BYTE_SIZE], char* string);
 
 /**
- * @brief receiveMsg
- * @param originNetworkId
+ * @brief hype_pub_sub_protocol_manager_receive_msg
+ * @param protocol
+ * @param origin_network_id
  * @return
  */
-int receiveMsg(char originNetworkId[HYPE_ID_BYTE_SIZE]);
+int hype_pub_sub_protocol_manager_receive_msg(ProtocolManager* protocol, char origin_network_id[HYPE_ID_BYTE_SIZE]);
 
 /**
- * @brief receiveSubscribePacket
+ * @brief hype_pub_sub_protocol_manager_receive_subscribe_packet
+ * @param protocol
  * @param msg
  * @return
  */
-int receiveSubscribePacket(char* msg);
+int hype_pub_sub_protocol_manager_receive_subscribe_packet(ProtocolManager* protocol, char* msg);
 
 /**
- * @brief receiveUnsubscribePacket
+ * @brief hype_pub_sub_protocol_manager_receive_unsubscribe_packet
+ * @param protocol
  * @param msg
  * @return
  */
-int receiveUnsubscribePacket(char* msg);
+int hype_pub_sub_protocol_manager_receive_unsubscribe_packet(ProtocolManager* protocol, char* msg);
 
 /**
- * @brief receivePublishPacket
+ * @brief hype_pub_sub_protocol_manager_receive_publish_packet
+ * @param protocol
  * @param msg
  * @return
  */
-int receivePublishPacket(char* msg);
+int hype_pub_sub_protocol_manager_receive_publish_packet(ProtocolManager* protocol, char* msg);
 
 /**
- * @brief receiveChangeServiceManagerPacket
+ * @brief hype_pub_sub_protocol_manager_receive_change_service_manager_packet
+ * @param protocol
  * @param msg
  * @return
  */
-int receiveChangeServiceManagerPacket(char* msg);
+int hype_pub_sub_protocol_manager_receive_change_service_manager_packet(ProtocolManager* protocol, char* msg);
 
 /**
- * @brief receiveInfoPacket
+ * @brief hype_pub_sub_protocol_manager_receive_info_packet
+ * @param protocol
  * @param msg
  * @return
  */
-int receiveInfoPacket(char* msg);
+int hype_pub_sub_protocol_manager_receive_info_packet(ProtocolManager* protocol, char* msg);
 
 /**
- * @brief getMessageType
+ * @brief hype_pub_sub_protocol_manager_get_message_type
  * @param msg
  * @return
  */
-message_type getMessageType(char* msg);
+static MessageType hype_pub_sub_protocol_manager_get_message_type(char* msg);
+
+#endif /* HYPE_PUB_SUB_PROTOCOL_MANAGER_H_INCLUDED_ */
