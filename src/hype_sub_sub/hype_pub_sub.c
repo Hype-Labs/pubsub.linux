@@ -1,5 +1,5 @@
 
-#include "HypePubSub/hype_pub_sub.h"
+#include "hype_pub_sub/hype_pub_sub.h"
 
 HypePubSub* hype_pub_sub_create()
 {

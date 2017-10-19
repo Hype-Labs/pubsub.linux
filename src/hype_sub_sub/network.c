@@ -1,5 +1,5 @@
 
-#include "HypePubSub/network_manager.h"
+#include "hype_pub_sub/network.h"
 
 NetworkManager *hype_pub_sub_network_manager_create()
 {
