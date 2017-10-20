@@ -2,10 +2,11 @@
 #ifndef HYPE_PUB_SUB_SERVICE_MANAGER_H_INCLUDED_
 #define HYPE_PUB_SUB_SERVICE_MANAGER_H_INCLUDED_
 
-#include <stdlib.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 #include "constants.h"
+#include "../external/include/sha/sha1.h"
 
 /**
  * @brief
@@ -14,6 +15,7 @@ typedef struct ServiceManager_
 {
     char service_key[SHA1_KEY_BYTE_SIZE]; /**< Key of the managed service. */
     char ** subscribers[HYPE_ID_BYTE_SIZE]; /**< Subscribers of the service. */
+    size_t n_subscribers;
 } ServiceManager;
 
 /**
