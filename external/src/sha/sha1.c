@@ -152,6 +152,6 @@ void sha1_digest(char * msg, size_t msg_len, BYTE * msg_digest)
 {
     SHA1_CTX ctx;
     sha1_init(&ctx);
-    sha1_update(&ctx, msg, msg_len);
+    sha1_update(&ctx, (const BYTE*) msg, msg_len);
     sha1_final(&ctx, msg_digest);
 }
