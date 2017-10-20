@@ -1,7 +1,0 @@
-
-#ifndef HYPE_PUB_SUB_SHA1_H_INCLUDED_
-#define HYPE_PUB_SUB_SHA1_H_INCLUDED_
-
-
-#endif /* HYPE_PUB_SUB_SHA1_H_INCLUDED_ */
-
