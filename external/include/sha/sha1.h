@@ -6,8 +6,8 @@
 * Details:    Defines the API for the corresponding SHA1 implementation.
 *********************************************************************/
 
-#ifndef SHA1_H
-#define SHA1_H
+#ifndef EXTERNAL_SHA_SHA1_H
+#define EXTERNAL_SHA_SHA1_H
 
 /*************************** HEADER FILES ***************************/
 #include <stddef.h>
@@ -32,6 +32,6 @@ void sha1_init(SHA1_CTX *ctx);
 void sha1_update(SHA1_CTX *ctx, const BYTE data[], size_t len);
 void sha1_final(SHA1_CTX *ctx, BYTE hash[]);
 
-void sha1_digest(char * msg, size_t msg_len, BYTE * msg_digest);
+void sha1_digest(const BYTE* msg, size_t msg_len, BYTE * msg_digest);
 
-#endif   // SHA1_H
+#endif /* EXTERNAL_SHA_SHA1_H */

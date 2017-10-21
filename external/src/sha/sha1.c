@@ -12,7 +12,7 @@
 /*************************** HEADER FILES ***************************/
 #include <stdlib.h>
 #include <memory.h>
-#include "sha1.h"
+#include "sha/sha1.h"
 
 /****************************** MACROS ******************************/
 #define ROTLEFT(a, b) ((a << b) | (a >> (32 - b)))
@@ -148,10 +148,10 @@ void sha1_final(SHA1_CTX *ctx, BYTE hash[])
 	}
 }
 
-void sha1_digest(char * msg, size_t msg_len, BYTE * msg_digest)
+void sha1_digest(const BYTE* msg, size_t msg_len, BYTE * msg_digest)
 {
     SHA1_CTX ctx;
     sha1_init(&ctx);
-    sha1_update(&ctx, (const BYTE*) msg, msg_len);
+    sha1_update(&ctx, msg, msg_len);
     sha1_final(&ctx, msg_digest);
 }
