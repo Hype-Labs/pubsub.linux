@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+#include "sha/sha1.h"
 #include "constants.h"
 
 /**
@@ -12,8 +13,8 @@
  */
 typedef struct NetworkManager_
 {
-    char own_client_id[HYPE_ID_BYTE_SIZE]; /**< Hype ID of this client. */
-    char ** network_client_ids[HYPE_ID_BYTE_SIZE]; /**< Hype ID of the clients of the network. */
+    byte own_client_id[HYPE_ID_BYTE_SIZE]; /**< Hype ID of this client. */
+    byte ** network_client_ids[HYPE_ID_BYTE_SIZE]; /**< Hype ID of the clients of the network. */
 } NetworkManager;
 
 
@@ -28,7 +29,7 @@ NetworkManager* hype_pub_sub_network_create();
  * @param service_key
  * @return
  */
-char* hype_pub_sub_network_get_service_manager_id(char service_key[SHA1_KEY_BYTE_SIZE]); // TODO: Check return type
+byte* hype_pub_sub_network_get_service_manager_id(byte service_key[SHA1_BLOCK_SIZE]); // TODO: Check return type
 
 /**
  * @brief hype_pub_sub_network_update_clients
@@ -41,12 +42,12 @@ int hype_pub_sub_network_update_clients();
  * @param client_id
  * @return
  */
-bool hype_pub_sub_network_is_client_online(char client_id[HYPE_ID_BYTE_SIZE]);
+bool hype_pub_sub_network_is_client_online(byte client_id[HYPE_ID_BYTE_SIZE]);
 
 /**
  * @brief hype_pub_sub_network_get_own_client_id
  * @return
  */
-char* hype_pub_sub_network_get_own_client_id(); // TODO: Check return type
+byte* hype_pub_sub_network_get_own_client_id(); // TODO: Check return type
 
 #endif /* HYPE_PUB_SUB_NETWORK_H_INCLUDED_ */

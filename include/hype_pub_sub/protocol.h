@@ -32,7 +32,7 @@ ProtocolManager* hype_pub_sub_protocol_create(HypePubSub* pub_sub);
  * @param dest_network_id
  * @return
  */
-int hype_pub_sub_protocol_send_subscribe_msg(char service_key[SHA1_KEY_BYTE_SIZE], char dest_network_id[HYPE_ID_BYTE_SIZE]);
+int hype_pub_sub_protocol_send_subscribe_msg(byte service_key[SHA1_BLOCK_SIZE], byte dest_network_id[HYPE_ID_BYTE_SIZE]);
 
 /**
  * @brief hype_pub_sub_protocol_send_unsubscribe_msg
@@ -40,7 +40,7 @@ int hype_pub_sub_protocol_send_subscribe_msg(char service_key[SHA1_KEY_BYTE_SIZE
  * @param dest_network_id
  * @return
  */
-int hype_pub_sub_protocol_send_unsubscribe_msg(char service_key[SHA1_KEY_BYTE_SIZE], char dest_network_id[HYPE_ID_BYTE_SIZE]);
+int hype_pub_sub_protocol_send_unsubscribe_msg(byte service_key[SHA1_BLOCK_SIZE], byte dest_network_id[HYPE_ID_BYTE_SIZE]);
 
 /**
  * @brief hype_pub_sub_protocol_send_publish_msg
@@ -49,7 +49,7 @@ int hype_pub_sub_protocol_send_unsubscribe_msg(char service_key[SHA1_KEY_BYTE_SI
  * @param msg
  * @return
  */
-int hype_pub_sub_protocol_send_publish_msg(char service_key[SHA1_KEY_BYTE_SIZE], char dest_network_id[HYPE_ID_BYTE_SIZE], char* msg);
+int hype_pub_sub_protocol_send_publish_msg(byte service_key[SHA1_BLOCK_SIZE], byte dest_network_id[HYPE_ID_BYTE_SIZE], char* msg);
 
 /**
  * @brief hype_pub_sub_protocol_send_change_service_manager_msg
@@ -58,7 +58,7 @@ int hype_pub_sub_protocol_send_publish_msg(char service_key[SHA1_KEY_BYTE_SIZE],
  * @param subscribers_ids
  * @return
  */
-int hype_pub_sub_protocol_send_change_service_manager_msg(char service_key[SHA1_KEY_BYTE_SIZE], char dest_network_id[HYPE_ID_BYTE_SIZE], char** subscribers_ids[SHA1_KEY_BYTE_SIZE]);
+int hype_pub_sub_protocol_send_change_service_manager_msg(byte service_key[SHA1_BLOCK_SIZE], byte dest_network_id[HYPE_ID_BYTE_SIZE], byte** subscribers_ids[SHA1_BLOCK_SIZE]);
 
 /**
  * @brief hype_pub_sub_protocol_send_info_msg
@@ -67,7 +67,7 @@ int hype_pub_sub_protocol_send_change_service_manager_msg(char service_key[SHA1_
  * @param string
  * @return
  */
-int hype_pub_sub_protocol_send_info_msg(ProtocolManager* protocol, char dest_network_id[HYPE_ID_BYTE_SIZE], char* string);
+int hype_pub_sub_protocol_send_info_msg(ProtocolManager* protocol, byte dest_network_id[HYPE_ID_BYTE_SIZE], char* string);
 
 /**
  * @brief hype_pub_sub_protocol_receive_msg
@@ -75,7 +75,7 @@ int hype_pub_sub_protocol_send_info_msg(ProtocolManager* protocol, char dest_net
  * @param origin_network_id
  * @return
  */
-int hype_pub_sub_protocol_receive_msg(ProtocolManager* protocol, char origin_network_id[HYPE_ID_BYTE_SIZE]);
+int hype_pub_sub_protocol_receive_msg(ProtocolManager* protocol, byte origin_network_id[HYPE_ID_BYTE_SIZE]);
 
 /**
  * @brief hype_pub_sub_protocol_receive_subscribe_msg
