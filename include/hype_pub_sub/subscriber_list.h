@@ -2,7 +2,7 @@
 #ifndef HYPE_PUB_SUB_SUBSCRIBER_LIST_H_INCLUDED_
 #define HYPE_PUB_SUB_SUBSCRIBER_LIST_H_INCLUDED_
 
-#include "list.h"
+#include "linked_list.h"
 #include "constants.h"
 
 LinkedListElement* hype_pub_sub_subscriber_list_create();
