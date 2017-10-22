@@ -5,13 +5,17 @@
 #include "linked_list.h"
 #include "constants.h"
 
-LinkedListElement* hype_pub_sub_subscriber_list_create();
 
-int hype_pub_sub_subscriber_list_add(LinkedListElement *head, byte subscriber_id[]);
+typedef LinkedListElement SubscriberList;
 
-int hype_pub_sub_subscriber_list_remove(LinkedListElement **head, byte subscriber_id[]);
 
-void hype_pub_sub_subscriber_list_destroy(LinkedListElement* head);
+SubscriberList* hype_pub_sub_subscriber_list_create();
+
+int hype_pub_sub_subscriber_list_add(SubscriberList* subsList, byte subscriber_id[]);
+
+int hype_pub_sub_subscriber_list_remove(SubscriberList **subsList, byte subscriber_id[]);
+
+void hype_pub_sub_subscriber_list_destroy(SubscriberList* subsList);
 
 void copy_subscriber_id(void **dst, void* src);
 

@@ -1,7 +1,7 @@
 
 #include "linked_list.h"
 
-LinkedListElement* list_create()
+LinkedListElement* linked_list_create()
 {
     LinkedListElement* list = (LinkedListElement*) malloc(sizeof(LinkedListElement));
     list->data = NULL;
@@ -9,7 +9,7 @@ LinkedListElement* list_create()
     return list;
 }
 
-int list_add(LinkedListElement* head, void *elem_data, void (*copy_data) (void** dst, void* src), bool(*compare_elements_data)(void* data1, void* data2))
+int linked_list_add(LinkedListElement* head, void *elem_data, void (*copy_data) (void** dst, void* src), bool(*compare_elements_data)(void* data1, void* data2))
 {
     if(head == NULL)
         return -1;
@@ -36,9 +36,9 @@ int list_add(LinkedListElement* head, void *elem_data, void (*copy_data) (void**
     return 0;
 }
 
-int list_remove(LinkedListElement **head, void* elem_data, bool (*compare_elements_data)(void* data1, void* data2), void (*free_element_data)(void* data))
+int linked_list_remove(LinkedListElement **head, void* elem_data, bool (*compare_elements_data)(void* data1, void* data2), void (*free_element_data)(void* data))
 {
-    if(list_is_empty(*head))
+    if(linked_list_is_empty(*head))
         return -1;
 
     // Check if the element is in the head position and redefine head if necessary
@@ -71,7 +71,7 @@ int list_remove(LinkedListElement **head, void* elem_data, bool (*compare_elemen
     return -2; // ID not found
 }
 
-bool list_is_empty(LinkedListElement *head)
+bool linked_list_is_empty(LinkedListElement *head)
 {
     if(head == NULL)
         return true;
@@ -82,7 +82,7 @@ bool list_is_empty(LinkedListElement *head)
     return false;
 }
 
-void list_destroy(LinkedListElement *head, void (*free_element_data)(void* data))
+void linked_list_destroy(LinkedListElement *head, void (*free_element_data)(void* data))
 {
     if(head == NULL)
         return;
