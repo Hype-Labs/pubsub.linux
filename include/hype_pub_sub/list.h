@@ -1,31 +1,25 @@
 
-#ifndef HYPE_PUB_SUB_SUBSCRIBER_LIST_H_INCLUDED_
-#define HYPE_PUB_SUB_SUBSCRIBER_LIST_H_INCLUDED_
+#ifndef LIST_H_INCLUDED_
+#define LIST_H_INCLUDED_
 
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
 
-#include "constants.h"
-
-typedef struct Subscriber_
+typedef struct LinkedListElement_
 {
-  byte* subscriber_id;
-  struct Subscriber_* next_subscriber;
-} Subscriber;
+  void* data;
+  struct LinkedListElement_* next;
+} LinkedListElement;
 
-Subscriber* hype_pub_sub_subscriber_list_create();
+LinkedListElement* list_create();
 
-int hype_pub_sub_subscriber_list_add(Subscriber* head, byte subs_id[HYPE_ID_BYTE_SIZE]);
+int list_add(LinkedListElement* head, void *elem_data, void (*copy_data) (void** dst, void* src), bool(*compare_elements_data)(void* data1, void* data2));
 
-int hype_pub_sub_subscriber_list_remove(Subscriber **head, byte subs_id[HYPE_ID_BYTE_SIZE]);
+int list_remove(LinkedListElement **head, void* elem_data, bool (*compare_elements_data)(void* data_elem1, void* data_elem2), void (*free_element_data)(void* data));
 
-bool hype_pub_sub_subscriber_list_is_subscribed(Subscriber *head, byte subs_id[HYPE_ID_BYTE_SIZE]);
+bool list_is_empty(LinkedListElement* head);
 
-bool hype_pub_sub_subscriber_list_is_empty(Subscriber* head);
+void list_destroy(LinkedListElement *head, void (*free_element_data)(void* data));
 
-void hype_pub_sub_subscriber_list_destroy(Subscriber* head);
-
-static void hype_pub_sub_subscriber_list_set_subscriber_id(Subscriber *subs, byte subs_id[HYPE_ID_BYTE_SIZE]);
-
-#endif /* HYPE_PUB_SUB_SUBSCRIBER_LIST_H_INCLUDED_ */
+#endif /* LIST_H_INCLUDED_ */

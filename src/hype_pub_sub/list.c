@@ -1,124 +1,101 @@
 
-#include "hype_pub_sub/subscriber_list.h"
+#include "hype_pub_sub/list.h"
 
-Subscriber* hype_pub_sub_subscriber_list_create()
+LinkedListElement* list_create()
 {
-    Subscriber* subs = (Subscriber*) malloc(sizeof(Subscriber));
-    subs->subscriber_id = NULL;
-    subs->next_subscriber = NULL;
-    return subs;
+    LinkedListElement* list = (LinkedListElement*) malloc(sizeof(LinkedListElement));
+    list->data = NULL;
+    list->next= NULL;
+    return list;
 }
 
-int hype_pub_sub_subscriber_list_add(Subscriber *head, byte subs_id[HYPE_ID_BYTE_SIZE])
+int list_add(LinkedListElement* head, void *elem_data, void (*copy_data) (void** dst, void* src), bool(*compare_elements_data)(void* data1, void* data2))
 {
     if(head == NULL)
         return -1;
 
-    if(hype_pub_sub_subscriber_list_is_subscribed(head, subs_id))
+    if(compare_elements_data(head->data, elem_data))
         return 1;
 
-    if(head->subscriber_id == NULL) // List is empty. Add subscriber in the first position.
+    if(head->data == NULL) // List is empty. Add subscriber in the first position.
     {
-        hype_pub_sub_subscriber_list_set_subscriber_id(head, subs_id);
+        copy_data(&(head->data), elem_data);
     }
     else
     {
-        Subscriber *current_subsc = head;
-        while(current_subsc->next_subscriber != NULL) // Get to the tail of the list.
-            current_subsc = current_subsc->next_subscriber;
+        LinkedListElement *current_elem = head;
+        while(current_elem->next != NULL) // Get to the tail of the list.
+            current_elem = current_elem->next;
 
-        // Allocate space for the new subscriber and initialize it
-        current_subsc->next_subscriber = (Subscriber*) malloc(sizeof(Subscriber));
-        hype_pub_sub_subscriber_list_set_subscriber_id(current_subsc->next_subscriber, subs_id);
-        current_subsc->next_subscriber->next_subscriber = NULL;
+        // Allocate space for the new element and initialize it
+        current_elem->next = (LinkedListElement*) malloc(sizeof(LinkedListElement));
+        current_elem->next->next = NULL;
+        copy_data(&(current_elem->next->data), elem_data);
     }
 
     return 0;
 }
 
-int hype_pub_sub_subscriber_list_remove(Subscriber **head, byte subs_id[HYPE_ID_BYTE_SIZE])
+int list_remove(LinkedListElement **head, void* elem_data, bool (*compare_elements_data)(void* data1, void* data2), void (*free_element_data)(void* data))
 {
-    if(hype_pub_sub_subscriber_list_is_empty(*head))
+    if(list_is_empty(*head))
         return -1;
 
     // Check if the element is in the head position and redefine head if necessary
-    if(memcmp((*head)->subscriber_id, subs_id, HYPE_ID_BYTE_SIZE * sizeof(byte)) == 0)
+    if(compare_elements_data((*head)->data, elem_data) == true)
     {
-        free((*head)->subscriber_id);
-        (*head)->subscriber_id = NULL;
+        free_element_data(&(*head)->data);
+        (*head)->data = NULL;
 
-        if( (*head)->next_subscriber != NULL )
-            (*head) = (*head)->next_subscriber;
+        if( (*head)->next != NULL )
+            (*head) = (*head)->next;
 
         return 1;
     }
 
-    Subscriber *previous_subsc = (*head);
-    Subscriber *current_subsc = (*head)->next_subscriber;
-    while(current_subsc != NULL)
+    LinkedListElement *previous_elem = (*head);
+    LinkedListElement *current_elem = (*head)->next;
+    while(current_elem != NULL)
     {
-        if(memcmp(current_subsc->subscriber_id, subs_id, HYPE_ID_BYTE_SIZE * sizeof(byte)) == 0)
+        if(compare_elements_data(current_elem->data, elem_data) == true)
         {
-            previous_subsc->next_subscriber = current_subsc->next_subscriber;
-            free(current_subsc->subscriber_id);
-            free(current_subsc);
+            previous_elem->next = current_elem->next;
+            free_element_data(&current_elem->data);
+            free(current_elem);
             return 0;
         }
-        previous_subsc = current_subsc;
-        current_subsc = current_subsc->next_subscriber;
+        previous_elem = current_elem;
+        current_elem = current_elem->next;
     }
 
     return -2; // ID not found
 }
 
-bool hype_pub_sub_subscriber_list_is_subscribed(Subscriber *head, byte subs_id[HYPE_ID_BYTE_SIZE])
-{
-    if(hype_pub_sub_subscriber_list_is_empty(head))
-        return false;
-
-    Subscriber* current_subs = head;
-    do
-    {
-        if(memcmp(current_subs->subscriber_id, subs_id, HYPE_ID_BYTE_SIZE * sizeof(byte)) == 0)
-            return true;
-        current_subs = current_subs->next_subscriber;
-    }
-    while(current_subs != NULL);
-
-    return false;
-}
-
-bool hype_pub_sub_subscriber_list_is_empty(Subscriber *head)
+bool list_is_empty(LinkedListElement *head)
 {
     if(head == NULL)
         return true;
 
-    if(head->subscriber_id == NULL)
+    if(head->data == NULL)
         return true;
 
     return false;
 }
 
-void hype_pub_sub_subscriber_list_destroy(Subscriber *head)
+void list_destroy(LinkedListElement *head, void (*free_element_data)(void* data))
 {
     if(head == NULL)
         return;
 
-    Subscriber* current_subs = head;
+    LinkedListElement* current_elem = head;
     do
     {
-        Subscriber* next_subs = current_subs->next_subscriber;
+        LinkedListElement* next_elem = current_elem->next;
 
-        free(current_subs->subscriber_id);
-        free(current_subs);
+        free_element_data(current_elem->data);
+        free(current_elem);
 
-        current_subs = next_subs;
+        current_elem = next_elem;
     }
-    while(current_subs != NULL);
-}
-
-static void hype_pub_sub_subscriber_list_set_subscriber_id(Subscriber *subs, byte subs_id[HYPE_ID_BYTE_SIZE])
-{
-    subs->subscriber_id = (byte*) malloc(HYPE_ID_BYTE_SIZE * sizeof(byte));
-    memcpy(subs->subscriber_id, subs_id, HYPE_ID_BYTE_SIZE * sizeof(byte));
+    while(current_elem != NULL);
 }
