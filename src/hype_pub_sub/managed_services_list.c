@@ -26,7 +26,7 @@ void hype_pub_sub_managed_services_list_destroy(ManagedServicesList *mngdServLis
 
 void copy_service(void **dst, void *src)
 {
-
+    memcpy(((ServiceManager*) (*dst))->service_key, ((ServiceManager*) src)->service_key, SHA1_BLOCK_SIZE);
 }
 
 bool compare_services(void *dst, void *src)
@@ -36,7 +36,9 @@ bool compare_services(void *dst, void *src)
     return false;
 }
 
-void free_service(void *id)
+void free_service(void *man_serv)
 {
-
+    free(((ServiceManager*) man_serv)->service_key);
+    hype_pub_sub_subscriber_list_destroy(((ServiceManager*) man_serv)->subscribers);
+    free(man_serv);
 }

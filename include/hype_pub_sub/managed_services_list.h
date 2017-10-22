@@ -22,6 +22,6 @@ void copy_service(void **dst, void* src);
 
 bool compare_services(void* dst, void* src);
 
-void free_service(void* id);
+void free_service(void* man_serv);
 
 #endif /* HYPE_PUB_SUB_MANAGED_SERVICES_LIST_H_INCLUDED_ */

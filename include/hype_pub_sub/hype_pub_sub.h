@@ -4,7 +4,7 @@
 
 #include <stdlib.h>
 
-#include "service_manager.h"
+#include "managed_services_list.h"
 #include "subscription.h"
 //#include "protocol.h"
 //#include "network.h"
@@ -15,7 +15,7 @@
 typedef struct HypePubSub_
 {
     Subscription* subscriptions; /**< Subscriptions of this client. */
-    ServiceManager* managed_services; /**< Services managed by this client*/
+    ManagedServicesList* managed_services; /**< Services managed by this client*/
 } HypePubSub;
 
 HypePubSub* hype_pub_sub_create();
