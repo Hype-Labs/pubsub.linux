@@ -24,4 +24,8 @@ bool hype_pub_sub_subscriber_list_is_subscribed(Subscriber *head, byte subs_id[H
 
 bool hype_pub_sub_subscriber_list_is_empty(Subscriber* head);
 
+void hype_pub_sub_subscriber_list_destroy(Subscriber* head);
+
+static void hype_pub_sub_subscriber_list_set_subscriber_id(Subscriber *subs, byte subs_id[HYPE_ID_BYTE_SIZE]);
+
 #endif /* HYPE_PUB_SUB_SUBSCRIBER_LIST_H_INCLUDED_ */

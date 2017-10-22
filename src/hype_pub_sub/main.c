@@ -27,6 +27,7 @@ int main()
     Subscription* hSubs = hype_pub_sub_subscription_create(service, strlen(service), EXAMPLE_ID1);
     printf("Service name: %s\n", hSubs->service_name);
     print_hex_char_array(hSubs->service_key, SHA1_BLOCK_SIZE);
+    hype_pub_sub_subscription_destroy(hSubs);
 
     //test_subscribers_list();
 
@@ -75,6 +76,8 @@ void test_subscribers_list()
     hype_pub_sub_subscriber_list_add(subscribers, EXAMPLE_ID3);
     hype_pub_sub_subscriber_list_add(subscribers, EXAMPLE_ID4);
     print_subs_list(subscribers);
+
+    hype_pub_sub_subscriber_list_destroy(subscribers);
 }
 
 
@@ -100,6 +103,7 @@ void test_service_manager()
     hype_pub_sub_service_manager_add_subscriber(servMan,EXAMPLE_ID3);
     print_subs_list(servMan->subscribers);
 
+    hype_pub_sub_service_manager_destroy(servMan);
 }
 
 void print_hex_char_array(unsigned char* array, size_t len)

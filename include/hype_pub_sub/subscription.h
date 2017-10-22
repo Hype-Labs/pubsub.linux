@@ -19,12 +19,8 @@ typedef struct Subscription_
     byte manager_id[HYPE_ID_BYTE_SIZE]; /**< Hype ID of the manager of the service */
 } Subscription;
 
-/**
- * @brief hype_pub_sub_subscription_create
- * @param serv_name
- * @param man_id
- * @return
- */
 Subscription* hype_pub_sub_subscription_create(char* serv_name, size_t serv_name_len, byte man_id[HYPE_ID_BYTE_SIZE]);
+
+void hype_pub_sub_subscription_destroy(Subscription* subs);
 
 #endif /* HYPE_PUB_SUB_SUBSCRIPTION_H_INCLUDED_ */

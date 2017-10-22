@@ -11,7 +11,7 @@ ServiceManager *hype_pub_sub_service_manager_create(byte service_key[SHA1_BLOCK_
     return servMan;
 }
 
-int hype_pub_sub_service_manager_add_subscriber(ServiceManager *serv_man, byte subscriber_id[])
+int hype_pub_sub_service_manager_add_subscriber(ServiceManager *serv_man, byte subscriber_id[HYPE_ID_BYTE_SIZE])
 {
     if(serv_man == NULL)
         return -1;
@@ -20,7 +20,7 @@ int hype_pub_sub_service_manager_add_subscriber(ServiceManager *serv_man, byte s
     return 0;
 }
 
-int hype_pub_sub_service_manager_remove_subscriber(ServiceManager *serv_man, byte subscriber_id[])
+int hype_pub_sub_service_manager_remove_subscriber(ServiceManager *serv_man, byte subscriber_id[HYPE_ID_BYTE_SIZE])
 {
     if(serv_man == NULL)
         return -1;
@@ -29,10 +29,19 @@ int hype_pub_sub_service_manager_remove_subscriber(ServiceManager *serv_man, byt
     return 0;
 }
 
-bool hype_pub_sub_service_manager_is_subscriber(ServiceManager *serv_man, byte subscriber_id[])
+bool hype_pub_sub_service_manager_is_subscriber(ServiceManager *serv_man, byte subscriber_id[HYPE_ID_BYTE_SIZE])
 {
     if(serv_man == NULL)
         return false;
 
     return hype_pub_sub_subscriber_list_is_subscribed(serv_man->subscribers, subscriber_id);
+}
+
+void hype_pub_sub_service_manager_destroy(ServiceManager *serv_man)
+{
+    if(serv_man == NULL)
+        return;
+
+    hype_pub_sub_subscriber_list_destroy(serv_man->subscribers);
+    free(serv_man);
 }

@@ -1,7 +1,7 @@
 
 #include "hype_pub_sub/protocol.h"
 
-ProtocolManager *hype_pub_sub_protocol_create(HypePubSub *pub_sub)
+Protocol *hype_pub_sub_protocol_create(HypePubSub *pub_sub)
 {
     return NULL;
 }
@@ -26,37 +26,37 @@ int hype_pub_sub_protocol_send_change_service_manager_msg(byte service_key[], by
     return 0;
 }
 
-int hype_pub_sub_protocol_send_info_msg(ProtocolManager *protocol, byte dest_network_id[], char *string)
+int hype_pub_sub_protocol_send_info_msg(Protocol *protocol, byte dest_network_id[], char *string)
 {
     return 0;
 }
 
-int hype_pub_sub_protocol_receive_msg(ProtocolManager *protocol, byte origin_network_id[])
+int hype_pub_sub_protocol_receive_msg(Protocol *protocol, byte origin_network_id[])
 {
     return 0;
 }
 
-int hype_pub_sub_protocol_receive_subscribe_msg(ProtocolManager *protocol, char *msg)
+int hype_pub_sub_protocol_receive_subscribe_msg(Protocol *protocol, char *msg)
 {
     return 0;
 }
 
-int hype_pub_sub_protocol_receive_unsubscribe_msg(ProtocolManager *protocol, char *msg)
+int hype_pub_sub_protocol_receive_unsubscribe_msg(Protocol *protocol, char *msg)
 {
     return 0;
 }
 
-int hype_pub_sub_protocol_receive_publish_msg(ProtocolManager *protocol, char *msg)
+int hype_pub_sub_protocol_receive_publish_msg(Protocol *protocol, char *msg)
 {
     return 0;
 }
 
-int hype_pub_sub_protocol_receive_change_service_manager_msg(ProtocolManager *protocol, char *msg)
+int hype_pub_sub_protocol_receive_change_service_manager_msg(Protocol *protocol, char *msg)
 {
     return 0;
 }
 
-int hype_pub_sub_protocol_receive_info_msg(ProtocolManager *protocol, char *msg)
+int hype_pub_sub_protocol_receive_info_msg(Protocol *protocol, char *msg)
 {
     return 0;
 }
@@ -64,4 +64,9 @@ int hype_pub_sub_protocol_receive_info_msg(ProtocolManager *protocol, char *msg)
 MessageType hype_pub_sub_protocol_get_message_type(char *msg)
 {
     return 0;
+}
+
+void hype_pub_sub_protocol_destroy(Protocol *protocol)
+{
+
 }
