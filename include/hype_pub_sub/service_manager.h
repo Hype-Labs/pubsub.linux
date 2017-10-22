@@ -6,7 +6,7 @@
 #include <stdbool.h>
 #include <string.h>
 
-#include "subscriber_list.h"
+#include "list_subscribers.h"
 #include "constants.h"
 #include "sha/sha1.h"
 

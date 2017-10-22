@@ -3,7 +3,11 @@
 
 HypePubSub* hype_pub_sub_create()
 {
-    return NULL;
+    HypePubSub* pub_sub = (HypePubSub*) malloc(sizeof(HypePubSub));
+    pub_sub->list_subscriptions = hype_pub_sub_list_subscriptions_create();
+    pub_sub->list_serv_man = hype_pub_sub_list_service_managers_create();
+
+    return pub_sub;
 }
 
 int hype_pub_sub_issue_subscribe_service_req(HypePubSub* pub_sub, byte service_key[SHA1_BLOCK_SIZE])

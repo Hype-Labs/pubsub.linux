@@ -1,0 +1,46 @@
+
+#include "hype_pub_sub/list_subscriptions.h"
+
+ListSubscriptions *hype_pub_sub_list_subscriptions_create()
+{
+    return linked_list_create();
+}
+
+int hype_pub_sub_list_subscriptions_add(ListSubscriptions *list_subscrpt, Subscription *subscrpt)
+{
+    return linked_list_add(list_subscrpt, subscrpt, copy_subscription, compare_subscriptions);
+}
+
+int hype_pub_sub_list_subscriptions_remove(ListSubscriptions **list_subscrpt, Subscription *subscrpt)
+{
+    return linked_list_remove(list_subscrpt, subscrpt, compare_subscriptions, free_subscription);
+}
+
+void hype_pub_sub_list_subscriptions_destroy(ListSubscriptions *list_subscrpt)
+{
+    linked_list_destroy(list_subscrpt, free_subscription);
+}
+
+void copy_subscription(void **dst_subscrpt, void *src_subscrpt)
+{
+    ((Subscription*) (*dst_subscrpt))->service_name = (char*) malloc (strlen(((Subscription*) src_subscrpt)->service_name) * sizeof(char));
+    strcpy(((Subscription*) (*dst_subscrpt))->service_name, ((Subscription*) src_subscrpt)->service_name);
+    memcpy(((Subscription*) (*dst_subscrpt))->service_key, ((Subscription*) src_subscrpt)->service_key, SHA1_BLOCK_SIZE * sizeof(byte));
+    memcpy(((Subscription*) (*dst_subscrpt))->manager_id, ((Subscription*) src_subscrpt)->manager_id, HYPE_ID_BYTE_SIZE * sizeof(byte));
+}
+
+bool compare_subscriptions(void *subscrpt1, void *subscrpt2)
+{
+    if (subscrpt1 == NULL || subscrpt2 == NULL)
+        return false;
+
+    if (memcmp(((Subscription*) subscrpt1)->service_key, ((Subscription*) subscrpt2)->service_key, HYPE_ID_BYTE_SIZE * sizeof(byte)) == 0)
+        return true;
+
+    return false;
+}
+
+void free_subscription(void *subscrpt)
+{
+    free(((Subscription*) subscrpt)->service_name);
+}

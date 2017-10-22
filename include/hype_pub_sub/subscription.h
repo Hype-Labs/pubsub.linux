@@ -5,7 +5,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-
 #include "constants.h"
 #include "sha/sha1.h"
 

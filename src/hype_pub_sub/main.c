@@ -39,48 +39,48 @@ int main()
 
 void test_subscribers_list()
 {
-    LinkedListElement* subscribers = hype_pub_sub_subscriber_list_create();
-    hype_pub_sub_subscriber_list_add(subscribers, EXAMPLE_ID1);
-    hype_pub_sub_subscriber_list_add(subscribers, EXAMPLE_ID2);
-    hype_pub_sub_subscriber_list_add(subscribers, EXAMPLE_ID3);
-    hype_pub_sub_subscriber_list_add(subscribers, EXAMPLE_ID4);
+    LinkedListElement* subscribers = hype_pub_sub_list_subscribers_create();
+    hype_pub_sub_list_subscribers_add(subscribers, EXAMPLE_ID1);
+    hype_pub_sub_list_subscribers_add(subscribers, EXAMPLE_ID2);
+    hype_pub_sub_list_subscribers_add(subscribers, EXAMPLE_ID3);
+    hype_pub_sub_list_subscribers_add(subscribers, EXAMPLE_ID4);
     printf("\nAdded id1, id2, id3, id4\n");
     print_subs_list(subscribers);
 
 
-    hype_pub_sub_subscriber_list_remove(&subscribers, EXAMPLE_ID3);
+    hype_pub_sub_list_subscribers_remove(&subscribers, EXAMPLE_ID3);
     printf("\nRemoved id3\n");
     print_subs_list(subscribers);
 
-    hype_pub_sub_subscriber_list_remove(&subscribers, EXAMPLE_ID3);
+    hype_pub_sub_list_subscribers_remove(&subscribers, EXAMPLE_ID3);
     printf("\nRemoved id3 again\n");
     print_subs_list(subscribers);
 
-    hype_pub_sub_subscriber_list_remove(&subscribers, EXAMPLE_ID4);
+    hype_pub_sub_list_subscribers_remove(&subscribers, EXAMPLE_ID4);
     printf("\nRemoved id4\n");
     print_subs_list(subscribers);
 
-    hype_pub_sub_subscriber_list_remove(&subscribers, EXAMPLE_ID1);
+    hype_pub_sub_list_subscribers_remove(&subscribers, EXAMPLE_ID1);
     printf("\nRemoved id1\n");
     print_subs_list(subscribers);
 
-    hype_pub_sub_subscriber_list_remove(&subscribers, EXAMPLE_ID2);
+    hype_pub_sub_list_subscribers_remove(&subscribers, EXAMPLE_ID2);
     printf("\nRemoved id2\n");
     print_subs_list(subscribers);
 
-    hype_pub_sub_subscriber_list_add(subscribers, EXAMPLE_ID4);
+    hype_pub_sub_list_subscribers_add(subscribers, EXAMPLE_ID4);
     printf("\nAdded id4\n");
     print_subs_list(subscribers);
 
 
     printf("\nAdded id1, id2, id3, id4\n");
-    hype_pub_sub_subscriber_list_add(subscribers, EXAMPLE_ID1);
-    hype_pub_sub_subscriber_list_add(subscribers, EXAMPLE_ID2);
-    hype_pub_sub_subscriber_list_add(subscribers, EXAMPLE_ID3);
-    hype_pub_sub_subscriber_list_add(subscribers, EXAMPLE_ID4);
+    hype_pub_sub_list_subscribers_add(subscribers, EXAMPLE_ID1);
+    hype_pub_sub_list_subscribers_add(subscribers, EXAMPLE_ID2);
+    hype_pub_sub_list_subscribers_add(subscribers, EXAMPLE_ID3);
+    hype_pub_sub_list_subscribers_add(subscribers, EXAMPLE_ID4);
     print_subs_list(subscribers);
 
-    hype_pub_sub_subscriber_list_destroy(subscribers);
+    hype_pub_sub_list_subscribers_destroy(subscribers);
 }
 
 void test_service_manager()
