@@ -8,13 +8,13 @@ SubscriberList *hype_pub_sub_subscriber_list_create()
 
 int hype_pub_sub_subscriber_list_add(SubscriberList *subsList, byte subscriber_id[])
 {
-    linked_list_add(subsList, subscriber_id, copy_subscriber_id, is_id_equal);
+    linked_list_add(subsList, subscriber_id, copy_subscriber, compare_subscribers);
     return 0;
 }
 
 int hype_pub_sub_subscriber_list_remove(SubscriberList **subsList, byte subscriber_id[])
 {
-    linked_list_remove(subsList, subscriber_id, is_id_equal, free_subscriber);
+    linked_list_remove(subsList, subscriber_id, compare_subscribers, free_subscriber);
     return 0;
 }
 
@@ -23,14 +23,14 @@ void hype_pub_sub_subscriber_list_destroy(SubscriberList* subsList)
     linked_list_destroy(subsList, free_subscriber);
 }
 
-void copy_subscriber_id(void **dst, void *src)
+void copy_subscriber(void **dst, void *src)
 {
     *dst = (byte*) malloc(HYPE_ID_BYTE_SIZE * sizeof(byte));
     memcpy(*dst, (byte *) src, HYPE_ID_BYTE_SIZE * sizeof(byte));
 
 }
 
-bool is_id_equal(void *dst, void *src)
+bool compare_subscribers(void *dst, void *src)
 {
     if (dst == NULL || src == NULL)
         return false;
@@ -43,5 +43,5 @@ bool is_id_equal(void *dst, void *src)
 
 void free_subscriber(void* id)
 {
-    //free((byte*) id);
+    free((byte*) id);
 }

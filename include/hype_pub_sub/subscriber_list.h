@@ -17,9 +17,9 @@ int hype_pub_sub_subscriber_list_remove(SubscriberList **subsList, byte subscrib
 
 void hype_pub_sub_subscriber_list_destroy(SubscriberList* subsList);
 
-void copy_subscriber_id(void **dst, void* src);
+void copy_subscriber(void **dst, void* src);
 
-bool is_id_equal(void* dst, void* src);
+bool compare_subscribers(void* dst, void* src);
 
 void free_subscriber(void* id);
 
