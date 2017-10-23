@@ -14,13 +14,13 @@ typedef LinkedListElement ListSubscriptions;
 
 ListSubscriptions* hype_pub_sub_list_subscriptions_create();
 
-int hype_pub_sub_list_subscriptions_add(ListSubscriptions* list_subscrpt, Subscription *subscrpt);
+int hype_pub_sub_list_subscriptions_add(ListSubscriptions* list_subscrpt, char* serv_name, size_t serv_name_len, byte man_id[HYPE_ID_BYTE_SIZE]);
 
-int hype_pub_sub_list_subscriptions_remove(ListSubscriptions **list_subscrpt, Subscription *subscrpt);
+int hype_pub_sub_list_subscriptions_remove(ListSubscriptions **list_subscrpt, char* serv_name, size_t serv_name_len, byte man_id[HYPE_ID_BYTE_SIZE]);
 
 void hype_pub_sub_list_subscriptions_destroy(ListSubscriptions* list_subscrpt);
 
-void copy_subscription(void **dst, void* src);
+bool hype_pub_sub_list_subscriptions_is_inserted(ListSubscriptions* list_subscrpt, byte service_key[]);
 
 bool compare_subscriptions(void* subscrpt1, void* subscrpt2);
 

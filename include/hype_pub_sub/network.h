@@ -6,6 +6,7 @@
 #include <stdbool.h>
 
 #include "sha/sha1.h"
+#include "list_clients.h"
 #include "constants.h"
 
 /**
@@ -19,14 +20,12 @@ typedef struct Network_
 
 Network* hype_pub_sub_network_create();
 
-void hype_pub_sub_network_destroy(Network* net_man);
+byte* hype_pub_sub_network_get_service_manager_id(Network* net, byte service_key[SHA1_BLOCK_SIZE]);
 
-byte* hype_pub_sub_network_get_service_manager_id(byte service_key[SHA1_BLOCK_SIZE]);
+int hype_pub_sub_network_update_clients(Network* net);
 
-int hype_pub_sub_network_update_clients();
+bool hype_pub_sub_network_is_client_online(Network* net, byte client_id[HYPE_ID_BYTE_SIZE]);
 
-bool hype_pub_sub_network_is_client_online(byte client_id[HYPE_ID_BYTE_SIZE]);
-
-byte* hype_pub_sub_network_get_own_client_id();
+void hype_pub_sub_network_destroy(Network* net);
 
 #endif /* HYPE_PUB_SUB_NETWORK_H_INCLUDED_ */

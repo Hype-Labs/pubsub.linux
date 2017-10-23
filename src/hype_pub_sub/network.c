@@ -3,30 +3,26 @@
 
 Network *hype_pub_sub_network_create()
 {
-    return NULL;
+    Network* net = (Network*) malloc(sizeof(Network));
+    return net;
 }
 
-byte *hype_pub_sub_network_get_service_manager_id(byte service_key[])
+byte *hype_pub_sub_network_get_service_manager_id(Network* net, byte service_key[])
 {
     return NULL;
 }
 
-int hype_pub_sub_network_update_clients()
+int hype_pub_sub_network_update_clients(Network* net)
 {
     return 0;
 }
 
-bool hype_pub_sub_network_is_client_online(byte client_id[])
+bool hype_pub_sub_network_is_client_online(Network* net, byte client_id[])
 {
     return false;
 }
 
-byte *hype_pub_sub_network_get_own_client_id()
+void hype_pub_sub_network_destroy(Network *net)
 {
-    return NULL;
-}
-
-void hype_pub_sub_network_destroy(Network *net_man)
-{
-
+    free(net);
 }

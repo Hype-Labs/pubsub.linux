@@ -6,7 +6,7 @@
 #include <stdbool.h>
 #include <string.h>
 
-#include "list_subscribers.h"
+#include "list_clients.h"
 #include "constants.h"
 #include "sha/sha1.h"
 
@@ -21,9 +21,9 @@ typedef struct ServiceManager_
 
 ServiceManager* hype_pub_sub_service_manager_create(byte service_key[SHA1_BLOCK_SIZE]);
 
-int hype_pub_sub_service_manager_add_subscriber(ServiceManager* serv_man, byte subscriber_id[HYPE_ID_BYTE_SIZE]);
+int hype_pub_sub_service_manager_add_subscriber(ServiceManager* serv_man, byte client_id[]);
 
-int hype_pub_sub_service_manager_remove_subscriber(ServiceManager* serv_man, byte subscriber_id[HYPE_ID_BYTE_SIZE]);
+int hype_pub_sub_service_manager_remove_subscriber(ServiceManager* serv_man, byte client_id[]);
 
 void hype_pub_sub_service_manager_destroy(ServiceManager* serv_man);
 

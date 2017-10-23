@@ -6,13 +6,19 @@ ListSubscriptions *hype_pub_sub_list_subscriptions_create()
     return linked_list_create();
 }
 
-int hype_pub_sub_list_subscriptions_add(ListSubscriptions *list_subscrpt, Subscription *subscrpt)
+int hype_pub_sub_list_subscriptions_add(ListSubscriptions *list_subscrpt, char* serv_name, size_t serv_name_len, byte man_id[HYPE_ID_BYTE_SIZE])
 {
-    return linked_list_add(list_subscrpt, subscrpt, copy_subscription, compare_subscriptions);
+    Subscription *subscrpt = hype_pub_sub_subscription_create(serv_name, serv_name_len, man_id);
+
+    if(hype_pub_sub_list_subscriptions_is_inserted(list_subscrpt, subscrpt->service_key))
+        return -1;
+
+    return linked_list_add(list_subscrpt, subscrpt);
 }
 
-int hype_pub_sub_list_subscriptions_remove(ListSubscriptions **list_subscrpt, Subscription *subscrpt)
+int hype_pub_sub_list_subscriptions_remove(ListSubscriptions **list_subscrpt, char* serv_name, size_t serv_name_len, byte man_id[HYPE_ID_BYTE_SIZE])
 {
+    Subscription *subscrpt = hype_pub_sub_subscription_create(serv_name, serv_name_len, man_id);
     return linked_list_remove(list_subscrpt, subscrpt, compare_subscriptions, free_subscription);
 }
 
@@ -21,11 +27,9 @@ void hype_pub_sub_list_subscriptions_destroy(ListSubscriptions *list_subscrpt)
     linked_list_destroy(list_subscrpt, free_subscription);
 }
 
-void copy_subscription(void **dst, void *src)
+bool hype_pub_sub_list_subscriptions_is_inserted(ListSubscriptions* list_subscrpt, byte service_key[])
 {
-    Subscription ** dst_subscrpt = (Subscription**) (dst);
-    Subscription * src_subscrpt = (Subscription*) src;
-    *dst_subscrpt = hype_pub_sub_subscription_create(src_subscrpt->service_name, strlen(src_subscrpt->service_name), src_subscrpt->manager_id);
+    return linked_list_is_element_inserted(list_subscrpt, service_key, compare_subscriptions);
 }
 
 bool compare_subscriptions(void *subscrpt1, void *subscrpt2)

@@ -5,32 +5,30 @@ LinkedListElement* linked_list_create()
 {
     LinkedListElement* list = (LinkedListElement*) malloc(sizeof(LinkedListElement));
     list->data = NULL;
-    list->next= NULL;
+    list->next = NULL;
     return list;
 }
 
-int linked_list_add(LinkedListElement* head, void *elem_data, void (*copy_data) (void** dst, void* src), bool(*compare_elements_data)(void* data1, void* data2))
+int linked_list_add(LinkedListElement* head, void *elem_data)
 {
     if(head == NULL)
         return -1;
 
-    if(compare_elements_data(head->data, elem_data))
-        return 1;
-
     if(head->data == NULL) // List is empty. Add subscriber in the first position.
     {
-        copy_data(&(head->data), elem_data);
+        head->data = elem_data;
     }
     else
     {
         LinkedListElement *current_elem = head;
+
         while(current_elem->next != NULL) // Get to the tail of the list.
             current_elem = current_elem->next;
 
         // Allocate space for the new element and initialize it
         current_elem->next = (LinkedListElement*) malloc(sizeof(LinkedListElement));
         current_elem->next->next = NULL;
-        copy_data(&(current_elem->next->data), elem_data);
+        current_elem->next->data = elem_data;
     }
 
     return 0;
@@ -61,7 +59,7 @@ int linked_list_remove(LinkedListElement **head, void* elem_data, bool (*compare
         {
             previous_elem->next = current_elem->next;
             free_element_data(&current_elem->data);
-            free(current_elem);
+            current_elem->data = NULL;
             return 0;
         }
         previous_elem = current_elem;
@@ -98,4 +96,24 @@ void linked_list_destroy(LinkedListElement *head, void (*free_element_data)(void
         current_elem = next_elem;
     }
     while(current_elem != NULL);
+}
+
+bool linked_list_is_element_inserted(LinkedListElement *head, void *elem_data, bool (*compare_elements_data)(void *, void *)) // its responsibility of the list to prevent duplicates if needed
+{
+    if(head == NULL)
+        return false;
+
+    LinkedListElement* current_elem = head;
+    do
+    {
+        LinkedListElement* next_elem = current_elem->next;
+
+        if(compare_elements_data(head->data, elem_data) == true)
+            return true;
+
+        current_elem = next_elem;
+    }
+    while(current_elem != NULL);
+
+    return false;
 }
