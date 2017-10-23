@@ -42,7 +42,7 @@ int linked_list_remove(LinkedListElement **head, void* elem_data, bool (*compare
     // Check if the element is in the head position and redefine head if necessary
     if(compare_elements_data((*head)->data, elem_data) == true)
     {
-        free_element_data(&(*head)->data);
+        free_element_data((*head)->data);
         (*head)->data = NULL;
 
         if( (*head)->next != NULL )
