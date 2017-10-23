@@ -17,6 +17,9 @@ typedef struct HypePubSub_
 {
     ListSubscriptions* list_subscriptions; /**< List of subscriptions of this client. */
     ListServiceManagers* list_serv_man; /**< List of services managed by this client. */
+    Network* network;
+    //Protocol* protocol;
+
 } HypePubSub;
 
 HypePubSub* hype_pub_sub_create();

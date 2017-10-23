@@ -15,6 +15,8 @@ byte *hype_pub_sub_network_get_service_manager_id(Network* net, byte service_key
 
 int hype_pub_sub_network_update_clients(Network* net)
 {
+    // On instance found -> hype_pub_sub_list_clients_add(net->network_client_ids, --- id ---)
+    // On instance lost -> hype_pub_sub_list_clients_remove(net->network_client_ids, --- id ---)
     return 0;
 }
 
