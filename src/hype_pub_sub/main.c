@@ -45,46 +45,45 @@ void test_subscribers_list()
 {
     ListClients* subscribers = hype_pub_sub_list_clients_create();
 
+    printf("\nAdding id1, id2, id3, id4\n");
     hype_pub_sub_list_clients_add(subscribers, EXAMPLE_ID1);
     hype_pub_sub_list_clients_add(subscribers, EXAMPLE_ID2);
     hype_pub_sub_list_clients_add(subscribers, EXAMPLE_ID3);
     hype_pub_sub_list_clients_add(subscribers, EXAMPLE_ID4);
-    printf("\nAdded id1, id2, id3, id4\n");
     print_clients_list(subscribers);
 
+    printf("\nRemoving id3\n");
     hype_pub_sub_list_clients_remove(&subscribers, EXAMPLE_ID3);
-    printf("\nRemoved id3\n");
     print_clients_list(subscribers);
 
+    printf("\nRemoving id3 again\n");
     hype_pub_sub_list_clients_remove(&subscribers, EXAMPLE_ID3);
-    printf("\nRemoved id3 again\n");
     print_clients_list(subscribers);
 
+    printf("\nRemoving id4\n");
     hype_pub_sub_list_clients_remove(&subscribers, EXAMPLE_ID4);
-    printf("\nRemoved id4\n");
     print_clients_list(subscribers);
 
+    printf("\nRemoving id1\n");
     hype_pub_sub_list_clients_remove(&subscribers, EXAMPLE_ID1);
-    printf("\nRemoved id1\n");
     print_clients_list(subscribers);
 
+    printf("\nRemoving id2\n");
     hype_pub_sub_list_clients_remove(&subscribers, EXAMPLE_ID2);
-    printf("\nRemoved id2\n");
     print_clients_list(subscribers);
 
+    printf("\nAdding id4\n");
     hype_pub_sub_list_clients_add(subscribers, EXAMPLE_ID4);
-    /*printf("\nAdded id4\n");
     print_clients_list(subscribers);
 
-
-    printf("\nAdded id1, id2, id3, id4\n");
+    printf("\nAdding id1, id2, id3, id4\n");
     hype_pub_sub_list_clients_add(subscribers, EXAMPLE_ID1);
     hype_pub_sub_list_clients_add(subscribers, EXAMPLE_ID2);
     hype_pub_sub_list_clients_add(subscribers, EXAMPLE_ID3);
     hype_pub_sub_list_clients_add(subscribers, EXAMPLE_ID4);
     print_clients_list(subscribers);
 
-    hype_pub_sub_list_clients_destroy(subscribers);*/
+    hype_pub_sub_list_clients_destroy(subscribers);
 }
 
 void test_service_manager()
