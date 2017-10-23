@@ -22,8 +22,8 @@ void hype_pub_sub_list_subscriptions_destroy(ListSubscriptions* list_subscrpt);
 
 Subscription* hype_pub_sub_list_subscriptions_find(ListSubscriptions* list_subscrpt, byte service_key[]);
 
-bool compare_subscriptions(void* subscrpt1, void* subscrpt2);
+bool hype_pub_sub_list_subscriptions_compare(void* subscrpt1, void* subscrpt2);
 
-void free_subscription(void* subscrpt);
+void hype_pub_sub_list_subscriptions_free(void* subscrpt);
 
 #endif /* HYPE_PUB_SUB_LIST_SUBSCRIPTIONS_H_INCLUDED_ */

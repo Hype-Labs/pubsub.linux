@@ -17,17 +17,17 @@ int hype_pub_sub_list_clients_add(ListClients *list_cl, byte client_id[])
 
 int hype_pub_sub_list_clients_remove(ListClients **list_cl, byte client_id[])
 {
-    return linked_list_remove(list_cl, client_id, compare_clients, free_client);
+    return linked_list_remove(list_cl, client_id, hype_pub_sub_list_clients_compare, hype_pub_sub_list_clients_free);
 }
 
 void hype_pub_sub_list_clients_destroy(ListClients* list_cl)
 {
-    linked_list_destroy(list_cl, free_client);
+    linked_list_destroy(list_cl, hype_pub_sub_list_clients_free);
 }
 
 Client* hype_pub_sub_list_clients_find(ListClients* list_cl, byte client_id[])
 {
-    LinkedListElement *elem = linked_list_find(list_cl, client_id, compare_clients);
+    LinkedListElement *elem = linked_list_find(list_cl, client_id, hype_pub_sub_list_clients_compare);
 
     if(elem == NULL)
         return NULL;
@@ -35,7 +35,7 @@ Client* hype_pub_sub_list_clients_find(ListClients* list_cl, byte client_id[])
     return (Client*) elem->data;
 }
 
-bool compare_clients(void *cl1, void *cl2)
+bool hype_pub_sub_list_clients_compare(void *cl1, void *cl2)
 {
     if (cl1 == NULL || cl2 == NULL)
         return false;
@@ -46,7 +46,7 @@ bool compare_clients(void *cl1, void *cl2)
     return false;
 }
 
-void free_client(void* cl)
+void hype_pub_sub_list_clients_free(void* cl)
 {
     hype_pub_sub_client_destroy(((Client*) cl));
 }

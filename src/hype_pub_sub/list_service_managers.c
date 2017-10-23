@@ -17,17 +17,17 @@ int hype_pub_sub_list_service_managers_add(ListServiceManagers *list_serv_man, b
 
 int hype_pub_sub_list_service_managers_remove(ListServiceManagers **list_serv_man, byte service_key[])
 {
-    return linked_list_remove(list_serv_man, service_key, compare_service_manager, free_service_manager);
+    return linked_list_remove(list_serv_man, service_key, hype_pub_sub_list_service_managers_compare, hype_pub_sub_list_service_managers_free);
 }
 
 void hype_pub_sub_list_service_managers_destroy(ListServiceManagers *list_serv_man)
 {
-    linked_list_destroy(list_serv_man, free_service_manager);
+    linked_list_destroy(list_serv_man, hype_pub_sub_list_service_managers_free);
 }
 
 ServiceManager* hype_pub_sub_list_service_managers_find(ListServiceManagers* list_serv_man, byte service_key[])
 {
-    LinkedListElement *elem = linked_list_find(list_serv_man, service_key, compare_service_manager);
+    LinkedListElement *elem = linked_list_find(list_serv_man, service_key, hype_pub_sub_list_service_managers_compare);
 
     if(elem == NULL)
         return NULL;
@@ -35,7 +35,7 @@ ServiceManager* hype_pub_sub_list_service_managers_find(ListServiceManagers* lis
     return (ServiceManager*) elem->data;
 }
 
-bool compare_service_manager(void *serv_man1, void *serv_man2)
+bool hype_pub_sub_list_service_managers_compare(void *serv_man1, void *serv_man2)
 {
     if (serv_man1 == NULL || serv_man2 == NULL)
         return false;
@@ -46,7 +46,7 @@ bool compare_service_manager(void *serv_man1, void *serv_man2)
     return false;
 }
 
-void free_service_manager(void *serv_man)
+void hype_pub_sub_list_service_managers_free(void *serv_man)
 {
     hype_pub_sub_service_manager_destroy((ServiceManager*) serv_man);
 }
