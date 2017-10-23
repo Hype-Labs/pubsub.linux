@@ -21,9 +21,12 @@ void hype_pub_sub_list_service_managers_destroy(ListServiceManagers *list_serv_m
     linked_list_destroy(list_serv_man, free_service_manager);
 }
 
-void copy_service_manager(void **dst_serv_man, void *src_serv_man)
+void copy_service_manager(void **dst, void *src)
 {
-    memcpy(((ServiceManager*) (*dst_serv_man))->service_key, ((ServiceManager*) src_serv_man)->service_key, SHA1_BLOCK_SIZE * sizeof(byte));
+
+    ServiceManager ** dst_serv = (ServiceManager**) (dst);
+    ServiceManager * src_serv = (ServiceManager*) src;
+    *dst_serv = hype_pub_sub_service_manager_create(src_serv->service_key);
 }
 
 bool compare_service_manager(void *serv_man1, void *serv_man2)

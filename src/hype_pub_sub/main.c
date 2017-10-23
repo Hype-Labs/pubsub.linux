@@ -33,9 +33,9 @@ int main()
 
     //test_subscribers_list();
 
-    //test_service_manager();
+    test_service_manager();
 
-    test_hype_pub_sub();
+    //test_hype_pub_sub();
 
     return 0;
 }
@@ -89,27 +89,30 @@ void test_subscribers_list()
 
 void test_service_manager()
 {
-    char service[] = {"HypeCoffe"};
-    byte servKey[SHA1_BLOCK_SIZE];
-    sha1_digest((const byte*) service, strlen(service), servKey);
+    char serv1[] = {"HypeCoffe"};
+    char serv2[] = {"HypeFruit"};
+    char serv3[] = {"HypeDrinks"};
+    char serv4[] = {"HypeFood"};
+    byte servKey1[SHA1_BLOCK_SIZE];
+    byte servKey2[SHA1_BLOCK_SIZE];
+    byte servKey3[SHA1_BLOCK_SIZE];
+    byte servKey4[SHA1_BLOCK_SIZE];
 
-    ServiceManager* servMan = hype_pub_sub_service_manager_create(servKey);
+    sha1_digest((const byte*) serv1, strlen(serv1), servKey1);
+    sha1_digest((const byte*) serv2, strlen(serv2), servKey2);
+    sha1_digest((const byte*) serv3, strlen(serv3), servKey3);
+    sha1_digest((const byte*) serv4, strlen(serv4), servKey4);
 
-    printf("\nAdded servMan id2\n");
-    hype_pub_sub_service_manager_add_subscriber(servMan,EXAMPLE_ID2);
-    print_subs_list(servMan->subscribers);
+    ServiceManager* servMan1 = hype_pub_sub_service_manager_create(servKey1);
+    ServiceManager* servMan2 = hype_pub_sub_service_manager_create(servKey2);
+    ServiceManager* servMan3 = hype_pub_sub_service_manager_create(servKey3);
+    ServiceManager* servMan4 = hype_pub_sub_service_manager_create(servKey4);
 
-    printf("\nAdded servMan id2\n");
-    hype_pub_sub_service_manager_add_subscriber(servMan,EXAMPLE_ID2);
-    print_subs_list(servMan->subscribers);
+    HypePubSub* myPubSubApp = hype_pub_sub_create();
 
+    hype_pub_sub_list_service_managers_add(myPubSubApp->list_serv_man,servMan1);
 
-    printf("\nAdded servMan id1, id3\n");
-    hype_pub_sub_service_manager_add_subscriber(servMan,EXAMPLE_ID1);
-    hype_pub_sub_service_manager_add_subscriber(servMan,EXAMPLE_ID3);
-    print_subs_list(servMan->subscribers);
-
-    hype_pub_sub_service_manager_destroy(servMan);
+    hype_pub_sub_destroy(myPubSubApp);
 }
 
 void test_hype_pub_sub()
