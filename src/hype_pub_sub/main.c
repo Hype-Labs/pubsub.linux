@@ -13,6 +13,7 @@ void test_hype_pub_sub();
 void print_hex_char_array(unsigned char* array, size_t len);
 void print_clients_list(ListClients* head);
 void print_subscription_list(ListSubscriptions* head);
+void print_service_manager_list(ListServiceManagers* head);
 
 byte EXAMPLE_ID1[] = "\x01\x02\x03\x04\x05\x06\x07\x08\x09\x10\x11\x12";
 byte EXAMPLE_ID2[] = "\x12\x01\x02\x03\x04\x05\x06\x07\x08\x09\x10\x11";
@@ -23,9 +24,9 @@ int main()
 {
     //test_hash();
 
-    test_subscribers_list();
+    //test_subscribers_list();
 
-    //test_service_manager();
+    test_service_manager();
 
     //test_hype_pub_sub();
 
@@ -104,7 +105,18 @@ void test_service_manager()
 
     HypePubSub* myPubSubApp = hype_pub_sub_create();
 
+    printf("\nAdding serv1\n");
     hype_pub_sub_list_service_managers_add(myPubSubApp->list_serv_man,servKey1);
+    print_service_manager_list(myPubSubApp->list_serv_man);
+
+    printf("\nRemoving serv1\n");
+    hype_pub_sub_list_service_managers_remove(&(myPubSubApp->list_serv_man),servKey1);
+    print_service_manager_list(myPubSubApp->list_serv_man);
+
+    printf("\nAdding serv2, serv1\n");
+    hype_pub_sub_list_service_managers_add(myPubSubApp->list_serv_man,servKey2);
+    hype_pub_sub_list_service_managers_add(myPubSubApp->list_serv_man,servKey1);
+    print_service_manager_list(myPubSubApp->list_serv_man);
 
     hype_pub_sub_destroy(myPubSubApp);
 }
@@ -186,3 +198,23 @@ void print_subscription_list(ListSubscriptions* head)
     while(current_subs != NULL);
 }
 
+void print_service_manager_list(ListServiceManagers* head)
+{
+    printf("ServiceManagerList: \n");
+    if(head == NULL || head->data == NULL)
+        return;
+
+    ListServiceManagers* current_serv_man = head;
+
+    int i=1;
+    do
+    {
+        printf("ServiceManager %i\n",i);
+        printf("\tManagedServiceKey:  ");
+        print_hex_char_array(((ServiceManager *) current_serv_man->data)->service_key, SHA1_BLOCK_SIZE);
+        current_serv_man = current_serv_man->next;
+        i++;
+    }
+    while(current_serv_man != NULL);
+
+}
