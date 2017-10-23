@@ -5,6 +5,7 @@
 #include "hype_pub_sub/hype_pub_sub.h"
 #include "../external/include/sha/sha1.h"
 
+void test_hash();
 void test_subscribers_list();
 void test_service_manager();
 void test_hype_pub_sub();
@@ -20,16 +21,7 @@ byte EXAMPLE_ID4[] = "\x10\x11\x12\x01\x02\x03\x04\x05\x06\x07\x08\x09";
 
 int main()
 {
-    char service[] = {"HypeCoffe"};
-    unsigned char service_key[SHA1_BLOCK_SIZE];
-
-    sha1_digest((const BYTE*) service, strlen(service), service_key);
-    print_hex_char_array(service_key, SHA1_BLOCK_SIZE);
-
-    Subscription* hSubs = hype_pub_sub_subscription_create(service, strlen(service), EXAMPLE_ID1);
-    printf("Service name: %s\n", hSubs->service_name);
-    print_hex_char_array(hSubs->service_key, SHA1_BLOCK_SIZE);
-    hype_pub_sub_subscription_destroy(hSubs);
+    //test_hash();
 
     test_subscribers_list();
 
@@ -40,6 +32,14 @@ int main()
     return 0;
 }
 
+void test_hash()
+{
+    char service[] = {"HypeCoffe"};
+    unsigned char service_key[SHA1_BLOCK_SIZE];
+
+    sha1_digest((const BYTE*) service, strlen(service), service_key);
+    print_hex_char_array(service_key, SHA1_BLOCK_SIZE);
+}
 
 void test_subscribers_list()
 {
