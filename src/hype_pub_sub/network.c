@@ -4,6 +4,7 @@
 Network *hype_pub_sub_network_create()
 {
     Network* net = (Network*) malloc(sizeof(Network));
+    net->network_client_ids = hype_pub_sub_list_clients_create();
     return net;
 }
 
@@ -19,10 +20,13 @@ int hype_pub_sub_network_update_clients(Network* net)
 
 bool hype_pub_sub_network_is_client_online(Network* net, byte client_id[])
 {
+    if(hype_pub_sub_list_clients_find(net->network_client_ids, client_id) != NULL)
+        return true;
     return false;
 }
 
 void hype_pub_sub_network_destroy(Network *net)
 {
+    hype_pub_sub_list_clients_destroy(net->network_client_ids);
     free(net);
 }

@@ -20,7 +20,7 @@ int hype_pub_sub_list_subscriptions_remove(ListSubscriptions **list_subscrpt, ch
 
 void hype_pub_sub_list_subscriptions_destroy(ListSubscriptions* list_subscrpt);
 
-bool hype_pub_sub_list_subscriptions_is_inserted(ListSubscriptions* list_subscrpt, byte service_key[]);
+Subscription* hype_pub_sub_list_subscriptions_find(ListSubscriptions* list_subscrpt, byte service_key[]);
 
 bool compare_subscriptions(void* subscrpt1, void* subscrpt2);
 

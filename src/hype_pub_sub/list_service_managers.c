@@ -8,7 +8,7 @@ ListServiceManagers *hype_pub_sub_list_service_managers_create()
 
 int hype_pub_sub_list_service_managers_add(ListServiceManagers *list_serv_man, byte service_key[SHA1_BLOCK_SIZE])
 {
-    if(hype_pub_sub_list_service_managers_is_inserted(list_serv_man, service_key))
+    if(hype_pub_sub_list_service_managers_find(list_serv_man, service_key) != NULL)
         return -1;
 
     ServiceManager *serv_man = hype_pub_sub_service_manager_create(service_key);
@@ -25,9 +25,14 @@ void hype_pub_sub_list_service_managers_destroy(ListServiceManagers *list_serv_m
     linked_list_destroy(list_serv_man, free_service_manager);
 }
 
-bool hype_pub_sub_list_service_managers_is_inserted(ListServiceManagers* list_serv_man, byte service_key[])
+ServiceManager* hype_pub_sub_list_service_managers_find(ListServiceManagers* list_serv_man, byte service_key[])
 {
-    return linked_list_is_element_inserted(list_serv_man, service_key, compare_service_manager);
+    LinkedListElement *elem = linked_list_find(list_serv_man, service_key, compare_service_manager);
+
+    if(elem == NULL)
+        return NULL;
+
+    return (ServiceManager*) elem->data;
 }
 
 bool compare_service_manager(void *serv_man1, void *serv_man2)

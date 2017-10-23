@@ -18,9 +18,9 @@ int linked_list_add(LinkedListElement* head, void *elem_data);
 
 int linked_list_remove(LinkedListElement **head, void* elem_data, bool (*compare_elements_data)(void* data_elem1, void* data_elem2), void (*free_element_data)(void* data));
 
-bool linked_list_is_element_inserted(LinkedListElement* head, void *elem_data, bool(*compare_elements_data)(void* data1, void* data2));
-
 bool linked_list_is_empty(LinkedListElement* head);
+
+LinkedListElement* linked_list_find(LinkedListElement *head, void* elem_data, bool (*compare_elements_data)(void* data_elem1, void* data_elem2));
 
 void linked_list_destroy(LinkedListElement *head, void (*free_element_data)(void* data));
 

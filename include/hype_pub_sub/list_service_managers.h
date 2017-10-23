@@ -18,7 +18,7 @@ int hype_pub_sub_list_service_managers_remove(ListServiceManagers **list_serv_ma
 
 void hype_pub_sub_list_service_managers_destroy(ListServiceManagers* list_serv_man);
 
-bool hype_pub_sub_list_service_managers_is_inserted(ListServiceManagers* list_cl, byte service_key[]);
+ServiceManager* hype_pub_sub_list_service_managers_find(ListServiceManagers* list_cl, byte service_key[]);
 
 bool compare_service_manager(void* serv_man1, void *serv_man2);
 

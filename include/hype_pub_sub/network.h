@@ -9,13 +9,11 @@
 #include "list_clients.h"
 #include "constants.h"
 
-/**
- * @brief
- */
+
 typedef struct Network_
 {
-    byte own_client_id[HYPE_ID_BYTE_SIZE]; /**< Hype ID of this client. */
-    byte ** network_client_ids[HYPE_ID_BYTE_SIZE]; /**< Hype ID of the clients of the network. */
+    byte own_client_id[HYPE_ID_BYTE_SIZE];
+    ListClients *network_client_ids;
 } Network;
 
 Network* hype_pub_sub_network_create();

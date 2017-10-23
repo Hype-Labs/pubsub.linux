@@ -18,7 +18,7 @@ int hype_pub_sub_list_clients_remove(ListClients **list_cl, byte client_id[]);
 
 void hype_pub_sub_list_clients_destroy(ListClients* list_cl);
 
-bool hype_pub_sub_list_clients_is_inserted(ListClients* list_cl, byte client_id[]);
+Client* hype_pub_sub_list_clients_find(ListClients* list_cl, byte client_id[]);
 
 bool compare_clients(void* cl1, void* cl2);
 

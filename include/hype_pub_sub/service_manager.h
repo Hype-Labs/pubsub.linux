@@ -16,7 +16,7 @@
 typedef struct ServiceManager_
 {
     byte service_key[SHA1_BLOCK_SIZE]; /**< Key of the managed service. */
-    LinkedListElement* subscribers; /**< Linked list with the subscribers of the service. */
+    ListClients* subscribers; /**< Linked list with the subscribers of the service. */
 } ServiceManager;
 
 ServiceManager* hype_pub_sub_service_manager_create(byte service_key[SHA1_BLOCK_SIZE]);

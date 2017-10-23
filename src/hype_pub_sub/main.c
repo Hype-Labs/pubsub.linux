@@ -26,9 +26,9 @@ int main()
 
     //test_subscribers_list();
 
-    test_service_manager();
+    //test_service_manager();
 
-    //test_hype_pub_sub();
+    test_hype_pub_sub();
 
     return 0;
 }

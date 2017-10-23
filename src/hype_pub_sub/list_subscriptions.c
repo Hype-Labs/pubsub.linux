@@ -10,7 +10,7 @@ int hype_pub_sub_list_subscriptions_add(ListSubscriptions *list_subscrpt, char* 
 {
     Subscription *subscrpt = hype_pub_sub_subscription_create(serv_name, serv_name_len, man_id);
 
-    if(hype_pub_sub_list_subscriptions_is_inserted(list_subscrpt, subscrpt->service_key))
+    if(hype_pub_sub_list_subscriptions_find(list_subscrpt, subscrpt->service_key) != NULL)
         return -1;
 
     return linked_list_add(list_subscrpt, subscrpt);
@@ -27,9 +27,14 @@ void hype_pub_sub_list_subscriptions_destroy(ListSubscriptions *list_subscrpt)
     linked_list_destroy(list_subscrpt, free_subscription);
 }
 
-bool hype_pub_sub_list_subscriptions_is_inserted(ListSubscriptions* list_subscrpt, byte service_key[])
+Subscription* hype_pub_sub_list_subscriptions_find(ListSubscriptions* list_subscrpt, byte service_key[])
 {
-    return linked_list_is_element_inserted(list_subscrpt, service_key, compare_subscriptions);
+    LinkedListElement *elem = linked_list_find(list_subscrpt, service_key, compare_subscriptions);
+
+    if(elem == NULL)
+        return NULL;
+
+    return (Subscription*) elem->data;
 }
 
 bool compare_subscriptions(void *subscrpt1, void *subscrpt2)

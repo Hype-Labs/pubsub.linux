@@ -69,6 +69,26 @@ int linked_list_remove(LinkedListElement **head, void* elem_data, bool (*compare
     return -2; // ID not found
 }
 
+LinkedListElement* linked_list_find(LinkedListElement* head, void *elem_data, bool(*compare_elements_data)(void* data1, void* data2)) // its responsibility of the list to prevent duplicates if needed
+{
+    if(head == NULL)
+        return false;
+
+    LinkedListElement* current_elem = head;
+    do
+    {
+        LinkedListElement* next_elem = current_elem->next;
+
+        if(compare_elements_data(head->data, elem_data) == true)
+            return current_elem;
+
+        current_elem = next_elem;
+    }
+    while(current_elem != NULL);
+
+    return NULL;
+}
+
 bool linked_list_is_empty(LinkedListElement *head)
 {
     if(head == NULL)
@@ -96,24 +116,4 @@ void linked_list_destroy(LinkedListElement *head, void (*free_element_data)(void
         current_elem = next_elem;
     }
     while(current_elem != NULL);
-}
-
-bool linked_list_is_element_inserted(LinkedListElement *head, void *elem_data, bool (*compare_elements_data)(void *, void *)) // its responsibility of the list to prevent duplicates if needed
-{
-    if(head == NULL)
-        return false;
-
-    LinkedListElement* current_elem = head;
-    do
-    {
-        LinkedListElement* next_elem = current_elem->next;
-
-        if(compare_elements_data(head->data, elem_data) == true)
-            return true;
-
-        current_elem = next_elem;
-    }
-    while(current_elem != NULL);
-
-    return false;
 }
