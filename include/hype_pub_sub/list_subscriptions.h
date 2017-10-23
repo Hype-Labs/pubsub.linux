@@ -20,7 +20,7 @@ int hype_pub_sub_list_subscriptions_remove(ListSubscriptions **list_subscrpt, Su
 
 void hype_pub_sub_list_subscriptions_destroy(ListSubscriptions* list_subscrpt);
 
-void copy_subscription(void **dst_subscrpt, void* src_subscrpt);
+void copy_subscription(void **dst, void* src);
 
 bool compare_subscriptions(void* subscrpt1, void* subscrpt2);
 

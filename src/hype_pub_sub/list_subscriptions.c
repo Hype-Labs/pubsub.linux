@@ -21,12 +21,11 @@ void hype_pub_sub_list_subscriptions_destroy(ListSubscriptions *list_subscrpt)
     linked_list_destroy(list_subscrpt, free_subscription);
 }
 
-void copy_subscription(void **dst_subscrpt, void *src_subscrpt)
+void copy_subscription(void **dst, void *src)
 {
-    ((Subscription*) (*dst_subscrpt))->service_name = (char*) malloc (strlen(((Subscription*) src_subscrpt)->service_name) * sizeof(char));
-    strcpy(((Subscription*) (*dst_subscrpt))->service_name, ((Subscription*) src_subscrpt)->service_name);
-    memcpy(((Subscription*) (*dst_subscrpt))->service_key, ((Subscription*) src_subscrpt)->service_key, SHA1_BLOCK_SIZE * sizeof(byte));
-    memcpy(((Subscription*) (*dst_subscrpt))->manager_id, ((Subscription*) src_subscrpt)->manager_id, HYPE_ID_BYTE_SIZE * sizeof(byte));
+    Subscription ** dst_subscrpt = (Subscription**) (dst);
+    Subscription * src_subscrpt = (Subscription*) src;
+    *dst_subscrpt = hype_pub_sub_subscription_create(src_subscrpt->service_name, strlen(src_subscrpt->service_name), src_subscrpt->manager_id);
 }
 
 bool compare_subscriptions(void *subscrpt1, void *subscrpt2)
@@ -42,5 +41,5 @@ bool compare_subscriptions(void *subscrpt1, void *subscrpt2)
 
 void free_subscription(void *subscrpt)
 {
-    free(((Subscription*) subscrpt)->service_name);
+    hype_pub_sub_subscription_destroy(((Subscription*) subscrpt));
 }

@@ -39,7 +39,5 @@ bool compare_service_manager(void *serv_man1, void *serv_man2)
 
 void free_service_manager(void *serv_man)
 {
-    free(((ServiceManager*) serv_man)->service_key);
-    hype_pub_sub_list_subscribers_destroy(((ServiceManager*) serv_man)->subscribers);
-    free(serv_man);
+    hype_pub_sub_service_manager_destroy((ServiceManager*) serv_man);
 }

@@ -67,5 +67,6 @@ static int hype_pub_sub_send_info_msg(HypePubSub* pub_sub, byte** dest_network_i
 
 void hype_pub_sub_destroy(HypePubSub *pub_sub)
 {
-
+    hype_pub_sub_list_service_managers_destroy(pub_sub->list_serv_man);
+    hype_pub_sub_list_subscriptions_destroy(pub_sub->list_subscriptions);
 }
