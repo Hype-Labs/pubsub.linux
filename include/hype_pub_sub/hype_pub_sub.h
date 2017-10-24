@@ -11,13 +11,10 @@
 
 typedef struct Protocol_ Protocol; // Forward declaration due to circular dependency
 
-/**
- * @brief
- */
 typedef struct HypePubSub_
 {
-    ListSubscriptions *list_subscriptions; /**< List of subscriptions of this client. */
-    ListServiceManagers *list_serv_man; /**< List of services managed by this client. */
+    ListSubscriptions *own_subscriptions; /**< List of subscriptions of this client. */
+    ListServiceManagers *managed_services; /**< List of services managed by this client. */
     Network *network;
     Protocol *protocol;
 

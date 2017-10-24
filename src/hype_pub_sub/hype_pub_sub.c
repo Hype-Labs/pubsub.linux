@@ -4,8 +4,8 @@
 HypePubSub* hype_pub_sub_create()
 {
     HypePubSub* pub_sub = (HypePubSub*) malloc(sizeof(HypePubSub));
-    pub_sub->list_subscriptions = hype_pub_sub_list_subscriptions_create();
-    pub_sub->list_serv_man = hype_pub_sub_list_service_managers_create();
+    pub_sub->own_subscriptions = hype_pub_sub_list_subscriptions_create();
+    pub_sub->managed_services = hype_pub_sub_list_service_managers_create();
     pub_sub->network = hype_pub_sub_network_create();
     pub_sub->protocol = hype_pub_sub_protocol_create(pub_sub);
     return pub_sub;
@@ -34,7 +34,7 @@ int hype_pub_sub_issue_publish_req(HypePubSub* pub_sub, byte service_key[SHA1_BL
 
 int hype_pub_sub_process_subscribe_req(HypePubSub* pub_sub, byte service_key[SHA1_BLOCK_SIZE], byte requester_client_id[HYPE_ID_BYTE_SIZE])
 {
-    ServiceManager *service = hype_pub_sub_list_service_managers_find(pub_sub->list_serv_man, service_key);
+    ServiceManager *service = hype_pub_sub_list_service_managers_find(pub_sub->managed_services, service_key);
 
     if(service == NULL)
         return -1;
@@ -46,7 +46,7 @@ int hype_pub_sub_process_subscribe_req(HypePubSub* pub_sub, byte service_key[SHA
 
 int hype_pub_sub_process_unsubscribe_req(HypePubSub* pub_sub, byte service_key[SHA1_BLOCK_SIZE], byte requester_client_id[HYPE_ID_BYTE_SIZE])
 {
-    ServiceManager *service = hype_pub_sub_list_service_managers_find(pub_sub->list_serv_man, service_key);
+    ServiceManager *service = hype_pub_sub_list_service_managers_find(pub_sub->managed_services, service_key);
 
     if(service == NULL)
         return -1;
@@ -58,7 +58,7 @@ int hype_pub_sub_process_unsubscribe_req(HypePubSub* pub_sub, byte service_key[S
 
 int hype_pub_sub_process_publish_req(HypePubSub* pub_sub, byte service_key[SHA1_BLOCK_SIZE], char* msg)
 {
-    ServiceManager *service = hype_pub_sub_list_service_managers_find(pub_sub->list_serv_man, service_key);
+    ServiceManager *service = hype_pub_sub_list_service_managers_find(pub_sub->managed_services, service_key);
 
     if(service == NULL)
     {
@@ -97,13 +97,13 @@ static int hype_pub_sub_issue_change_service_manager_req(HypePubSub* pub_sub, by
 
 static int hype_pub_sub_add_service_manager(HypePubSub *pub_sub, byte service_key[SHA1_BLOCK_SIZE])
 {
-    hype_pub_sub_list_service_managers_add(pub_sub->list_serv_man, service_key);
+    hype_pub_sub_list_service_managers_add(pub_sub->managed_services, service_key);
     return 0;
 }
 
 static int hype_pub_sub_remove_service_manager(HypePubSub* pub_sub, byte service_key[SHA1_BLOCK_SIZE])
 {
-    hype_pub_sub_list_service_managers_remove(pub_sub->list_serv_man, service_key);
+    hype_pub_sub_list_service_managers_remove(pub_sub->managed_services, service_key);
     return 0;
 }
 
@@ -115,8 +115,8 @@ static int hype_pub_sub_send_info_msg(HypePubSub* pub_sub, byte dest[HYPE_ID_BYT
 
 void hype_pub_sub_destroy(HypePubSub *pub_sub)
 {
-    hype_pub_sub_list_service_managers_destroy(pub_sub->list_serv_man);
-    hype_pub_sub_list_subscriptions_destroy(pub_sub->list_subscriptions);
+    hype_pub_sub_list_service_managers_destroy(pub_sub->managed_services);
+    hype_pub_sub_list_subscriptions_destroy(pub_sub->own_subscriptions);
     hype_pub_sub_network_destroy(pub_sub->network);
     hype_pub_sub_protocol_destroy(pub_sub->protocol);
     free(pub_sub);
