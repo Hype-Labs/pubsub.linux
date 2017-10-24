@@ -166,7 +166,7 @@ void print_clients_list(ListClients* clientList)
     while(linked_list_get_element_data_iterator(it) != NULL)
     {
         Client* client = (Client*) linked_list_get_element_data_iterator(it);
-        print_hex_char_array(client->client_id, HYPE_ID_BYTE_SIZE);
+        print_hex_char_array(client->id, HYPE_ID_BYTE_SIZE);
         linked_list_advance_iterator(it);
     }
     linked_list_destroy_iterator(it);

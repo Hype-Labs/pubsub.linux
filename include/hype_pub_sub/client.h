@@ -9,11 +9,11 @@
 
 typedef struct Client_
 {
-    byte client_id[HYPE_ID_BYTE_SIZE];
+    byte id[HYPE_ID_BYTE_SIZE];
 } Client;
 
 Client* hype_pub_sub_client_create(byte client_id[]);
 
-void hype_pub_sub_client_destroy(Client* cl);
+void hype_pub_sub_client_destroy(Client* client);
 
 #endif /* HYPE_PUB_SUB_CLIENT_H_INCLUDED_ */

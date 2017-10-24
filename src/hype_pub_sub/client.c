@@ -3,15 +3,15 @@
 
 Client *hype_pub_sub_client_create(byte client_id[])
 {
-    Client* cl = (Client*) malloc(sizeof(Client));
-    memcpy(cl->client_id, client_id, HYPE_ID_BYTE_SIZE);
-    return cl;
+    Client* client = (Client*) malloc(sizeof(Client));
+    memcpy(client->id, client_id, HYPE_ID_BYTE_SIZE);
+    return client;
 }
 
-void hype_pub_sub_client_destroy(Client *cl)
+void hype_pub_sub_client_destroy(Client *client)
 {
-    if(cl == NULL)
+    if(client == NULL)
         return;
 
-    free(cl);
+    free(client);
 }

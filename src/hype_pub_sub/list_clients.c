@@ -25,19 +25,6 @@ void hype_pub_sub_list_clients_destroy(ListClients *list_cl)
     linked_list_destroy(list_cl, hype_pub_sub_list_clients_free);
 }
 
-Client* hype_pub_sub_list_clients_iterator(LinkedListElement **it)
-{
-    /*
-    if((*it) == NULL)
-        return NULL;
-
-    Client *cl = (Client*) (*it)->data;
-    linked_list_iterator(it);
-    return cl;
-    */
-    return NULL;
-}
-
 Client* hype_pub_sub_list_clients_find(ListClients* list_cl, byte client_id[])
 {
     ListClientElement *elem = linked_list_find(list_cl, client_id, hype_pub_sub_list_clients_compare);
@@ -53,7 +40,7 @@ bool hype_pub_sub_list_clients_compare(void *cl1, void *cl2)
     if (cl1 == NULL || cl2 == NULL)
         return false;
 
-    if (memcmp(((Client*) cl1)->client_id, (byte*) cl2, HYPE_ID_BYTE_SIZE * sizeof(byte)) == 0)
+    if (memcmp(((Client*) cl1)->id, (byte*) cl2, HYPE_ID_BYTE_SIZE * sizeof(byte)) == 0)
         return true;
 
     return false;
