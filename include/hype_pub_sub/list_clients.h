@@ -6,10 +6,8 @@
 #include "client.h"
 #include "constants.h"
 
-
 typedef LinkedListElement ListClientElement;
 typedef LinkedList ListClients;
-
 
 ListClients* hype_pub_sub_list_clients_create();
 
@@ -18,8 +16,6 @@ int hype_pub_sub_list_clients_add(ListClients *list_cl, byte client_id[]);
 int hype_pub_sub_list_clients_remove(ListClients *list_cl, byte client_id[]);
 
 void hype_pub_sub_list_clients_destroy(ListClients *list_cl);
-
-Client* hype_pub_sub_list_clients_iterator(LinkedListElement **it);
 
 Client* hype_pub_sub_list_clients_find(ListClients* list_cl, byte client_id[]);
 

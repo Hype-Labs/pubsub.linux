@@ -65,19 +65,18 @@ int hype_pub_sub_process_publish_req(HypePubSub* pub_sub, byte service_key[SHA1_
         hype_pub_sub_add_service_manager(pub_sub, service_key);
         return -1; // Service manager created now. No subscribers.
     }
-    /*
-    ListClientElement *clientsIterator = service->subscribers;
 
-    while(true)
+    LinkedListIterator *it = linked_list_create_iterator(service->subscribers);
+
+    while(linked_list_get_element_data_iterator(it) != NULL)
     {
-        Client* client = hype_pub_sub_list_clients_iterator(&clientsIterator);
-
-        if (client == NULL)
-            break;
-
+        Client* client = (Client*) linked_list_get_element_data_iterator(it);
         hype_pub_sub_send_info_msg(pub_sub, client->client_id, msg);
+        linked_list_advance_iterator(it);
     }
-    */
+
+    linked_list_destroy_iterator(it);
+
     return 0;
 }
 

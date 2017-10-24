@@ -17,6 +17,14 @@ LinkedListElement* linked_list_create_element(void *elem_data)
     return element;
 }
 
+LinkedListIterator* linked_list_create_iterator(LinkedList *list)
+{
+    LinkedListIterator *it = (LinkedListIterator *) malloc(sizeof(LinkedListIterator));
+    it->list = list;
+    it->it_elem = list->head;
+    return it;
+}
+
 int linked_list_add(LinkedList* list, void *elem_data)
 {
     if(list == NULL)
@@ -73,6 +81,14 @@ int linked_list_remove(LinkedList *list, void* elem_data, bool (*compare_element
     return -2; // ID not found
 }
 
+bool linked_list_is_empty(LinkedList *list)
+{
+    if(list == NULL || list->size == 0)
+        return true;
+
+    return false;
+}
+
 void linked_list_iterator(LinkedListElement **it)
 {
     (*it) = (*it)->next;
@@ -95,12 +111,27 @@ LinkedListElement* linked_list_find(LinkedList* list, void *elem_data, bool (*co
     return NULL;
 }
 
-bool linked_list_is_empty(LinkedList *list)
+void linked_list_reset_iterator(LinkedListIterator *it)
 {
-    if(list == NULL || list->size == 0)
-        return true;
+    it->it_elem = it->list->head;
+}
 
-    return false;
+void* linked_list_get_element_data_iterator(LinkedListIterator *it)
+{
+    if(it == NULL || it->it_elem == NULL)
+        return NULL;
+
+    return it->it_elem->data;
+}
+
+void linked_list_advance_iterator(LinkedListIterator *it)
+{
+    it->it_elem = it->it_elem->next;
+}
+
+void linked_list_destroy_iterator(LinkedListIterator *it)
+{
+    free(it);
 }
 
 void linked_list_destroy_element(LinkedListElement *element, void (*free_element_data) (void*))

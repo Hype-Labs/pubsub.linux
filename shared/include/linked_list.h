@@ -21,9 +21,17 @@ typedef struct LinkedList_
     size_t size;
 } LinkedList;
 
-LinkedListElement* linked_list_create_element(void *elem_data);
+typedef struct LinkedListIterator_
+{
+    LinkedList *list;
+    LinkedListElement *it_elem;
+} LinkedListIterator;
 
 LinkedList* linked_list_create();
+
+LinkedListElement* linked_list_create_element(void *elem_data);
+
+LinkedListIterator* linked_list_create_iterator(LinkedList *list);
 
 int linked_list_add(LinkedList* list, void *elem_data);
 
@@ -34,6 +42,14 @@ bool linked_list_is_empty(LinkedList* list);
 void linked_list_iterator(LinkedListElement **it);
 
 LinkedListElement* linked_list_find(LinkedList* list, void *elem_data, bool (*compare_elements_data) (void*, void*));
+
+void linked_list_reset_iterator(LinkedListIterator *it);
+
+void* linked_list_get_element_data_iterator(LinkedListIterator *it);
+
+void linked_list_advance_iterator(LinkedListIterator *it);
+
+void linked_list_destroy_iterator(LinkedListIterator *it);
 
 void linked_list_destroy_element(LinkedListElement *element, void (*free_element_data) (void*));
 

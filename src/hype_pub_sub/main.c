@@ -162,59 +162,47 @@ void print_clients_list(ListClients* clientList)
 {
     printf("ClientList (size %zu): \n", clientList->size);
 
-    if(linked_list_is_empty(clientList))
-        return;
-
-    ListClientElement *current_client = clientList->head;
-
-    while(current_client != NULL)
+    LinkedListIterator *it = linked_list_create_iterator(clientList);
+    while(linked_list_get_element_data_iterator(it) != NULL)
     {
-        Client *myClient = (Client*) current_client->data;
-        print_hex_char_array(myClient->client_id, HYPE_ID_BYTE_SIZE);
-        current_client = current_client->next;
+        Client* client = (Client*) linked_list_get_element_data_iterator(it);
+        print_hex_char_array(client->client_id, HYPE_ID_BYTE_SIZE);
+        linked_list_advance_iterator(it);
     }
+    linked_list_destroy_iterator(it);
 }
 
 void print_subscription_list(ListSubscriptions* subsList)
 {
-    printf("SubscriptionsList (size %zu): \n", subsList->size);
-
-    if(linked_list_is_empty(subsList))
-        return;
-
-    ListSubscriptionElement *current_subs = subsList->head;
+    printf("\nSubscriptionsList (size %zu): \n", subsList->size);
 
     int i=1;
-    while(current_subs != NULL)
+    LinkedListIterator *it = linked_list_create_iterator(subsList);
+    while(linked_list_get_element_data_iterator(it) != NULL)
     {
-        printf("Subscription %i\n",i);
-        printf("\tManagerId:  ");
-        print_hex_char_array(((Subscription *) current_subs->data)->manager_id, HYPE_ID_BYTE_SIZE);
-        printf("\tServiceKey:  ");
-        print_hex_char_array(((Subscription *) current_subs->data)->service_key, SHA1_BLOCK_SIZE);
-        printf("\tServiceName:  %s\n", ((Subscription *) current_subs->data)->service_name);
-        current_subs = current_subs->next;
-        i++;
+        Subscription* subs = (Subscription*) linked_list_get_element_data_iterator(it);
+        printf("Subscription %i\n",i); i++;
+        printf("\tManagerId:  "); print_hex_char_array(subs->manager_id, HYPE_ID_BYTE_SIZE);
+        printf("\tServiceKey:  "); print_hex_char_array(subs->service_key, SHA1_BLOCK_SIZE);
+        printf("\tServiceName:  %s\n", subs->service_name);
+        linked_list_advance_iterator(it);
     }
+    linked_list_destroy_iterator(it);
 }
 
 void print_service_manager_list(ListServiceManagers* srvManList)
 {
-    printf("ServiceManagerList (size %zu): \n", srvManList->size);
-
-    if(linked_list_is_empty(srvManList))
-        return;
-
-    ListServiceManagerElement *current_serv_man = srvManList->head;
+    printf("\nServiceManagerList (size %zu): \n", srvManList->size);
 
     int i=1;
-    while(current_serv_man != NULL)
+    LinkedListIterator *it = linked_list_create_iterator(srvManList);
+    while(linked_list_get_element_data_iterator(it) != NULL)
     {
-        printf("ServiceManager %i\n",i);
-        printf("\tManagedServiceKey:  ");
-        print_hex_char_array(((ServiceManager *) current_serv_man->data)->service_key, SHA1_BLOCK_SIZE);
-        current_serv_man = current_serv_man->next;
-        i++;
+        ServiceManager* serMan = (ServiceManager*) linked_list_get_element_data_iterator(it);
+        printf("Subscription %i\n",i); i++;
+        printf("\tManagedServiceKey:  "); print_hex_char_array(serMan->service_key, SHA1_BLOCK_SIZE);
+        linked_list_advance_iterator(it);
     }
+    linked_list_destroy_iterator(it);
 
 }
