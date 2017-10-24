@@ -105,7 +105,16 @@ int hype_pub_sub_protocol_receive_info_msg(Protocol *protocol, char *msg, size_t
 
 MessageType hype_pub_sub_protocol_get_message_type(char *msg)
 {
-    return 0;
+    if(msg[0] == (byte) SUBSCRIBE_SERVICE)
+        return SUBSCRIBE_SERVICE;
+    else if(msg[0] == (byte) UNSUBSCRIBE_SERVICE)
+        return UNSUBSCRIBE_SERVICE;
+    else if(msg[0] == (byte) PUBLISH)
+        return PUBLISH;
+    else if(msg[0] == (byte) INFO)
+        return INFO;
+    else
+        return 0; // This should never happen
 }
 
 void hype_pub_sub_protocol_destroy(Protocol *protocol)
