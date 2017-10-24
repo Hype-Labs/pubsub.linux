@@ -89,7 +89,7 @@ int hype_pub_sub_process_publish_req(HypePubSub* pub_sub, byte service_key[], ch
     while(linked_list_get_element_data_iterator(it) != NULL)
     {
         Client* client = (Client*) linked_list_get_element_data_iterator(it);
-        hype_pub_sub_protocol_send_info_msg(pub_sub->protocol, client->id, msg, msg_length);
+        hype_pub_sub_protocol_send_info_msg(service_key, client->id, msg, msg_length);
         linked_list_advance_iterator(it);
     }
     linked_list_destroy_iterator(it);

@@ -6,6 +6,7 @@
 #include "../external/include/sha/sha1.h"
 
 void test_hash();
+void test_message_construction();
 void test_subscribers_list();
 void test_service_manager();
 void test_hype_pub_sub();
@@ -24,6 +25,8 @@ int main()
 {
     //test_hash();
 
+    test_message_construction();
+    /*
     test_subscribers_list();
 
     printf("\n------------------------\n");
@@ -37,6 +40,7 @@ int main()
     printf("------------------------\n");
 
     test_hype_pub_sub();
+    */
 
     return 0;
 }
@@ -48,6 +52,25 @@ void test_hash()
 
     sha1_digest((const BYTE*) service, strlen(service), service_key);
     print_hex_char_array(service_key, SHA1_BLOCK_SIZE);
+}
+
+void test_message_construction()
+{
+    char serv1[] = {"HypeCoffe"};
+    byte servKey1[SHA1_BLOCK_SIZE];
+    sha1_digest((const byte*) serv1, strlen(serv1), servKey1);
+
+    char msg1[] = {"HelloWorld"};
+    char msg2[] = {"HelloWorlda"};
+
+    HypePubSub* myPubSubApp = hype_pub_sub_create();
+
+    hype_pub_sub_protocol_send_subscribe_msg(servKey1,EXAMPLE_ID1);
+    hype_pub_sub_protocol_send_unsubscribe_msg(servKey1,EXAMPLE_ID1);
+    hype_pub_sub_protocol_send_publish_msg(servKey1,EXAMPLE_ID1, msg1, strlen(msg1));
+    hype_pub_sub_protocol_send_info_msg(servKey1,EXAMPLE_ID1, msg2, strlen(msg2));
+
+    hype_pub_sub_destroy(myPubSubApp);
 }
 
 void test_subscribers_list()
