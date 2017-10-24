@@ -9,14 +9,15 @@
 #include "constants.h"
 
 
-typedef LinkedListElement ListSubscriptions;
+typedef LinkedListElement ListSubscriptionElement;
+typedef LinkedList ListSubscriptions;
 
 
 ListSubscriptions* hype_pub_sub_list_subscriptions_create();
 
 int hype_pub_sub_list_subscriptions_add(ListSubscriptions* list_subscrpt, char* serv_name, size_t serv_name_len, byte man_id[HYPE_ID_BYTE_SIZE]);
 
-int hype_pub_sub_list_subscriptions_remove(ListSubscriptions **list_subscrpt, char* serv_name, size_t serv_name_len, byte man_id[HYPE_ID_BYTE_SIZE]);
+int hype_pub_sub_list_subscriptions_remove(ListSubscriptions *list_subscrpt, char* serv_name, size_t serv_name_len, byte man_id[HYPE_ID_BYTE_SIZE]);
 
 void hype_pub_sub_list_subscriptions_destroy(ListSubscriptions* list_subscrpt);
 

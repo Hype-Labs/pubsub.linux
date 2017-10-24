@@ -16,7 +16,7 @@ int hype_pub_sub_list_subscriptions_add(ListSubscriptions *list_subscrpt, char* 
     return linked_list_add(list_subscrpt, subscrpt);
 }
 
-int hype_pub_sub_list_subscriptions_remove(ListSubscriptions **list_subscrpt, char* serv_name, size_t serv_name_len, byte man_id[HYPE_ID_BYTE_SIZE])
+int hype_pub_sub_list_subscriptions_remove(ListSubscriptions *list_subscrpt, char* serv_name, size_t serv_name_len, byte man_id[HYPE_ID_BYTE_SIZE])
 {
     Subscription *subscrpt = hype_pub_sub_subscription_create(serv_name, serv_name_len, man_id);
     return linked_list_remove(list_subscrpt, subscrpt, hype_pub_sub_list_subscriptions_compare, hype_pub_sub_list_subscriptions_free);

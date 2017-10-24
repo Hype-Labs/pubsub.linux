@@ -51,7 +51,7 @@ int hype_pub_sub_process_unsubscribe_req(HypePubSub* pub_sub, byte service_key[S
     if(service == NULL)
         return -1;
 
-    hype_pub_sub_list_clients_remove(&(service->subscribers), requester_client_id);
+    hype_pub_sub_list_clients_remove(service->subscribers, requester_client_id);
 
     return 0;
 }
@@ -65,8 +65,8 @@ int hype_pub_sub_process_publish_req(HypePubSub* pub_sub, byte service_key[SHA1_
         hype_pub_sub_add_service_manager(pub_sub, service_key);
         return -1; // Service manager created now. No subscribers.
     }
-
-    LinkedListElement *clientsIterator = service->subscribers;
+    /*
+    ListClientElement *clientsIterator = service->subscribers;
 
     while(true)
     {
@@ -77,6 +77,7 @@ int hype_pub_sub_process_publish_req(HypePubSub* pub_sub, byte service_key[SHA1_
 
         hype_pub_sub_send_info_msg(pub_sub, client->client_id, msg);
     }
+    */
     return 0;
 }
 
@@ -103,7 +104,7 @@ static int hype_pub_sub_add_service_manager(HypePubSub *pub_sub, byte service_ke
 
 static int hype_pub_sub_remove_service_manager(HypePubSub* pub_sub, byte service_key[SHA1_BLOCK_SIZE])
 {
-    hype_pub_sub_list_service_managers_remove(&(pub_sub->list_serv_man), service_key);
+    hype_pub_sub_list_service_managers_remove(pub_sub->list_serv_man, service_key);
     return 0;
 }
 

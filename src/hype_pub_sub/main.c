@@ -24,11 +24,11 @@ int main()
 {
     //test_hash();
 
-    //test_subscribers_list();
+    test_subscribers_list();
 
     //test_service_manager();
 
-    test_hype_pub_sub();
+    //test_hype_pub_sub();
 
     return 0;
 }
@@ -54,23 +54,23 @@ void test_subscribers_list()
     print_clients_list(subscribers);
 
     printf("\nRemoving id3\n");
-    hype_pub_sub_list_clients_remove(&subscribers, EXAMPLE_ID3);
+    hype_pub_sub_list_clients_remove(subscribers, EXAMPLE_ID3);
     print_clients_list(subscribers);
 
     printf("\nRemoving id3 again\n");
-    hype_pub_sub_list_clients_remove(&subscribers, EXAMPLE_ID3);
+    hype_pub_sub_list_clients_remove(subscribers, EXAMPLE_ID3);
     print_clients_list(subscribers);
 
     printf("\nRemoving id4\n");
-    hype_pub_sub_list_clients_remove(&subscribers, EXAMPLE_ID4);
+    hype_pub_sub_list_clients_remove(subscribers, EXAMPLE_ID4);
     print_clients_list(subscribers);
 
     printf("\nRemoving id1\n");
-    hype_pub_sub_list_clients_remove(&subscribers, EXAMPLE_ID1);
+    hype_pub_sub_list_clients_remove(subscribers, EXAMPLE_ID1);
     print_clients_list(subscribers);
 
     printf("\nRemoving id2\n");
-    hype_pub_sub_list_clients_remove(&subscribers, EXAMPLE_ID2);
+    hype_pub_sub_list_clients_remove(subscribers, EXAMPLE_ID2);
     print_clients_list(subscribers);
 
     printf("\nAdding id4\n");
@@ -110,7 +110,7 @@ void test_service_manager()
     print_service_manager_list(myPubSubApp->list_serv_man);
 
     printf("\nRemoving serv1\n");
-    hype_pub_sub_list_service_managers_remove(&(myPubSubApp->list_serv_man),servKey1);
+    hype_pub_sub_list_service_managers_remove(myPubSubApp->list_serv_man,servKey1);
     print_service_manager_list(myPubSubApp->list_serv_man);
 
     printf("\nAdding serv2, serv1\n");
@@ -144,7 +144,7 @@ void test_hype_pub_sub()
     hype_pub_sub_list_subscriptions_add(myPubSubApp->list_subscriptions, serv4, strlen(serv4), serv4ManId);
     print_subscription_list(myPubSubApp->list_subscriptions);
 
-    hype_pub_sub_list_subscriptions_remove(&(myPubSubApp->list_subscriptions), serv3, strlen(serv3), serv3ManId);
+    hype_pub_sub_list_subscriptions_remove(myPubSubApp->list_subscriptions, serv3, strlen(serv3), serv3ManId);
     print_subscription_list(myPubSubApp->list_subscriptions);
 
     hype_pub_sub_destroy(myPubSubApp);
@@ -158,33 +158,34 @@ void print_hex_char_array(unsigned char* array, size_t len)
     printf("\n");
 }
 
-void print_clients_list(ListClients* head)
+void print_clients_list(ListClients* clientList)
 {
-    printf("ClientList: \n");
-    if(head == NULL || head->data == NULL)
+    printf("ClientList (size %zu): \n", clientList->size);
+
+    if(linked_list_is_empty(clientList))
         return;
 
-    ListClients* current_subs = head;
+    ListClientElement *current_client = clientList->head;
 
-    do
+    while(current_client != NULL)
     {
-        Client *myClient = (Client*) current_subs->data;
+        Client *myClient = (Client*) current_client->data;
         print_hex_char_array(myClient->client_id, HYPE_ID_BYTE_SIZE);
-        current_subs = current_subs->next;
+        current_client = current_client->next;
     }
-    while(current_subs != NULL);
 }
 
-void print_subscription_list(ListSubscriptions* head)
+void print_subscription_list(ListSubscriptions* subsList)
 {
-    printf("SubscriptionsList: \n");
-    if(head == NULL || head->data == NULL)
+    printf("SubscriptionsList (size %zu): \n", subsList->size);
+
+    if(linked_list_is_empty(subsList))
         return;
 
-    ListSubscriptions* current_subs = head;
+    ListSubscriptionElement *current_subs = subsList->head;
 
     int i=1;
-    do
+    while(current_subs != NULL)
     {
         printf("Subscription %i\n",i);
         printf("\tManagerId:  ");
@@ -195,16 +196,16 @@ void print_subscription_list(ListSubscriptions* head)
         current_subs = current_subs->next;
         i++;
     }
-    while(current_subs != NULL);
 }
 
-void print_service_manager_list(ListServiceManagers* head)
+void print_service_manager_list(ListServiceManagers* srvManList)
 {
-    printf("ServiceManagerList: \n");
-    if(head == NULL || head->data == NULL)
+    printf("ServiceManagerList (size %zu): \n", srvManList->size);
+
+    if(linked_list_is_empty(srvManList))
         return;
 
-    ListServiceManagers* current_serv_man = head;
+    ListServiceManagerElement *current_serv_man = srvManList->head;
 
     int i=1;
     do

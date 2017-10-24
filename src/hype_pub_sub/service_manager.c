@@ -25,7 +25,7 @@ int hype_pub_sub_service_manager_remove_subscriber(ServiceManager *serv_man, byt
     if(serv_man == NULL)
         return -1;
 
-    hype_pub_sub_list_clients_remove(&(serv_man->subscribers), client_id);
+    hype_pub_sub_list_clients_remove(serv_man->subscribers, client_id);
     return 0;
 }
 

@@ -15,7 +15,7 @@ int hype_pub_sub_list_service_managers_add(ListServiceManagers *list_serv_man, b
     return linked_list_add(list_serv_man, serv_man);
 }
 
-int hype_pub_sub_list_service_managers_remove(ListServiceManagers **list_serv_man, byte service_key[])
+int hype_pub_sub_list_service_managers_remove(ListServiceManagers *list_serv_man, byte service_key[])
 {
     return linked_list_remove(list_serv_man, service_key, hype_pub_sub_list_service_managers_compare, hype_pub_sub_list_service_managers_free);
 }

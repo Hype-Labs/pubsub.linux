@@ -7,14 +7,15 @@
 #include "constants.h"
 
 
-typedef LinkedListElement ListServiceManagers;
+typedef LinkedListElement ListServiceManagerElement;
+typedef LinkedList ListServiceManagers;
 
 
 ListServiceManagers* hype_pub_sub_list_service_managers_create();
 
 int hype_pub_sub_list_service_managers_add(ListServiceManagers* list_serv_man, byte service_key[SHA1_BLOCK_SIZE]);
 
-int hype_pub_sub_list_service_managers_remove(ListServiceManagers **list_serv_man, byte service_key[SHA1_BLOCK_SIZE]);
+int hype_pub_sub_list_service_managers_remove(ListServiceManagers *list_serv_man, byte service_key[SHA1_BLOCK_SIZE]);
 
 void hype_pub_sub_list_service_managers_destroy(ListServiceManagers* list_serv_man);
 
