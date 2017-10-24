@@ -8,7 +8,7 @@ ListServiceManagers *hype_pub_sub_list_service_managers_create()
 
 ServiceManager* hype_pub_sub_list_service_managers_add(ListServiceManagers *list_serv_man, byte service_key[SHA1_BLOCK_SIZE])
 {
-    if(list_serv_man != NULL)
+    if(list_serv_man == NULL)
         return NULL;
 
     ServiceManager *serv_man = hype_pub_sub_service_manager_create(service_key);
