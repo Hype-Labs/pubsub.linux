@@ -10,6 +10,8 @@ Network *hype_pub_sub_network_create()
 
 byte *hype_pub_sub_network_get_service_manager_id(Network* net, byte service_key[])
 {
+    // Compare the service key with the hash of the Hype clients id and return
+    // the id of the closest client. Consider own ID also!!!!
     return NULL;
 }
 

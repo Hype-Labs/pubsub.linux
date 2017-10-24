@@ -11,39 +11,99 @@
 
 typedef struct Protocol_ Protocol; // Forward declaration due to circular dependency
 
+/**
+ * @brief This struct represents a HypePubSub client.
+ */
 typedef struct HypePubSub_
 {
-    ListSubscriptions *own_subscriptions; /**< List of subscriptions of this client. */
-    ListServiceManagers *managed_services; /**< List of services managed by this client. */
-    Network *network;
-    Protocol *protocol;
-
+    ListSubscriptions *own_subscriptions; /**< List of subscriptions of this HypePubSub client. */
+    ListServiceManagers *managed_services; /**< List of services managed by this HypePubSub client. */
+    Network *network; /**< Pointer to the network manager of this HypePubSub client. */
+    Protocol *protocol; /**< Pointer to the protocol manager of this HypePubSub client. */
 } HypePubSub;
 
+/**
+ * @brief Allocates space for a HypePubSub struct.
+ * @return Returns a pointer to the created struct or NULL if the space could not be allocated.
+ */
 HypePubSub* hype_pub_sub_create();
 
-int hype_pub_sub_issue_subscribe_service_req(HypePubSub* pub_sub, byte service_key[SHA1_BLOCK_SIZE]);
+/**
+ * @brief Obtains the Hype client responsible for a given service through the network manager
+ *        and it uses the protocol manager to send a subscribe request to that Hype client.
+ * @param pub_sub Pointer to the HypePubSub application.
+ * @param service_key Key of the service to be subscribed.
+ * @return Return 0 in case of success and -1 otherwise.
+ */
+int hype_pub_sub_issue_subscribe_service_req(HypePubSub* pub_sub, byte service_key[]);
 
-int hype_pub_sub_issue_unsubscribe_service_req(HypePubSub* pub_sub, byte service_key[SHA1_BLOCK_SIZE]);
+/**
+ * @brief Obtains the Hype client responsible for a given service through the network manager
+ *        and it uses the protocol manager to send a unsubscribe request to that Hype client.
+ * @param pub_sub Pointer to the HypePubSub application.
+ * @param service_key Key of the service to be unsubscribed.
+ * @return Return 0 in case of success and -1 otherwise.
+ */
+int hype_pub_sub_issue_unsubscribe_service_req(HypePubSub* pub_sub, byte service_key[]);
 
-int hype_pub_sub_issue_publish_req(HypePubSub* pub_sub, byte service_key[SHA1_BLOCK_SIZE], char* msg);
+/**
+ * @brief Obtains the Hype client responsible for a given service through the network manager
+ *        and it uses the protocol manager to send a publish request to that Hype client.
+ * @param pub_sub Pointer to the HypePubSub application.
+ * @param service_key Key of the service in which to publish.
+ * @param msg Pointer to the message to be published.
+ * @param msg_length Lenght of the message to be published
+ * @return Return 0 in case of success and -1 otherwise.
+ */
+int hype_pub_sub_issue_publish_req(HypePubSub* pub_sub, byte service_key[], char* msg, size_t msg_length);
 
-int hype_pub_sub_process_subscribe_req(HypePubSub* pub_sub, byte service_key[SHA1_BLOCK_SIZE], byte requester_client_id[HYPE_ID_BYTE_SIZE]);
+/**
+ * @brief Processes a subscribe request to a given service. It adds the ID of the Hype client that sent the
+ *        request to the list of the subscribers of the specified service. If the service does not exist in
+ *        the list of managed services, it is added.
+ * @param pub_sub Pointer to the HypePubSub application.
+ * @param service_key Key of the service to subscribe.
+ * @param requester_client_id Hype ID of the client that sent the subscribe message.
+ * @return Returns 0 in case of success and < 0 otherwise.
+ */
+int hype_pub_sub_process_subscribe_req(HypePubSub* pub_sub, byte service_key[], byte requester_client_id[]);
 
-int hype_pub_sub_process_unsubscribe_req(HypePubSub* pub_sub, byte service_key[SHA1_BLOCK_SIZE], byte requester_client_id[HYPE_ID_BYTE_SIZE]);
+/**
+ * @brief Processes an unsubscribe request to a given service. It removes the ID of the Hype client that sent
+ *        the request from the list of the subscribers of the specified service. If the service does not exist
+ *        in the list of managed services, nothing is done.
+ * @param pub_sub Pointer to the HypePubSub application.
+ * @param service_key Key of the service to unsubscribe.
+ * @param requester_client_id Hype ID of the client that sent the unsubscribe message.
+ * @return Returns 0 in case of success and < 0 otherwise.
+ */
+int hype_pub_sub_process_unsubscribe_req(HypePubSub* pub_sub, byte service_key[], byte requester_client_id[]);
 
-int hype_pub_sub_process_publish_req(HypePubSub* pub_sub, byte service_key[SHA1_BLOCK_SIZE], char* msg);
+/**
+ * @brief Processes a publish request to a given service. It sends the message to all the subscribers of the
+ *        specified service. If the service is not in the list of managed services nothing is done.
+ * @param pub_sub Pointer to the HypePubSub application.
+ * @param service_key Key of the service in which to publish.
+ * @param msg Message to be sent.
+ * @param msg_length Length of the message to be sent.
+ * @return Returns 0 in case of success and < 0 otherwise.
+ */
+int hype_pub_sub_process_publish_req(HypePubSub* pub_sub, byte service_key[], char* msg, size_t msg_length);
 
 static int hype_pub_sub_update_managed_services(HypePubSub* pub_sub);
 
 static int hype_pub_sub_update_subscriptions(HypePubSub* pub_sub);
 
-static int hype_pub_sub_send_info_msg(HypePubSub* pub_sub, byte dest[], char* msg);
-
+/**
+ * @brief Deallocates the space previously allocated for a HypePubSub struct
+ * @param pub_sub Pointer to the HypePubSub struct to be deallocated.
+ */
 void hype_pub_sub_destroy(HypePubSub* pub_sub);
+
 
 // TODO: Review this later. Currently it seems that these methods are replaced by the hype_pub_sub_update_subscriptions() and hype_pub_sub_update_managed_services() methods
 // int hype_pub_sub_process_change_service_manager_req(HypePubSub* pub_sub, byte service_key[SHA1_BLOCK_SIZE], byte new_manager_id[HYPE_ID_BYTE_SIZE], byte** subscribers_id[HYPE_ID_BYTE_SIZE]);
 // static int hype_pub_sub_issue_change_service_manager_req(HypePubSub* pub_sub, byte service_key[SHA1_BLOCK_SIZE], byte new_manager_id[HYPE_ID_BYTE_SIZE], byte** subscribers_id[HYPE_ID_BYTE_SIZE]);
+
 
 #endif /* HYPE_PUB_SUB_H_INCLUDED_ */

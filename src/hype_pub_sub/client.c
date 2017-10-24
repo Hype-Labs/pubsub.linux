@@ -1,10 +1,10 @@
 
 #include "hype_pub_sub/client.h"
 
-Client *hype_pub_sub_client_create(byte client_id[])
+Client *hype_pub_sub_client_create(byte id[])
 {
     Client* client = (Client*) malloc(sizeof(Client));
-    memcpy(client->id, client_id, HYPE_ID_BYTE_SIZE);
+    memcpy(client->id, id, HYPE_CONSTANTS_ID_BYTE_SIZE);
     return client;
 }
 

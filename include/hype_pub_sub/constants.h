@@ -2,7 +2,7 @@
 #ifndef HYPE_PUB_SUB_CONSTANTS_H_INCLUDED_
 #define HYPE_PUB_SUB_CONSTANTS_H_INCLUDED_
 
-#define HYPE_ID_BYTE_SIZE 12
+#define HYPE_CONSTANTS_ID_BYTE_SIZE 12
 
 typedef unsigned char byte;
 

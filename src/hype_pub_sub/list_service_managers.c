@@ -11,24 +11,30 @@ ServiceManager* hype_pub_sub_list_service_managers_add(ListServiceManagers *list
     if(list_serv_man == NULL)
         return NULL;
 
-    ServiceManager *serv_man = hype_pub_sub_service_manager_create(service_key);
+    ServiceManager *serv_man;
+    // Avoid to insert repeated ServiceManagers
+    serv_man = hype_pub_sub_list_service_managers_find(list_serv_man, service_key);
+    if(serv_man != NULL)
+        return serv_man;
+
+    serv_man = hype_pub_sub_service_manager_create(service_key);
     linked_list_add(list_serv_man, serv_man);
     return serv_man;
 }
 
 int hype_pub_sub_list_service_managers_remove(ListServiceManagers *list_serv_man, byte service_key[])
 {
-    return linked_list_remove(list_serv_man, service_key, hype_pub_sub_list_service_managers_compare, hype_pub_sub_list_service_managers_free);
+    return linked_list_remove(list_serv_man, service_key, hype_pub_sub_list_service_managers_compare_data_callback, hype_pub_sub_list_service_managers_free_data_callback);
 }
 
 void hype_pub_sub_list_service_managers_destroy(ListServiceManagers *list_serv_man)
 {
-    linked_list_destroy(list_serv_man, hype_pub_sub_list_service_managers_free);
+    linked_list_destroy(list_serv_man, hype_pub_sub_list_service_managers_free_data_callback);
 }
 
 ServiceManager* hype_pub_sub_list_service_managers_find(ListServiceManagers* list_serv_man, byte service_key[])
 {
-    LinkedListElement *elem = linked_list_find(list_serv_man, service_key, hype_pub_sub_list_service_managers_compare);
+    LinkedListElement *elem = linked_list_find(list_serv_man, service_key, hype_pub_sub_list_service_managers_compare_data_callback);
 
     if(elem == NULL)
         return NULL;
@@ -36,7 +42,7 @@ ServiceManager* hype_pub_sub_list_service_managers_find(ListServiceManagers* lis
     return (ServiceManager*) elem->data;
 }
 
-bool hype_pub_sub_list_service_managers_compare(void *serv_man1, void *serv_man2)
+bool hype_pub_sub_list_service_managers_compare_data_callback(void *serv_man1, void *serv_man2)
 {
     if (serv_man1 == NULL || serv_man2 == NULL)
         return false;
@@ -47,7 +53,7 @@ bool hype_pub_sub_list_service_managers_compare(void *serv_man1, void *serv_man2
     return false;
 }
 
-void hype_pub_sub_list_service_managers_free(void *serv_man)
+void hype_pub_sub_list_service_managers_free_data_callback(void *serv_man)
 {
     hype_pub_sub_service_manager_destroy((ServiceManager*) serv_man);
 }

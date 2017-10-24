@@ -12,7 +12,7 @@
 
 typedef struct Network_
 {
-    byte own_client_id[HYPE_ID_BYTE_SIZE];
+    byte own_client_id[HYPE_CONSTANTS_ID_BYTE_SIZE];
     ListClients *network_client_ids;
 } Network;
 
@@ -22,7 +22,7 @@ byte* hype_pub_sub_network_get_service_manager_id(Network* net, byte service_key
 
 int hype_pub_sub_network_update_clients(Network* net);
 
-bool hype_pub_sub_network_is_client_online(Network* net, byte client_id[HYPE_ID_BYTE_SIZE]);
+bool hype_pub_sub_network_is_client_online(Network* net, byte client_id[HYPE_CONSTANTS_ID_BYTE_SIZE]);
 
 void hype_pub_sub_network_destroy(Network* net);
 

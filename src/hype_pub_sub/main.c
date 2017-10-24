@@ -24,11 +24,19 @@ int main()
 {
     //test_hash();
 
-    //test_subscribers_list();
+    test_subscribers_list();
+
+    printf("\n------------------------\n");
+    printf("------------------------\n");
+    printf("------------------------\n");
 
     test_service_manager();
 
-    //test_hype_pub_sub();
+    printf("\n------------------------\n");
+    printf("------------------------\n");
+    printf("------------------------\n");
+
+    test_hype_pub_sub();
 
     return 0;
 }
@@ -166,7 +174,7 @@ void print_clients_list(ListClients* clientList)
     while(linked_list_get_element_data_iterator(it) != NULL)
     {
         Client* client = (Client*) linked_list_get_element_data_iterator(it);
-        print_hex_char_array(client->id, HYPE_ID_BYTE_SIZE);
+        print_hex_char_array(client->id, HYPE_CONSTANTS_ID_BYTE_SIZE);
         linked_list_advance_iterator(it);
     }
     linked_list_destroy_iterator(it);
@@ -182,7 +190,7 @@ void print_subscription_list(ListSubscriptions* subsList)
     {
         Subscription* subs = (Subscription*) linked_list_get_element_data_iterator(it);
         printf("Subscription %i\n",i); i++;
-        printf("\tManagerId:  "); print_hex_char_array(subs->manager_id, HYPE_ID_BYTE_SIZE);
+        printf("\tManagerId:  "); print_hex_char_array(subs->manager_id, HYPE_CONSTANTS_ID_BYTE_SIZE);
         printf("\tServiceKey:  "); print_hex_char_array(subs->service_key, SHA1_BLOCK_SIZE);
         printf("\tServiceName:  %s\n", subs->service_name);
         linked_list_advance_iterator(it);
