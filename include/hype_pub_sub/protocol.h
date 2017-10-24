@@ -5,6 +5,8 @@
 #include "constants.h"
 #include "hype_pub_sub.h"
 
+typedef struct HypePubSub_ HypePubSub; // Forward declaration due to circular dependency
+
 typedef enum  {SUBSCRIBE_SERVICE,
                UNSUBSCRIBE_SERVICE,
                PUBLISH,

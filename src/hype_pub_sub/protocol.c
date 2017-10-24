@@ -3,7 +3,8 @@
 
 Protocol *hype_pub_sub_protocol_create(HypePubSub *pub_sub)
 {
-    return NULL;
+    Protocol *prot = (Protocol *) malloc(sizeof(Protocol));
+    return prot;
 }
 
 int hype_pub_sub_protocol_send_subscribe_msg(byte service_key[], byte dest_network_id[])
@@ -68,5 +69,5 @@ MessageType hype_pub_sub_protocol_get_message_type(char *msg)
 
 void hype_pub_sub_protocol_destroy(Protocol *protocol)
 {
-
+    free(protocol);
 }

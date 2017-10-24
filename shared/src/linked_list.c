@@ -69,6 +69,11 @@ int linked_list_remove(LinkedListElement **head, void* elem_data, bool (*compare
     return -2; // ID not found
 }
 
+void linked_list_iterator(LinkedListElement **it)
+{
+    (*it) = (*it)->next;
+}
+
 LinkedListElement* linked_list_find(LinkedListElement* head, void *elem_data, bool (*compare_elements_data) (void*, void*)) // its responsibility of the list to prevent duplicates if needed
 {
     if(head == NULL)

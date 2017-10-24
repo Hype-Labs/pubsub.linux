@@ -18,6 +18,8 @@ int hype_pub_sub_list_clients_remove(ListClients **list_cl, byte client_id[]);
 
 void hype_pub_sub_list_clients_destroy(ListClients* list_cl);
 
+Client* hype_pub_sub_list_clients_iterator(LinkedListElement **it);
+
 Client* hype_pub_sub_list_clients_find(ListClients* list_cl, byte client_id[]);
 
 bool hype_pub_sub_list_clients_compare(void* cl1, void* cl2);

@@ -25,6 +25,16 @@ void hype_pub_sub_list_clients_destroy(ListClients* list_cl)
     linked_list_destroy(list_cl, hype_pub_sub_list_clients_free);
 }
 
+Client* hype_pub_sub_list_clients_iterator(LinkedListElement **it)
+{
+    if((*it) == NULL)
+        return NULL;
+
+    Client *cl = (Client*) (*it)->data;
+    linked_list_iterator(it);
+    return cl;
+}
+
 Client* hype_pub_sub_list_clients_find(ListClients* list_cl, byte client_id[])
 {
     LinkedListElement *elem = linked_list_find(list_cl, client_id, hype_pub_sub_list_clients_compare);
