@@ -34,19 +34,16 @@ int hype_pub_sub_process_unsubscribe_req(HypePubSub* pub_sub, byte service_key[S
 
 int hype_pub_sub_process_publish_req(HypePubSub* pub_sub, byte service_key[SHA1_BLOCK_SIZE], char* msg);
 
-int hype_pub_sub_process_change_service_manager_req(HypePubSub* pub_sub, byte service_key[SHA1_BLOCK_SIZE], byte new_manager_id[HYPE_ID_BYTE_SIZE], byte** subscribers_id[HYPE_ID_BYTE_SIZE]);
+static int hype_pub_sub_update_managed_services(HypePubSub* pub_sub);
 
 static int hype_pub_sub_update_subscriptions(HypePubSub* pub_sub);
-
-static int hype_pub_sub_issue_change_service_manager_req(HypePubSub* pub_sub, byte service_key[SHA1_BLOCK_SIZE], byte new_manager_id[HYPE_ID_BYTE_SIZE], byte** subscribers_id[HYPE_ID_BYTE_SIZE]);
-
-static int hype_pub_sub_add_service_manager(HypePubSub* pub_sub, byte service_key[SHA1_BLOCK_SIZE]);
-
-static int hype_pub_sub_remove_service_manager(HypePubSub* pub_sub, byte service_key[SHA1_BLOCK_SIZE]);
 
 static int hype_pub_sub_send_info_msg(HypePubSub* pub_sub, byte dest[], char* msg);
 
 void hype_pub_sub_destroy(HypePubSub* pub_sub);
 
+// TODO: Review this later. Currently it seems that these methods are replaced by the hype_pub_sub_update_subscriptions() and hype_pub_sub_update_managed_services() methods
+// int hype_pub_sub_process_change_service_manager_req(HypePubSub* pub_sub, byte service_key[SHA1_BLOCK_SIZE], byte new_manager_id[HYPE_ID_BYTE_SIZE], byte** subscribers_id[HYPE_ID_BYTE_SIZE]);
+// static int hype_pub_sub_issue_change_service_manager_req(HypePubSub* pub_sub, byte service_key[SHA1_BLOCK_SIZE], byte new_manager_id[HYPE_ID_BYTE_SIZE], byte** subscribers_id[HYPE_ID_BYTE_SIZE]);
 
 #endif /* HYPE_PUB_SUB_H_INCLUDED_ */

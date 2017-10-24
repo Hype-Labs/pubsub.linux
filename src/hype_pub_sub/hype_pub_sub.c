@@ -13,6 +13,9 @@ HypePubSub* hype_pub_sub_create()
 
 int hype_pub_sub_issue_subscribe_service_req(HypePubSub* pub_sub, byte service_key[SHA1_BLOCK_SIZE])
 {
+    if(pub_sub == NULL)
+        return -1;
+
     byte *dst = hype_pub_sub_network_get_service_manager_id(pub_sub->network, service_key);
     hype_pub_sub_protocol_send_subscribe_msg(service_key, dst);
     return 0;
@@ -20,6 +23,9 @@ int hype_pub_sub_issue_subscribe_service_req(HypePubSub* pub_sub, byte service_k
 
 int hype_pub_sub_issue_unsubscribe_service_req(HypePubSub *pub_sub, byte service_key[SHA1_BLOCK_SIZE])
 {
+    if(pub_sub == NULL)
+        return -1;
+
     byte *dst = hype_pub_sub_network_get_service_manager_id(pub_sub->network, service_key);
     hype_pub_sub_protocol_send_unsubscribe_msg(service_key, dst);
     return 0;
@@ -27,6 +33,9 @@ int hype_pub_sub_issue_unsubscribe_service_req(HypePubSub *pub_sub, byte service
 
 int hype_pub_sub_issue_publish_req(HypePubSub* pub_sub, byte service_key[SHA1_BLOCK_SIZE], char* msg)
 {
+    if(pub_sub == NULL)
+        return -1;
+
     byte *dst = hype_pub_sub_network_get_service_manager_id(pub_sub->network, service_key);
     hype_pub_sub_protocol_send_publish_msg(service_key, dst, msg);
     return 0;
@@ -34,10 +43,13 @@ int hype_pub_sub_issue_publish_req(HypePubSub* pub_sub, byte service_key[SHA1_BL
 
 int hype_pub_sub_process_subscribe_req(HypePubSub* pub_sub, byte service_key[SHA1_BLOCK_SIZE], byte requester_client_id[HYPE_ID_BYTE_SIZE])
 {
+    if(pub_sub == NULL)
+        return -1;
+
     ServiceManager *service = hype_pub_sub_list_service_managers_find(pub_sub->managed_services, service_key);
 
-    if(service == NULL)
-        return -1;
+    if(service == NULL) // Add the service if we don't have it yet
+        service = hype_pub_sub_list_service_managers_add(pub_sub->managed_services, service_key);
 
     hype_pub_sub_list_clients_add(service->subscribers, requester_client_id);
 
@@ -46,6 +58,9 @@ int hype_pub_sub_process_subscribe_req(HypePubSub* pub_sub, byte service_key[SHA
 
 int hype_pub_sub_process_unsubscribe_req(HypePubSub* pub_sub, byte service_key[SHA1_BLOCK_SIZE], byte requester_client_id[HYPE_ID_BYTE_SIZE])
 {
+    if(pub_sub == NULL)
+        return -1;
+
     ServiceManager *service = hype_pub_sub_list_service_managers_find(pub_sub->managed_services, service_key);
 
     if(service == NULL)
@@ -58,52 +73,68 @@ int hype_pub_sub_process_unsubscribe_req(HypePubSub* pub_sub, byte service_key[S
 
 int hype_pub_sub_process_publish_req(HypePubSub* pub_sub, byte service_key[SHA1_BLOCK_SIZE], char* msg)
 {
+    if(pub_sub == NULL)
+        return -1;
+
     ServiceManager *service = hype_pub_sub_list_service_managers_find(pub_sub->managed_services, service_key);
 
     if(service == NULL)
-    {
-        hype_pub_sub_add_service_manager(pub_sub, service_key);
-        return -1; // Service manager created now. No subscribers.
-    }
+        return -1;
 
     LinkedListIterator *it = linked_list_create_iterator(service->subscribers);
-
     while(linked_list_get_element_data_iterator(it) != NULL)
     {
         Client* client = (Client*) linked_list_get_element_data_iterator(it);
         hype_pub_sub_send_info_msg(pub_sub, client->id, msg);
         linked_list_advance_iterator(it);
     }
-
     linked_list_destroy_iterator(it);
 
     return 0;
 }
 
-int hype_pub_sub_process_change_service_manager_req(HypePubSub* pub_sub, byte service_key[SHA1_BLOCK_SIZE], byte new_manager_id[HYPE_ID_BYTE_SIZE], byte** subscribers_id[HYPE_ID_BYTE_SIZE])
+static int hype_pub_sub_update_managed_services(HypePubSub* pub_sub)
 {
+    LinkedListIterator *it = linked_list_create_iterator(pub_sub->managed_services);
+    while(linked_list_get_element_data_iterator(it) != NULL)
+    {
+        ServiceManager* service_man = (ServiceManager*) linked_list_get_element_data_iterator(it);
+
+        byte *new_manager_id = hype_pub_sub_network_get_service_manager_id(pub_sub->network, service_man->service_key);
+
+        if(memcmp(pub_sub->network->own_client_id, new_manager_id, HYPE_ID_BYTE_SIZE) != 0)
+            hype_pub_sub_list_service_managers_remove(pub_sub->managed_services, service_man->service_key); // we are no longer the manager of that service
+
+        linked_list_advance_iterator(it);
+    }
+    linked_list_destroy_iterator(it);
     return 0;
 }
 
-static int hype_pub_sub_update_subscriptions_manager(HypePubSub* pub_sub)
+static int hype_pub_sub_update_subscriptions(HypePubSub* pub_sub)
 {
-    return 0;
-}
+    if(pub_sub == NULL)
+        return -1;
 
-static int hype_pub_sub_issue_change_service_manager_req(HypePubSub* pub_sub, byte service_key[SHA1_BLOCK_SIZE], byte new_manager_id[HYPE_ID_BYTE_SIZE], byte** subscribers_id[HYPE_ID_BYTE_SIZE])
-{
-    return 0;
-}
+    LinkedListIterator *it = linked_list_create_iterator(pub_sub->own_subscriptions);
+    while(linked_list_get_element_data_iterator(it) != NULL)
+    {
+        Subscription* subscription = (Subscription*) linked_list_get_element_data_iterator(it);
 
-static int hype_pub_sub_add_service_manager(HypePubSub *pub_sub, byte service_key[SHA1_BLOCK_SIZE])
-{
-    hype_pub_sub_list_service_managers_add(pub_sub->managed_services, service_key);
-    return 0;
-}
+        byte *new_manager_id = hype_pub_sub_network_get_service_manager_id(pub_sub->network, subscription->service_key);
 
-static int hype_pub_sub_remove_service_manager(HypePubSub* pub_sub, byte service_key[SHA1_BLOCK_SIZE])
-{
-    hype_pub_sub_list_service_managers_remove(pub_sub->managed_services, service_key);
+        // If there is a node with a closer key to the service key we change the manager
+        if(memcmp(subscription->manager_id, new_manager_id, HYPE_ID_BYTE_SIZE) != 0)
+        {
+            memcpy(subscription->manager_id, new_manager_id, HYPE_ID_BYTE_SIZE);
+            hype_pub_sub_issue_subscribe_service_req(pub_sub, subscription->service_key); // re-send the subscribe request to the new manager
+        }
+
+        linked_list_advance_iterator(it);
+    }
+    linked_list_destroy_iterator(it);
+
+
     return 0;
 }
 

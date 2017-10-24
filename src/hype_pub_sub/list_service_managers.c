@@ -6,13 +6,14 @@ ListServiceManagers *hype_pub_sub_list_service_managers_create()
     return linked_list_create();
 }
 
-int hype_pub_sub_list_service_managers_add(ListServiceManagers *list_serv_man, byte service_key[SHA1_BLOCK_SIZE])
+ServiceManager* hype_pub_sub_list_service_managers_add(ListServiceManagers *list_serv_man, byte service_key[SHA1_BLOCK_SIZE])
 {
-    if(hype_pub_sub_list_service_managers_find(list_serv_man, service_key) != NULL)
-        return -1;
+    if(list_serv_man != NULL)
+        return NULL;
 
     ServiceManager *serv_man = hype_pub_sub_service_manager_create(service_key);
-    return linked_list_add(list_serv_man, serv_man);
+    linked_list_add(list_serv_man, serv_man);
+    return serv_man;
 }
 
 int hype_pub_sub_list_service_managers_remove(ListServiceManagers *list_serv_man, byte service_key[])
