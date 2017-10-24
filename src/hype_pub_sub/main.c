@@ -24,9 +24,9 @@ int main()
 {
     //test_hash();
 
-    test_subscribers_list();
+    //test_subscribers_list();
 
-    //test_service_manager();
+    test_service_manager();
 
     //test_hype_pub_sub();
 
@@ -208,7 +208,7 @@ void print_service_manager_list(ListServiceManagers* srvManList)
     ListServiceManagerElement *current_serv_man = srvManList->head;
 
     int i=1;
-    do
+    while(current_serv_man != NULL)
     {
         printf("ServiceManager %i\n",i);
         printf("\tManagedServiceKey:  ");
@@ -216,6 +216,5 @@ void print_service_manager_list(ListServiceManagers* srvManList)
         current_serv_man = current_serv_man->next;
         i++;
     }
-    while(current_serv_man != NULL);
 
 }
