@@ -10,8 +10,5 @@ Client *hype_pub_sub_client_create(byte client_id[])
 
 void hype_pub_sub_client_destroy(Client *client)
 {
-    if(client == NULL)
-        return;
-
     free(client);
 }
