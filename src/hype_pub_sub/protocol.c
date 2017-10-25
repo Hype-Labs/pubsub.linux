@@ -145,9 +145,10 @@ int hype_pub_sub_protocol_receive_info_msg(Protocol *protocol, char *msg, size_t
 
     byte* service_key = (byte *) malloc(SHA1_BLOCK_SIZE * sizeof(char));
     memmove(service_key,msg+MESSAGE_TYPE_BYTE_SIZE, SHA1_BLOCK_SIZE);
-    size_t msg_content_size = msg_length - MESSAGE_TYPE_BYTE_SIZE - SHA1_BLOCK_SIZE;
+    size_t msg_content_size = msg_length - MESSAGE_TYPE_BYTE_SIZE - SHA1_BLOCK_SIZE + 1; // +1 to add \0
     char * msg_content = (char *) malloc(msg_content_size* sizeof(char));
     memmove(msg_content, (msg + MESSAGE_TYPE_BYTE_SIZE + SHA1_BLOCK_SIZE), msg_content_size);
+    msg_content[msg_content_size-1] = '\0';
     hype_pub_sub_process_info_req(protocol->application, service_key, msg_content, msg_content_size);
 
     return 0;
