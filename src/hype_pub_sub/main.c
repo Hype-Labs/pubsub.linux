@@ -249,16 +249,16 @@ void test_binary_utils()
     byte bin_str2[] = {0xf1, 0xa5};
 
 
-    bin_str = binary_utils_to_binary_str(bin_str1,2);
+    bin_str = binary_utils_get_formatted_binary_str(bin_str1,2);
     printf("bin_str1: %s\n", bin_str);
     free(bin_str);
 
-    bin_str = binary_utils_to_binary_str(bin_str2,2);
+    bin_str = binary_utils_get_formatted_binary_str(bin_str2,2);
     printf("bin_str2: %s\n", bin_str);
     free(bin_str);
 
     byte *xor_result = binary_utils_xor(bin_str1, bin_str2, 2);
-    bin_str = binary_utils_to_binary_str(xor_result,2);
+    bin_str = binary_utils_get_formatted_binary_str(xor_result,2);
 
     print_hex_char_array(xor_result, 2);
     printf("bin_str_: %s\n", bin_str);
