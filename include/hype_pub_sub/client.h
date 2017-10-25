@@ -3,8 +3,10 @@
 #define HYPE_PUB_SUB_CLIENT_H_INCLUDED_
 
 #include <stdlib.h>
+#include <stdbool.h>
 #include <string.h>
 
+#include "sha/sha1.h"
 #include "constants.h"
 #include "binary_utils.h"
 
@@ -14,6 +16,7 @@
 typedef struct Client_
 {
     byte id[HYPE_CONSTANTS_ID_BYTE_SIZE]; /**< ID of the Hype client. */
+    byte key[SHA1_BLOCK_SIZE]; /**< Key of the managed service. */
 } Client;
 
 /**
@@ -22,6 +25,8 @@ typedef struct Client_
  * @return Returns a pointer to the created struct or NULL if the space could not be allocated.
  */
 Client* hype_pub_sub_client_create(byte id[]);
+
+bool hype_pub_sub_client_is_id_equal(byte id1[], byte id2[]);
 
 /**
  * @brief Deallocates the space previously allocated for a Client struct.

@@ -17,7 +17,14 @@ int hype_pub_sub_issue_subscribe_service_req(HypePubSub* pub_sub, byte service_k
         return -1;
 
     byte *manager_id = hype_pub_sub_network_get_service_manager_id(pub_sub->network, service_key);
-    hype_pub_sub_protocol_send_subscribe_msg(service_key, manager_id);
+
+    // if this client is the manager of the service we don't need to send the subscribe message to
+    // the protocol manager
+    if(hype_pub_sub_client_is_id_equal(pub_sub->network->own_client->id, manager_id))
+        hype_pub_sub_process_subscribe_req(pub_sub, service_key, pub_sub->network->own_client->id);
+    else
+        hype_pub_sub_protocol_send_subscribe_msg(service_key, manager_id);
+
     return 0;
 }
 
@@ -27,7 +34,14 @@ int hype_pub_sub_issue_unsubscribe_service_req(HypePubSub *pub_sub, byte service
         return -1;
 
     byte *manager_id = hype_pub_sub_network_get_service_manager_id(pub_sub->network, service_key);
-    hype_pub_sub_protocol_send_unsubscribe_msg(service_key, manager_id);
+
+    // if this client is the manager of the service we don't need to send the unsubscribe message
+    // to the protocol manager
+    if(hype_pub_sub_client_is_id_equal(pub_sub->network->own_client->id, manager_id))
+        hype_pub_sub_process_unsubscribe_req(pub_sub, service_key, pub_sub->network->own_client->id);
+    else
+        hype_pub_sub_protocol_send_unsubscribe_msg(service_key, manager_id);
+
     return 0;
 }
 
@@ -37,7 +51,14 @@ int hype_pub_sub_issue_publish_req(HypePubSub* pub_sub, byte service_key[], char
         return -1;
 
     byte *manager_id = hype_pub_sub_network_get_service_manager_id(pub_sub->network, service_key);
-    hype_pub_sub_protocol_send_publish_msg(service_key, manager_id, msg, msg_length);
+
+    // if this client is the manager of the service we don't need to send the publish message
+    // to the protocol manager
+    if(hype_pub_sub_client_is_id_equal(pub_sub->network->own_client->id, manager_id))
+        hype_pub_sub_process_publish_req(pub_sub, service_key, msg, msg_length);
+    else
+        hype_pub_sub_protocol_send_publish_msg(service_key, manager_id, msg, msg_length);
+
     return 0;
 }
 
@@ -89,7 +110,12 @@ int hype_pub_sub_process_publish_req(HypePubSub* pub_sub, byte service_key[], ch
     while(linked_list_get_element_data_iterator(it) != NULL)
     {
         Client* client = (Client*) linked_list_get_element_data_iterator(it);
-        hype_pub_sub_protocol_send_info_msg(service_key, client->id, msg, msg_length);
+
+        if(hype_pub_sub_client_is_id_equal(pub_sub->network->own_client->id, client->id))
+            hype_pub_sub_process_info_req(pub_sub, service_key, msg, msg_length);
+        else
+            hype_pub_sub_protocol_send_info_msg(service_key, client->id, msg, msg_length);
+
         linked_list_advance_iterator(it);
     }
     linked_list_destroy_iterator(it);
@@ -125,7 +151,7 @@ static int hype_pub_sub_update_managed_services(HypePubSub* pub_sub)
         // Check if a new Hype client with a closer key to this service key has appeared. If this happens
         // we remove the service from the list of managed services of this Hype client.
         byte *new_manager_id = hype_pub_sub_network_get_service_manager_id(pub_sub->network, service_man->service_key);
-        if(memcmp(pub_sub->network->own_client_id, new_manager_id, HYPE_CONSTANTS_ID_BYTE_SIZE) != 0)
+        if(memcmp(pub_sub->network->own_client->id, new_manager_id, HYPE_CONSTANTS_ID_BYTE_SIZE) != 0)
             hype_pub_sub_list_service_managers_remove(pub_sub->managed_services, service_man->service_key);
 
         linked_list_advance_iterator(it);

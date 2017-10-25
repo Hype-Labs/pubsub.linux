@@ -247,7 +247,8 @@ void test_binary_utils()
     char *bin_str;
     byte bin_str1[] = {'a', 'b'};
     byte bin_str2[] = {0xf1, 0xa5};
-
+    byte bin_str3[] = {0xf1, 0xa5};
+    int higher = -1;
 
     bin_str = binary_utils_get_formatted_binary_str(bin_str1,2);
     printf("bin_str1: %s\n", bin_str);
@@ -263,4 +264,11 @@ void test_binary_utils()
     print_hex_char_array(xor_result, 2);
     printf("bin_str_: %s\n", bin_str);
     free(bin_str);
+
+    higher = binary_utils_get_higher_binary_string(bin_str1, bin_str2, 2);
+    printf("higher: %i\n", higher);
+    higher = binary_utils_get_higher_binary_string(bin_str2, bin_str1, 2);
+    printf("higher: %i\n", higher);
+    higher = binary_utils_get_higher_binary_string(bin_str2, bin_str3, 2);
+    printf("higher: %i\n", higher);
 }
