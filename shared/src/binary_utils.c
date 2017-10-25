@@ -10,6 +10,33 @@ byte* binary_utils_xor(byte *byte_array1, byte *byte_array2, size_t byte_array_s
     return str_xor;
 }
 
+int binary_utils_get_higher_binary_string(byte *byte_array1, byte *byte_array2, size_t byte_array_size)
+{
+    char *bin_str1 = binary_utils_to_binary_char_array(byte_array1, byte_array_size);
+    char *bin_str2 = binary_utils_to_binary_char_array(byte_array2, byte_array_size);
+
+    for(int i=0; i<byte_array_size; i++)
+    {
+        char digit_str1 = bin_str1[i];
+        char digit_str2 = bin_str2[i];
+
+        if(digit_str1 == digit_str2) // Search for the first difference in the binary digits
+            continue;
+
+        free(bin_str1);
+        free(bin_str2);
+
+        // When facing a bit difference the binary string
+        // which has the bit '1' is the higher one
+        if(digit_str1 == '1')
+            return 1; // The first string has a higher value
+        else
+            return 2; // The second string has a higher value
+    }
+
+    return 0;
+}
+
 char *binary_utils_to_binary_char_array(byte *byte_array, size_t byte_array_size)
 {
     // 8 binary chars per byte
