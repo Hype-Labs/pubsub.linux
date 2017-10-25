@@ -21,56 +21,92 @@ Protocol *hype_pub_sub_protocol_create(HypePubSub *pub_sub)
 
 int hype_pub_sub_protocol_send_subscribe_msg(byte service_key[], byte dest_network_id[])
 {
-    size_t packet_byte_size = MESSAGE_TYPE_BYTE_SIZE + SHA1_BLOCK_SIZE;
-    byte* packet = (byte*) malloc(packet_byte_size * sizeof(char));
-    byte msg_type = (byte) SUBSCRIBE_SERVICE;
-    memmove(packet, &msg_type, MESSAGE_TYPE_BYTE_SIZE); // set message type
-    memmove(packet+MESSAGE_TYPE_BYTE_SIZE, service_key, SHA1_BLOCK_SIZE); // set service key
+    byte type = (byte) SUBSCRIBE_SERVICE;
+    PacketField msg_type_field = {&type, MESSAGE_TYPE_BYTE_SIZE };
+    PacketField ser_key_field = {service_key, SHA1_BLOCK_SIZE };
+    size_t n_fields = 2;
 
-    print_packet(packet, packet_byte_size);
+    byte* packet = hype_pub_sub_protocol_build_packet(n_fields, &msg_type_field, &ser_key_field) ;
+
+    print_packet(packet, MESSAGE_TYPE_BYTE_SIZE+SHA1_BLOCK_SIZE);
     // TODO: msg memory must freed
     return 0;
 }
 
 int hype_pub_sub_protocol_send_unsubscribe_msg(byte service_key[], byte dest_network_id[])
 {
-    size_t packet_byte_size = MESSAGE_TYPE_BYTE_SIZE + SHA1_BLOCK_SIZE;
-    byte* packet = (byte*) malloc(packet_byte_size * sizeof(char));
-    byte msg_type = (byte) UNSUBSCRIBE_SERVICE;
-    memmove(packet, &msg_type, MESSAGE_TYPE_BYTE_SIZE); // set message type
-    memmove(packet+MESSAGE_TYPE_BYTE_SIZE, service_key, SHA1_BLOCK_SIZE); // set service key
+    byte type = (byte) UNSUBSCRIBE_SERVICE;
+    PacketField msg_type_field = {&type, MESSAGE_TYPE_BYTE_SIZE };
+    PacketField ser_key_field = {service_key, SHA1_BLOCK_SIZE };
+    size_t n_fields = 2;
 
-    print_packet(packet, packet_byte_size);
+    byte* packet = hype_pub_sub_protocol_build_packet(n_fields, &msg_type_field, &ser_key_field) ;
+
+    print_packet(packet, MESSAGE_TYPE_BYTE_SIZE+SHA1_BLOCK_SIZE);
     // TODO: msg memory must freed
     return 0;
 }
 
 int hype_pub_sub_protocol_send_publish_msg(byte service_key[], byte dest_network_id[], char *msg, size_t msg_length)
 {
-    size_t packet_byte_size = MESSAGE_TYPE_BYTE_SIZE + SHA1_BLOCK_SIZE + msg_length;
-    byte* packet = (byte*) malloc(packet_byte_size * sizeof(char));
-    byte msg_type = (byte) PUBLISH;
-    memmove(packet, &msg_type, MESSAGE_TYPE_BYTE_SIZE); // set message type
-    memmove(packet+MESSAGE_TYPE_BYTE_SIZE, service_key, SHA1_BLOCK_SIZE); // set service key
-    memmove(packet+MESSAGE_TYPE_BYTE_SIZE+SHA1_BLOCK_SIZE, msg, msg_length); // set publish message
+    byte type = (byte) PUBLISH;
+    PacketField msg_type_field = {&type, MESSAGE_TYPE_BYTE_SIZE };
+    PacketField ser_key_field = {service_key, SHA1_BLOCK_SIZE };
+    PacketField msg_field = {(byte *) msg, msg_length };
+    size_t n_fields = 3;
 
-    print_packet(packet, packet_byte_size);
+    byte* packet = hype_pub_sub_protocol_build_packet(n_fields, &msg_type_field, &ser_key_field, &msg_field) ;
+
+    print_packet(packet, MESSAGE_TYPE_BYTE_SIZE+SHA1_BLOCK_SIZE+msg_length);
     // TODO: msg memory must freed
     return 0;
 }
 
 int hype_pub_sub_protocol_send_info_msg(byte service_key[], byte dest_network_id[], char *msg, size_t msg_length)
 {
-    size_t packet_byte_size = MESSAGE_TYPE_BYTE_SIZE + SHA1_BLOCK_SIZE + msg_length;
-    byte* packet = (byte*) malloc(packet_byte_size * sizeof(char));
-    byte msg_type = (byte) INFO;
-    memmove(packet, &msg_type, MESSAGE_TYPE_BYTE_SIZE); // set message type
-    memmove(packet+MESSAGE_TYPE_BYTE_SIZE, service_key, SHA1_BLOCK_SIZE); // set service key
-    memmove(packet+MESSAGE_TYPE_BYTE_SIZE+SHA1_BLOCK_SIZE, msg, msg_length); // set info message
+    byte type = (byte) INFO;
+    PacketField msg_type_field = {&type, MESSAGE_TYPE_BYTE_SIZE };
+    PacketField ser_key_field = {service_key, SHA1_BLOCK_SIZE };
+    PacketField msg_field = {(byte *) msg, msg_length };
+    size_t n_fields = 3;
 
-    print_packet(packet, packet_byte_size);
+    byte* packet = hype_pub_sub_protocol_build_packet(n_fields, &msg_type_field, &ser_key_field, &msg_field) ;
+
+    print_packet(packet, MESSAGE_TYPE_BYTE_SIZE+SHA1_BLOCK_SIZE+msg_length);
     // TODO: msg memory must freed
     return 0;
+}
+
+byte* hype_pub_sub_protocol_build_packet(int n_fields, ...)
+{
+    if(n_fields <=0)
+        return NULL;
+
+    va_list p_fields;
+    size_t p_size = 0;
+
+    va_start(p_fields, n_fields);
+
+    // Get full packet size
+    for (int i = 0; i < n_fields; i++)
+        p_size += va_arg(p_fields, PacketField*)->size;
+
+    byte *packet = (byte*) malloc(p_size * sizeof(byte));
+
+    va_start(p_fields, n_fields); // re-initialize the list to re-iterate
+
+    // Build packet by joining the fields
+    size_t bytes_written = 0;
+
+    for (int i = 0; i < n_fields; i++)
+    {
+        PacketField *field = va_arg(p_fields, PacketField*);
+        memmove(packet+bytes_written, field->data, field->size);
+        bytes_written += field->size;
+    }
+
+    va_end(p_fields);
+    return packet;
 }
 
 int hype_pub_sub_protocol_receive_msg(Protocol *protocol, byte origin_network_id[], char *msg, size_t msg_length)

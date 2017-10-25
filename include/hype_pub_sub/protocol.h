@@ -2,6 +2,8 @@
 #ifndef HYPE_PUB_SUB_PROTOCOL_H_INCLUDED_
 #define HYPE_PUB_SUB_PROTOCOL_H_INCLUDED_
 
+#include <stdarg.h>
+
 #include "constants.h"
 #include "hype_pub_sub.h"
 
@@ -22,6 +24,12 @@ typedef struct Protocol_
     HypePubSub* application; /**< Hype ID of this client. */
 } Protocol;
 
+typedef struct PacketField_
+{
+    byte * data;
+    size_t size;
+} PacketField;
+
 Protocol* hype_pub_sub_protocol_create(HypePubSub* pub_sub);
 
 int hype_pub_sub_protocol_send_subscribe_msg(byte service_key[SHA1_BLOCK_SIZE], byte dest_network_id[HYPE_CONSTANTS_ID_BYTE_SIZE]);
@@ -31,6 +39,8 @@ int hype_pub_sub_protocol_send_unsubscribe_msg(byte service_key[SHA1_BLOCK_SIZE]
 int hype_pub_sub_protocol_send_publish_msg(byte service_key[SHA1_BLOCK_SIZE], byte dest_network_id[HYPE_CONSTANTS_ID_BYTE_SIZE], char* msg, size_t msg_length);
 
 int hype_pub_sub_protocol_send_info_msg(byte service_key[SHA1_BLOCK_SIZE], byte dest_network_id[HYPE_CONSTANTS_ID_BYTE_SIZE], char* msg, size_t msg_length);
+
+byte *hype_pub_sub_protocol_build_packet(int n_fields, ...);
 
 int hype_pub_sub_protocol_receive_msg(Protocol *protocol, byte origin_network_id[], char *msg, size_t msg_length);
 
