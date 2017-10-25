@@ -6,6 +6,7 @@
 #include <string.h>
 
 #include "constants.h"
+#include "binary_utils.h"
 
 /**
  * @brief This struct represents an Hype client.

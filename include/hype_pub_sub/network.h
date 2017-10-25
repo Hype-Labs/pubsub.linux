@@ -8,6 +8,7 @@
 #include "sha/sha1.h"
 #include "list_clients.h"
 #include "constants.h"
+#include "binary_utils.h"
 
 
 typedef struct Network_

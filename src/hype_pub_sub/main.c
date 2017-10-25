@@ -6,6 +6,7 @@
 #include "../external/include/sha/sha1.h"
 
 void test_hash();
+void test_binary_utils();
 void test_message_construction();
 void test_subscribers_list();
 void test_service_manager();
@@ -23,10 +24,11 @@ byte EXAMPLE_ID4[] = "\x10\x11\x12\x01\x02\x03\x04\x05\x06\x07\x08\x09";
 
 int main()
 {
-    //test_hash();
+    /*
+    test_hash();
 
     test_message_construction();
-    /*
+
     test_subscribers_list();
 
     printf("\n------------------------\n");
@@ -41,6 +43,8 @@ int main()
 
     test_hype_pub_sub();
     */
+
+    test_binary_utils();
 
     return 0;
 }
@@ -236,4 +240,27 @@ void print_service_manager_list(ListServiceManagers* srvManList)
     }
     linked_list_destroy_iterator(it);
 
+}
+
+void test_binary_utils()
+{
+    char *bin_str;
+    byte bin_str1[] = {'a', 'b'};
+    byte bin_str2[] = {0xf1, 0xa5};
+
+
+    bin_str = binary_utils_to_binary_str(bin_str1,2);
+    printf("bin_str1: %s\n", bin_str);
+    free(bin_str);
+
+    bin_str = binary_utils_to_binary_str(bin_str2,2);
+    printf("bin_str2: %s\n", bin_str);
+    free(bin_str);
+
+    byte *xor_result = binary_utils_xor(bin_str1, bin_str2, 2);
+    bin_str = binary_utils_to_binary_str(xor_result,2);
+
+    print_hex_char_array(xor_result, 2);
+    printf("bin_str_: %s\n", bin_str);
+    free(bin_str);
 }

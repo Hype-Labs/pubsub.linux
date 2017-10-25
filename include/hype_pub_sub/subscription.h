@@ -7,6 +7,7 @@
 
 #include "constants.h"
 #include "sha/sha1.h"
+#include "binary_utils.h"
 
 /**
  * @brief
