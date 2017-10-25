@@ -3,6 +3,7 @@
 #define HYPE_PUB_SUB_H_INCLUDED_
 
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "list_service_managers.h"
 #include "list_subscriptions.h"
@@ -90,6 +91,8 @@ int hype_pub_sub_process_unsubscribe_req(HypePubSub* pub_sub, byte service_key[]
  */
 int hype_pub_sub_process_publish_req(HypePubSub* pub_sub, byte service_key[], char* msg, size_t msg_length);
 
+int hype_pub_sub_process_info_req(HypePubSub* pub_sub, byte service_key[], char* msg, size_t msg_length);
+
 static int hype_pub_sub_update_managed_services(HypePubSub* pub_sub);
 
 static int hype_pub_sub_update_subscriptions(HypePubSub* pub_sub);
@@ -100,6 +103,7 @@ static int hype_pub_sub_update_subscriptions(HypePubSub* pub_sub);
  */
 void hype_pub_sub_destroy(HypePubSub* pub_sub);
 
+void print_hex_array(unsigned char* array, size_t len);
 
 // TODO: Review this later. Currently it seems that these methods are replaced by the hype_pub_sub_update_subscriptions() and hype_pub_sub_update_managed_services() methods
 // int hype_pub_sub_process_change_service_manager_req(HypePubSub* pub_sub, byte service_key[SHA1_BLOCK_SIZE], byte new_manager_id[HYPE_ID_BYTE_SIZE], byte** subscribers_id[HYPE_ID_BYTE_SIZE]);

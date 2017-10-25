@@ -97,6 +97,24 @@ int hype_pub_sub_process_publish_req(HypePubSub* pub_sub, byte service_key[], ch
     return 0;
 }
 
+int hype_pub_sub_process_info_req(HypePubSub* pub_sub, byte service_key[], char* msg, size_t msg_length)
+{
+    if(pub_sub == NULL)
+        return -1;
+
+    Subscription *subs = hype_pub_sub_list_subscriptions_find(pub_sub->managed_services, service_key);
+
+    printf("ServiceName:");
+    if(subs != NULL)
+        printf(" %s \n", subs->service_name);
+    else
+        printf(" --- \n");
+
+    printf("ServiceKey: 0x"); print_hex_array(service_key, SHA1_BLOCK_SIZE);
+    printf("Message: %s", msg);
+    return 0;
+}
+
 static int hype_pub_sub_update_managed_services(HypePubSub* pub_sub)
 {
     LinkedListIterator *it = linked_list_create_iterator(pub_sub->managed_services);
@@ -149,4 +167,11 @@ void hype_pub_sub_destroy(HypePubSub *pub_sub)
     hype_pub_sub_network_destroy(pub_sub->network);
     hype_pub_sub_protocol_destroy(pub_sub->protocol);
     free(pub_sub);
+}
+
+void print_hex_array(unsigned char* array, size_t len)
+{
+    for(int i=0; i<len; i++)
+        printf("%.2x", array[i]);
+    printf("\n");
 }

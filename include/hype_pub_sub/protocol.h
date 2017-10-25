@@ -34,11 +34,11 @@ int hype_pub_sub_protocol_send_info_msg(byte service_key[SHA1_BLOCK_SIZE], byte 
 
 int hype_pub_sub_protocol_receive_msg(Protocol *protocol, byte origin_network_id[], char *msg, size_t msg_length);
 
-int hype_pub_sub_protocol_receive_subscribe_msg(Protocol* protocol, char* msg);
+int hype_pub_sub_protocol_receive_subscribe_msg(Protocol* protocol, byte origin_network_id[], char* msg, size_t msg_length);
 
-int hype_pub_sub_protocol_receive_unsubscribe_msg(Protocol* protocol, char* msg);
+int hype_pub_sub_protocol_receive_unsubscribe_msg(Protocol* protocol, byte origin_network_id[], char* msg, size_t msg_length);
 
-int hype_pub_sub_protocol_receive_publish_msg(Protocol* protocol, char* msg);
+int hype_pub_sub_protocol_receive_publish_msg(Protocol* protocol, byte origin_network_id[], char* msg, size_t msg_length);
 
 int hype_pub_sub_protocol_receive_info_msg(Protocol* protocol, char* msg, size_t msg_length);
 
