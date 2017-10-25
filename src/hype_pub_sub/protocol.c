@@ -1,17 +1,6 @@
 
 #include "hype_pub_sub/protocol.h"
 
-
-#include "stdio.h"
-void print_packet(unsigned char* array, size_t len)
-{
-    printf("ProtocolPacket:\n");
-    for(int i=0; i<len; i++)
-        printf("%.2x", array[i]);
-
-    printf("\n");
-}
-
 Protocol *hype_pub_sub_protocol_create(HypePubSub *pub_sub)
 {
     Protocol *prot = (Protocol *) malloc(sizeof(Protocol));
@@ -28,7 +17,7 @@ int hype_pub_sub_protocol_send_subscribe_msg(byte service_key[], byte dest_netwo
 
     byte* packet = hype_pub_sub_protocol_build_packet(n_fields, &msg_type_field, &ser_key_field) ;
 
-    print_packet(packet, MESSAGE_TYPE_BYTE_SIZE+SHA1_BLOCK_SIZE);
+    print_hex_array(packet, MESSAGE_TYPE_BYTE_SIZE+SHA1_BLOCK_SIZE);
     // TODO: msg memory must freed
     return 0;
 }
@@ -42,7 +31,7 @@ int hype_pub_sub_protocol_send_unsubscribe_msg(byte service_key[], byte dest_net
 
     byte* packet = hype_pub_sub_protocol_build_packet(n_fields, &msg_type_field, &ser_key_field) ;
 
-    print_packet(packet, MESSAGE_TYPE_BYTE_SIZE+SHA1_BLOCK_SIZE);
+    print_hex_array(packet, MESSAGE_TYPE_BYTE_SIZE+SHA1_BLOCK_SIZE);
     // TODO: msg memory must freed
     return 0;
 }
@@ -57,7 +46,7 @@ int hype_pub_sub_protocol_send_publish_msg(byte service_key[], byte dest_network
 
     byte* packet = hype_pub_sub_protocol_build_packet(n_fields, &msg_type_field, &ser_key_field, &msg_field) ;
 
-    print_packet(packet, MESSAGE_TYPE_BYTE_SIZE+SHA1_BLOCK_SIZE+msg_length);
+    print_hex_array(packet, MESSAGE_TYPE_BYTE_SIZE+SHA1_BLOCK_SIZE+msg_length);
     // TODO: msg memory must freed
     return 0;
 }
@@ -72,7 +61,7 @@ int hype_pub_sub_protocol_send_info_msg(byte service_key[], byte dest_network_id
 
     byte* packet = hype_pub_sub_protocol_build_packet(n_fields, &msg_type_field, &ser_key_field, &msg_field) ;
 
-    print_packet(packet, MESSAGE_TYPE_BYTE_SIZE+SHA1_BLOCK_SIZE+msg_length);
+    print_hex_array(packet, MESSAGE_TYPE_BYTE_SIZE+SHA1_BLOCK_SIZE+msg_length);
     // TODO: msg memory must freed
     return 0;
 }
