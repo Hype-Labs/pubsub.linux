@@ -14,7 +14,7 @@ void linked_list_test_int();
 
 // Callbacks for integer linked list
 bool compare_int_elem(void *val1, void *val2);
-void free_int_elem();
+void free_int_elem(void *val);
 int * create_int(int val);
 
 #endif /* SHARED_LINKED_LIST_TEST_H_INCLUDED_ */

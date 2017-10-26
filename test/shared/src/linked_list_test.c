@@ -221,13 +221,16 @@ void linked_list_test_int()
     ////////////////////////////////////////////////////
 
     linked_list_add(list, create_int(int_to_add1));
+    LinkedListElement * elem1 = linked_list_find(list, &int_to_add1, compare_int_elem);
     linked_list_add(list, create_int(int_to_add2));
     linked_list_add(list, create_int(int_to_add3));
     linked_list_add(list, create_int(int_to_add4));
     linked_list_add(list, create_int(int_to_add5));
     CU_ASSERT(list->size == 5);
 
+    CU_ASSERT_PTR_NOT_NULL(elem1);
     linked_list_destroy(&list, free_int_elem);
+    CU_ASSERT_PTR_NULL(elem1->data);
 
     // test operations when the list is null
     CU_ASSERT(linked_list_add(list, create_int(int_to_add1)) == -1);
