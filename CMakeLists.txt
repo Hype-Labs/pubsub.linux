@@ -45,11 +45,15 @@ if(HYPE_PUB_SUB_COMPILE_TESTS) # Compile for testing
 
     find_library(C_UNIT cunit)
     if(NOT C_UNIT)
-        message(FATAL_ERROR "CUnit not available")
+        message(FATAL_ERROR "CUnit library not found (libcunit.dylib)")
     endif()
 
-    set(CUNIT_HEADERS_DIR "/usr/local/Cellar/cunit/2.1-3/include")
-    include_directories( ${CUNIT_HEADERS_DIR})
+    find_path(CUNIT_INCLUDE_DIRS "CUnit")
+    if(NOT CUNIT_INCLUDE_DIRS)
+        message(FATAL_ERROR "CUnit header files not found")
+    endif()
+
+    include_directories(${CUNIT_INCLUDE_DIRS})
 
     set(TEST_SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/test/src")
     file(GLOB_RECURSE MY_TEST_C_SOURCES "${TEST_SRC_DIR}/*.c")
@@ -70,6 +74,7 @@ if(HYPE_PUB_SUB_COMPILE_TESTS) # Compile for testing
 
     add_test(TestHypePubSub ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/TestHypePubSub)
     target_link_libraries(TestHypePubSub ${C_UNIT})
+
 endif()
 
 
