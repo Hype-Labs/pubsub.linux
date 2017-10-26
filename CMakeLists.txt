@@ -39,10 +39,7 @@ target_link_libraries(${PROJECT_NAME}
 
 if(HYPE_PUB_SUB_COMPILE_TESTS) # Compile for testing
 
-    # CUnit Paths:
-    # "/usr/local/Cellar/cunit/2.1-3/include"
-    # "/usr/local/lib/libcunit.dylib"
-
+    # Setup CUnit framework
     find_library(C_UNIT cunit)
     if(NOT C_UNIT)
         message(FATAL_ERROR "CUnit library not found (libcunit.dylib)")
@@ -52,14 +49,21 @@ if(HYPE_PUB_SUB_COMPILE_TESTS) # Compile for testing
     if(NOT CUNIT_INCLUDE_DIRS)
         message(FATAL_ERROR "CUnit header files not found")
     endif()
-
     include_directories(${CUNIT_INCLUDE_DIRS})
 
-    set(TEST_SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/test/src")
+    # Define the directory of the testing source code and of the headers
+    set(TEST_SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/test/src/hype_pub_sub")
+    set(TEST_INC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/test/include/hype_pub_sub")
     file(GLOB_RECURSE MY_TEST_C_SOURCES "${TEST_SRC_DIR}/*.c")
+    file(GLOB_RECURSE MY_TEST_C_INCLUDES "${TEST_INC_DIR}/*.h")
+    include_directories( ${TEST_INC_DIR})
 
+    # Define the directory of the shared testing source code
     set(SHARED_TEST_SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/test/shared/src")
+    set(SHARED_TEST_INC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/test/shared/include")
     file(GLOB_RECURSE MY_SHARED_TEST_C_SOURCES "${SHARED_TEST_SRC_DIR}/*.c")
+    file(GLOB_RECURSE MY_SHARED_TEST_C_INCLUDES "${SHARED_TEST_INC_DIR}/*.h")
+    include_directories( ${SHARED_TEST_INC_DIR})
 
     enable_testing()
     list(REMOVE_ITEM MY_C_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/hype_pub_sub/main.c")
@@ -69,7 +73,10 @@ if(HYPE_PUB_SUB_COMPILE_TESTS) # Compile for testing
                                     ${MY_SHARED_C_INCLUDES}
                                     ${SHA1_C_SOURCES}
                                     ${SHA1_C_INCLUDES}
-                                    ${MY_TEST_C_SOURCES})
+                                    ${MY_SHARED_TEST_C_SOURCES}
+                                    ${MY_SHARED_TEST_C_INCLUDES}
+                                    ${MY_TEST_C_SOURCES}
+                                    ${MY_TEST_C_INCLUDES})
 
 
     add_test(TestHypePubSub ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/TestHypePubSub)

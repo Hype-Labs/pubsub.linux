@@ -3,6 +3,7 @@
 
 #include <CUnit/Basic.h>
 
+#include "linked_list_test.h"
 
 
 void test1(void)
