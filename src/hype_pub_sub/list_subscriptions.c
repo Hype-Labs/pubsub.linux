@@ -36,7 +36,7 @@ int hype_pub_sub_list_subscriptions_remove(ListSubscriptions *list_subscrpt, cha
 
 void hype_pub_sub_list_subscriptions_destroy(ListSubscriptions *list_subscrpt)
 {
-    linked_list_destroy(list_subscrpt, hype_pub_sub_list_subscriptions_free_data_callback);
+    linked_list_destroy(&list_subscrpt, hype_pub_sub_list_subscriptions_free_data_callback);
 }
 
 Subscription* hype_pub_sub_list_subscriptions_find(ListSubscriptions* list_subscrpt, byte service_key[])

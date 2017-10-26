@@ -118,7 +118,7 @@ int hype_pub_sub_process_publish_req(HypePubSub* pub_sub, byte service_key[], ch
 
         linked_list_advance_iterator(it);
     }
-    linked_list_destroy_iterator(it);
+    linked_list_destroy_iterator(&it);
 
     return 0;
 }
@@ -156,7 +156,7 @@ static int hype_pub_sub_update_managed_services(HypePubSub* pub_sub)
 
         linked_list_advance_iterator(it);
     }
-    linked_list_destroy_iterator(it);
+    linked_list_destroy_iterator(&it);
     return 0;
 }
 
@@ -181,7 +181,7 @@ static int hype_pub_sub_update_subscriptions(HypePubSub* pub_sub)
 
         linked_list_advance_iterator(it);
     }
-    linked_list_destroy_iterator(it);
+    linked_list_destroy_iterator(&it);
 
     return 0;
 }

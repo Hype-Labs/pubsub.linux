@@ -204,7 +204,7 @@ void print_clients_list(ListClients* clientList)
         print_hex_char_array(client->id, HYPE_CONSTANTS_ID_BYTE_SIZE);
         linked_list_advance_iterator(it);
     }
-    linked_list_destroy_iterator(it);
+    linked_list_destroy_iterator(&it);
 }
 
 void print_subscription_list(ListSubscriptions* subsList)
@@ -222,7 +222,7 @@ void print_subscription_list(ListSubscriptions* subsList)
         printf("\tServiceName:  %s\n", subs->service_name);
         linked_list_advance_iterator(it);
     }
-    linked_list_destroy_iterator(it);
+    linked_list_destroy_iterator(&it);
 }
 
 void print_service_manager_list(ListServiceManagers* srvManList)
@@ -238,7 +238,7 @@ void print_service_manager_list(ListServiceManagers* srvManList)
         printf("\tManagedServiceKey:  "); print_hex_char_array(serMan->service_key, SHA1_BLOCK_SIZE);
         linked_list_advance_iterator(it);
     }
-    linked_list_destroy_iterator(it);
+    linked_list_destroy_iterator(&it);
 
 }
 

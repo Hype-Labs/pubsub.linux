@@ -34,7 +34,7 @@ byte *hype_pub_sub_network_get_service_manager_id(Network* net, byte service_key
 
         linked_list_advance_iterator(it);
     }
-    linked_list_destroy_iterator(it);
+    linked_list_destroy_iterator(&it);
 
 
     free(lowest_dist);

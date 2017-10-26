@@ -29,7 +29,7 @@ int hype_pub_sub_list_clients_remove(ListClients *list_cl, byte client_id[])
 
 void hype_pub_sub_list_clients_destroy(ListClients *list_cl)
 {
-    linked_list_destroy(list_cl, hype_pub_sub_list_clients_free_data_callback);
+    linked_list_destroy(&list_cl, hype_pub_sub_list_clients_free_data_callback);
 }
 
 Client* hype_pub_sub_list_clients_find(ListClients* list_cl, byte client_id[])

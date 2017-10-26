@@ -49,10 +49,10 @@ void* linked_list_get_element_data_iterator(LinkedListIterator *it);
 
 void linked_list_advance_iterator(LinkedListIterator *it);
 
-void linked_list_destroy_iterator(LinkedListIterator *it);
+void linked_list_destroy_iterator(LinkedListIterator **it);
 
 void linked_list_destroy_element(LinkedListElement *element, void (*free_element_data) (void*));
 
-void linked_list_destroy(LinkedList *list, void (*free_element_data) (void*));
+void linked_list_destroy(LinkedList **list, void (*free_element_data) (void*));
 
 #endif /* SHARED_LINKED_LIST_H_INCLUDED_ */

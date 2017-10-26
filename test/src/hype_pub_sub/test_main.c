@@ -6,12 +6,7 @@
 #include "linked_list_test.h"
 
 
-void test1(void)
-{
-
-}
-
-void test2()
+void test1()
 {
 
 }
@@ -31,8 +26,8 @@ int main()
       return CU_get_error();
    }
 
-   if ((CU_add_test(pSuite, "Test 1", test1) == NULL) ||
-       (CU_add_test(pSuite, "Test 2", test2) == NULL))
+   if ((CU_add_test(pSuite, "Test the generic linked list", linked_list_test) == NULL) ||
+       (CU_add_test(pSuite, "Test 1", test1) == NULL))
    {
       CU_cleanup_registry();
       return CU_get_error();

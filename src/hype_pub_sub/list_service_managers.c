@@ -29,7 +29,7 @@ int hype_pub_sub_list_service_managers_remove(ListServiceManagers *list_serv_man
 
 void hype_pub_sub_list_service_managers_destroy(ListServiceManagers *list_serv_man)
 {
-    linked_list_destroy(list_serv_man, hype_pub_sub_list_service_managers_free_data_callback);
+    linked_list_destroy(&list_serv_man, hype_pub_sub_list_service_managers_free_data_callback);
 }
 
 ServiceManager* hype_pub_sub_list_service_managers_find(ListServiceManagers* list_serv_man, byte service_key[])
