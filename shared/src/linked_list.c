@@ -104,11 +104,6 @@ bool linked_list_is_empty(LinkedList *list)
     return false;
 }
 
-void linked_list_iterator(LinkedListElement **it)
-{
-    (*it) = (*it)->next;
-}
-
 LinkedListElement* linked_list_find(LinkedList* list, void *elem_data, bool (*compare_elements_data) (void*, void*)) // its responsibility of the list to prevent duplicates if needed
 {
     if(list == NULL)

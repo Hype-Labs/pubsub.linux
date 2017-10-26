@@ -39,8 +39,6 @@ int linked_list_remove(LinkedList *list, void* elem_data, bool (*compare_element
 
 bool linked_list_is_empty(LinkedList* list);
 
-void linked_list_iterator(LinkedListElement **it);
-
 LinkedListElement* linked_list_find(LinkedList* list, void *elem_data, bool (*compare_elements_data) (void*, void*));
 
 void linked_list_reset_iterator(LinkedListIterator *it);
