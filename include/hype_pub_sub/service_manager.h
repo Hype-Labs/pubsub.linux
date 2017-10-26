@@ -25,6 +25,6 @@ int hype_pub_sub_service_manager_add_subscriber(ServiceManager* serv_man, byte c
 
 int hype_pub_sub_service_manager_remove_subscriber(ServiceManager* serv_man, byte client_id[]);
 
-void hype_pub_sub_service_manager_destroy(ServiceManager* serv_man);
+void hype_pub_sub_service_manager_destroy(ServiceManager **serv_man);
 
 #endif /* HYPE_PUB_SUB_SERVICE_MANAGER_H_INCLUDED_ */

@@ -13,11 +13,11 @@ Subscription *hype_pub_sub_subscription_create(char *serv_name, size_t serv_name
     return subs;
 }
 
-void hype_pub_sub_subscription_destroy(Subscription *subs)
+void hype_pub_sub_subscription_destroy(Subscription **subs)
 {
-    if(subs == NULL)
+    if((*subs) == NULL)
         return;
 
-    free(subs->service_name);
-    free(subs);
+    free((*subs)->service_name);
+    free(*subs);
 }

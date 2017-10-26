@@ -16,7 +16,8 @@ bool hype_pub_sub_client_is_id_equal(byte id1[], byte id2[])
     return false;
 }
 
-void hype_pub_sub_client_destroy(Client *client)
+void hype_pub_sub_client_destroy(Client **client)
 {
-    free(client);
+    free(*client);
+    (*client) = NULL;
 }

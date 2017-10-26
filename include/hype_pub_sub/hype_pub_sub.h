@@ -101,7 +101,7 @@ static int hype_pub_sub_update_subscriptions(HypePubSub* pub_sub);
  * @brief Deallocates the space previously allocated for a HypePubSub struct
  * @param pub_sub Pointer to the HypePubSub struct to be deallocated.
  */
-void hype_pub_sub_destroy(HypePubSub* pub_sub);
+void hype_pub_sub_destroy(HypePubSub **pub_sub);
 
 void print_hex_array(unsigned char* array, size_t len);
 

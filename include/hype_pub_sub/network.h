@@ -27,6 +27,6 @@ bool hype_pub_sub_network_is_client_online(Network* net, byte client_id[HYPE_CON
 
 byte* hype_pub_sub_network_get_own_id();
 
-void hype_pub_sub_network_destroy(Network* net);
+void hype_pub_sub_network_destroy(Network **net);
 
 #endif /* HYPE_PUB_SUB_NETWORK_H_INCLUDED_ */

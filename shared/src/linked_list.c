@@ -62,7 +62,7 @@ int linked_list_add(LinkedList* list, void *elem_data)
     return 0;
 }
 
-int linked_list_remove(LinkedList *list, void* elem_data, bool (*compare_elements_data) (void*, void*), void (*free_element_data) (void*))
+int linked_list_remove(LinkedList *list, void* elem_data, bool (*compare_elements_data) (void*, void*), void (*free_element_data) (void**))
 {
     if(linked_list_is_empty(list))
         return -1;
@@ -71,7 +71,7 @@ int linked_list_remove(LinkedList *list, void* elem_data, bool (*compare_element
     if(compare_elements_data(list->head->data, elem_data) == true)
     {
         LinkedListElement *next_head = list->head->next;
-        free_element_data(list->head->data);
+        free_element_data(&(list->head->data));
         free(list->head);
         list->head = next_head;
         (list->size)--;
@@ -85,7 +85,7 @@ int linked_list_remove(LinkedList *list, void* elem_data, bool (*compare_element
         if(compare_elements_data(current_elem->data, elem_data) == true)
         {
             previous_elem->next = current_elem->next;
-            linked_list_destroy_element(current_elem, free_element_data);
+            linked_list_destroy_element(&current_elem, free_element_data);
             (list->size)--;
             return 0;
         }
@@ -148,13 +148,14 @@ void linked_list_destroy_iterator(LinkedListIterator **it)
     (*it) = NULL;
 }
 
-void linked_list_destroy_element(LinkedListElement *element, void (*free_element_data) (void*))
+void linked_list_destroy_element(LinkedListElement **element, void (*free_element_data) (void**))
 {
-    free_element_data(element->data);
-    free(element);
+    free_element_data(&((*element)->data));
+    free(*element);
+    (*element) = NULL;
 }
 
-void linked_list_destroy(LinkedList **list, void (*free_element_data) (void*))
+void linked_list_destroy(LinkedList **list, void (*free_element_data) (void**))
 {
     if((*list) == NULL)
         return;
@@ -163,7 +164,7 @@ void linked_list_destroy(LinkedList **list, void (*free_element_data) (void*))
     while(current_elem != NULL)
     {
         LinkedListElement *next_elem = current_elem->next;
-        linked_list_destroy_element(current_elem, free_element_data);
+        linked_list_destroy_element(&current_elem, free_element_data);
         current_elem = next_elem;
     }
 

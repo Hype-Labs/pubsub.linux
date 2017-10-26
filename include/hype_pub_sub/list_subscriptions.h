@@ -25,6 +25,6 @@ Subscription* hype_pub_sub_list_subscriptions_find(ListSubscriptions* list_subsc
 
 bool hype_pub_sub_list_subscriptions_compare_data_callback(void* subscrpt1, void* subscrpt2);
 
-void hype_pub_sub_list_subscriptions_free_data_callback(void* subscrpt);
+void hype_pub_sub_list_subscriptions_free_data_callback(void** subscrpt);
 
 #endif /* HYPE_PUB_SUB_LIST_SUBSCRIPTIONS_H_INCLUDED_ */

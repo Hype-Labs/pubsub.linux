@@ -53,7 +53,8 @@ bool hype_pub_sub_list_service_managers_compare_data_callback(void *serv_man1, v
     return false;
 }
 
-void hype_pub_sub_list_service_managers_free_data_callback(void *serv_man)
+void hype_pub_sub_list_service_managers_free_data_callback(void **serv_man)
 {
-    hype_pub_sub_service_manager_destroy((ServiceManager*) serv_man);
+    ServiceManager **ptr = (ServiceManager**) serv_man;
+    hype_pub_sub_service_manager_destroy(ptr);
 }

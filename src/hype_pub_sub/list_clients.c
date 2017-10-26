@@ -53,7 +53,8 @@ bool hype_pub_sub_list_clients_compare_data_callback(void *cl1, void *cl2)
     return false;
 }
 
-void hype_pub_sub_list_clients_free_data_callback(void* cl)
+void hype_pub_sub_list_clients_free_data_callback(void** cl)
 {
-    hype_pub_sub_client_destroy(((Client*) cl));
+    Client **ptr = (Client**) cl;
+    hype_pub_sub_client_destroy(ptr);
 }

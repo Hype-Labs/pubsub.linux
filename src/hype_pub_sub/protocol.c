@@ -193,7 +193,8 @@ MessageType hype_pub_sub_protocol_get_message_type(char *msg)
         return -1; // This should never happen
 }
 
-void hype_pub_sub_protocol_destroy(Protocol *protocol)
+void hype_pub_sub_protocol_destroy(Protocol **protocol)
 {
-    free(protocol);
+    free(*protocol);
+    (*protocol) = NULL;
 }

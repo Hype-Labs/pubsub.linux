@@ -29,6 +29,6 @@ Client* hype_pub_sub_list_clients_find(ListClients* list_cl, byte client_id[]);
 
 bool hype_pub_sub_list_clients_compare_data_callback(void* cl1, void* cl2);
 
-void hype_pub_sub_list_clients_free_data_callback(void* cl);
+void hype_pub_sub_list_clients_free_data_callback(void** cl);
 
 #endif /* HYPE_PUB_SUB_LIST_CLIENTS_H_INCLUDED_ */

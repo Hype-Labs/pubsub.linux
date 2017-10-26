@@ -66,9 +66,13 @@ byte* hype_pub_sub_network_get_own_id()
     return own_id;
 }
 
-void hype_pub_sub_network_destroy(Network *net)
+void hype_pub_sub_network_destroy(Network **net)
 {
-    hype_pub_sub_client_destroy(net->own_client);
-    hype_pub_sub_list_clients_destroy(net->network_clients);
-    free(net);
+    if((*net) == NULL)
+        return;
+
+    hype_pub_sub_client_destroy(&((*net)->own_client));
+    hype_pub_sub_list_clients_destroy((*net)->network_clients);
+    free(*net);
+    (*net) = NULL;
 }

@@ -29,11 +29,12 @@ int hype_pub_sub_service_manager_remove_subscriber(ServiceManager *serv_man, byt
     return 0;
 }
 
-void hype_pub_sub_service_manager_destroy(ServiceManager *serv_man)
+void hype_pub_sub_service_manager_destroy(ServiceManager **serv_man)
 {
-    if(serv_man == NULL)
+    if((*serv_man) == NULL)
         return;
 
-    hype_pub_sub_list_clients_destroy(serv_man->subscribers);
-    free(serv_man);
+    hype_pub_sub_list_clients_destroy((*serv_man)->subscribers);
+    free(*serv_man);
+    (*serv_man) = NULL;
 }

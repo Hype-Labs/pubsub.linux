@@ -186,13 +186,16 @@ static int hype_pub_sub_update_subscriptions(HypePubSub* pub_sub)
     return 0;
 }
 
-void hype_pub_sub_destroy(HypePubSub *pub_sub)
+void hype_pub_sub_destroy(HypePubSub **pub_sub)
 {
-    hype_pub_sub_list_service_managers_destroy(pub_sub->managed_services);
-    hype_pub_sub_list_subscriptions_destroy(pub_sub->own_subscriptions);
-    hype_pub_sub_network_destroy(pub_sub->network);
-    hype_pub_sub_protocol_destroy(pub_sub->protocol);
-    free(pub_sub);
+    if((*pub_sub) == NULL)
+        return;
+
+    hype_pub_sub_list_service_managers_destroy((*pub_sub)->managed_services);
+    hype_pub_sub_list_subscriptions_destroy((*pub_sub)->own_subscriptions);
+    hype_pub_sub_network_destroy(&((*pub_sub)->network));
+    hype_pub_sub_protocol_destroy(&((*pub_sub)->protocol));
+    free(*pub_sub);
 }
 
 void print_hex_array(unsigned char* array, size_t len)

@@ -60,7 +60,8 @@ bool hype_pub_sub_list_subscriptions_compare_data_callback(void *subscrpt1, void
     return false;
 }
 
-void hype_pub_sub_list_subscriptions_free_data_callback(void *subscrpt)
+void hype_pub_sub_list_subscriptions_free_data_callback(void **subscrpt)
 {
-    hype_pub_sub_subscription_destroy(((Subscription*) subscrpt));
+    Subscription **ptr = (Subscription**) subscrpt;
+    hype_pub_sub_subscription_destroy(ptr);
 }

@@ -21,6 +21,6 @@ typedef struct Subscription_
 
 Subscription* hype_pub_sub_subscription_create(char* serv_name, size_t serv_name_len, byte man_id[HYPE_CONSTANTS_ID_BYTE_SIZE]);
 
-void hype_pub_sub_subscription_destroy(Subscription* subs);
+void hype_pub_sub_subscription_destroy(Subscription **subs);
 
 #endif /* HYPE_PUB_SUB_SUBSCRIPTION_H_INCLUDED_ */

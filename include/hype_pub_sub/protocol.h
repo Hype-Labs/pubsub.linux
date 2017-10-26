@@ -54,7 +54,7 @@ int hype_pub_sub_protocol_receive_info_msg(Protocol* protocol, char* msg, size_t
 
 static MessageType hype_pub_sub_protocol_get_message_type(char* msg);
 
-void hype_pub_sub_protocol_destroy(Protocol* protocol);
+void hype_pub_sub_protocol_destroy(Protocol **protocol);
 
 // TODO: Review this later. Currently it seems that these methods are replaced by the hype_pub_sub_update_subscriptions() and hype_pub_sub_update_managed_services() methods
 // int hype_pub_sub_protocol_send_change_service_manager_msg(byte service_key[SHA1_BLOCK_SIZE], byte dest_network_id[HYPE_CONSTANTS_ID_BYTE_SIZE], byte** subscribers_ids[SHA1_BLOCK_SIZE]);

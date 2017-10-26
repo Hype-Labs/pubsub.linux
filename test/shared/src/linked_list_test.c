@@ -231,6 +231,7 @@ void linked_list_test_int()
     CU_ASSERT_PTR_NOT_NULL(elem1);
     linked_list_destroy(&list, free_int_elem);
     CU_ASSERT_PTR_NULL(elem1->data);
+    CU_ASSERT_PTR_NULL(list);
 
     // test operations when the list is null
     CU_ASSERT(linked_list_add(list, create_int(int_to_add1)) == -1);
@@ -251,9 +252,10 @@ bool compare_int_elem(void *val1, void *val2)
     return false;
 }
 
-void free_int_elem(void *val)
+void free_int_elem(void **val)
 {
-    free((int *) val);
+    int **ptr = (int **) val;
+    destroy_int(ptr);
 }
 
 int * create_int(int val)
@@ -261,4 +263,10 @@ int * create_int(int val)
     int *int_ptr = (int *) malloc(sizeof(int));
     *int_ptr = val;
     return int_ptr;
+}
+
+void destroy_int(int **ptr)
+{
+    free(*ptr);
+    (*ptr) = NULL;
 }

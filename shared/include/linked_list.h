@@ -35,7 +35,7 @@ LinkedListIterator* linked_list_create_iterator(LinkedList *list);
 
 int linked_list_add(LinkedList* list, void *elem_data);
 
-int linked_list_remove(LinkedList *list, void* elem_data, bool (*compare_elements_data) (void*, void*), void (*free_element_data) (void*));
+int linked_list_remove(LinkedList *list, void* elem_data, bool (*compare_elements_data) (void*, void*), void (*free_element_data) (void**));
 
 bool linked_list_is_empty(LinkedList* list);
 
@@ -49,8 +49,8 @@ void linked_list_advance_iterator(LinkedListIterator *it);
 
 void linked_list_destroy_iterator(LinkedListIterator **it);
 
-void linked_list_destroy_element(LinkedListElement *element, void (*free_element_data) (void*));
+void linked_list_destroy_element(LinkedListElement **element, void (*free_element_data) (void**));
 
-void linked_list_destroy(LinkedList **list, void (*free_element_data) (void*));
+void linked_list_destroy(LinkedList **list, void (*free_element_data) (void**));
 
 #endif /* SHARED_LINKED_LIST_H_INCLUDED_ */

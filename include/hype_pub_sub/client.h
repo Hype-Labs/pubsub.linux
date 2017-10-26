@@ -32,6 +32,6 @@ bool hype_pub_sub_client_is_id_equal(byte id1[], byte id2[]);
  * @brief Deallocates the space previously allocated for a Client struct.
  * @param client Pointer to the Client struct to be deallocated.
  */
-void hype_pub_sub_client_destroy(Client* client);
+void hype_pub_sub_client_destroy(Client **client);
 
 #endif /* HYPE_PUB_SUB_CLIENT_H_INCLUDED_ */

@@ -74,7 +74,7 @@ void test_message_construction()
     hype_pub_sub_protocol_send_publish_msg(servKey1,EXAMPLE_ID1, msg1, strlen(msg1));
     hype_pub_sub_protocol_send_info_msg(servKey1,EXAMPLE_ID1, msg2, strlen(msg2));
 
-    hype_pub_sub_destroy(myPubSubApp);
+    hype_pub_sub_destroy(&myPubSubApp);
 }
 
 void test_subscribers_list()
@@ -153,7 +153,7 @@ void test_service_manager()
     hype_pub_sub_list_service_managers_add(myPubSubApp->managed_services,servKey1);
     print_service_manager_list(myPubSubApp->managed_services);
 
-    hype_pub_sub_destroy(myPubSubApp);
+    hype_pub_sub_destroy(&myPubSubApp);
 }
 
 void test_hype_pub_sub()
@@ -182,7 +182,7 @@ void test_hype_pub_sub()
     hype_pub_sub_list_subscriptions_remove(myPubSubApp->own_subscriptions, serv3, strlen(serv3), serv3ManId);
     print_subscription_list(myPubSubApp->own_subscriptions);
 
-    hype_pub_sub_destroy(myPubSubApp);
+    hype_pub_sub_destroy(&myPubSubApp);
 }
 
 void print_hex_char_array(unsigned char* array, size_t len)

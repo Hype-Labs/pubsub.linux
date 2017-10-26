@@ -23,6 +23,6 @@ ServiceManager* hype_pub_sub_list_service_managers_find(ListServiceManagers* lis
 
 bool hype_pub_sub_list_service_managers_compare_data_callback(void* serv_man1, void *serv_man2);
 
-void hype_pub_sub_list_service_managers_free_data_callback(void* serv_man);
+void hype_pub_sub_list_service_managers_free_data_callback(void** serv_man);
 
 #endif /* HYPE_PUB_SUB_LIST_SERVICE_MANAGERS_H_INCLUDED_ */
