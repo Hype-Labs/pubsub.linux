@@ -1,5 +1,3 @@
-#include <stdio.h>
-#include <string.h>
 
 #include <CUnit/Basic.h>
 
@@ -31,8 +29,8 @@ int main()
       return CU_get_error();
    }
 
-   if ((CU_add_test(pSuite, "Test the linked list module", linked_list_test) == NULL) ||
-       (CU_add_test(pSuite, "Test binary utils module", binary_utils_test) == NULL) ||
+   if ((CU_add_test(pSuite, "Test LinkedList module", linked_list_test) == NULL) ||
+       (CU_add_test(pSuite, "Test BinaryUtils module", binary_utils_test) == NULL) ||
        (CU_add_test(pSuite, "Test HypePubSub module", hype_pub_sub_test) == NULL) ||
        (CU_add_test(pSuite, "Test HypePubSub/Client module", hype_pub_sub_client_test) == NULL) ||
        (CU_add_test(pSuite, "Test HypePubSub/ServiceManager module", hype_pub_sub_service_manager_test) == NULL) ||
