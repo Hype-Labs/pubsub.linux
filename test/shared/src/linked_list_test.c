@@ -13,7 +13,7 @@ void linked_list_test_create_destroy()
 {
     LinkedList *list = linked_list_create();
 
-    CU_ASSERT_PTR_NOT_NULL(list);
+    CU_ASSERT_PTR_NOT_NULL_FATAL(list);
     CU_ASSERT_PTR_NULL(list->head);
     CU_ASSERT(list->size == 0);
 
