@@ -6,6 +6,7 @@ void linked_list_test()
 {
     linked_list_test_create_destroy();
     linked_list_test_int();
+    linked_list_test_testing_struct();
 }
 
 void linked_list_test_create_destroy()
@@ -241,7 +242,151 @@ void linked_list_test_int()
     CU_ASSERT_PTR_NULL(linked_list_find(list, &int_to_find1, compare_int_elem));
 }
 
-// Callbacks for integer linked list
+void linked_list_test_testing_struct()
+{
+    LinkedList* list = linked_list_create();
+    TestingStruct *t_str;
+    LinkedListIterator *it = linked_list_create_iterator(list);
+
+    int tst_struct_id1 = 1;
+    int tst_struct_id2 = 2;
+    int tst_struct_id3 = 3;
+    int tst_struct_id4 = 4;
+    char tst_struct_str1[] = {"Testing struct str1"};
+    char tst_struct_str2[] = {"Testing struct str2"};
+    char tst_struct_str3[] = {"Testing struct str3"};
+    char tst_struct_str4[] = {"Testing struct str4"};
+
+
+    ////////////////////////////////////////////////////
+    // Add 4 testing struct elements
+    ////////////////////////////////////////////////////
+
+    linked_list_add_testing_struct(list, create_testing_struct(tst_struct_str1, strlen(tst_struct_str1), tst_struct_id1));
+    linked_list_add_testing_struct(list, create_testing_struct(tst_struct_str2, strlen(tst_struct_str2), tst_struct_id2));
+    linked_list_add_testing_struct(list, create_testing_struct(tst_struct_str3, strlen(tst_struct_str3), tst_struct_id3));
+    linked_list_add_testing_struct(list, create_testing_struct(tst_struct_str4, strlen(tst_struct_str4), tst_struct_id4));
+    linked_list_reset_iterator(it);
+    t_str = (TestingStruct *) linked_list_get_element_data_iterator(it);
+    CU_ASSERT(t_str->id == tst_struct_id1);
+    linked_list_advance_iterator(it);
+    t_str = (TestingStruct *) linked_list_get_element_data_iterator(it);
+    CU_ASSERT(t_str->id == tst_struct_id2);
+    linked_list_advance_iterator(it);
+    t_str = (TestingStruct *) linked_list_get_element_data_iterator(it);
+    CU_ASSERT(t_str->id == tst_struct_id3);
+    linked_list_advance_iterator(it);
+    t_str = (TestingStruct *) linked_list_get_element_data_iterator(it);
+    CU_ASSERT(t_str->id == tst_struct_id4);
+    linked_list_advance_iterator(it);
+    t_str = (TestingStruct *) linked_list_get_element_data_iterator(it);
+    CU_ASSERT(t_str->id == tst_struct_id4);
+    CU_ASSERT(list->size == 4);
+
+    ////////////////////////////////////////////////////
+    // Removed 3rd element
+    ////////////////////////////////////////////////////
+
+    linked_list_remove(list, &tst_struct_id3, compare_testing_struct_elem, free_testing_struct_elem);
+    linked_list_reset_iterator(it);
+    t_str = (TestingStruct *) linked_list_get_element_data_iterator(it);
+    CU_ASSERT(t_str->id == tst_struct_id1);
+    linked_list_advance_iterator(it);
+    t_str = (TestingStruct *) linked_list_get_element_data_iterator(it);
+    CU_ASSERT(t_str->id == tst_struct_id2);
+    linked_list_advance_iterator(it);
+    t_str = (TestingStruct *) linked_list_get_element_data_iterator(it);
+    CU_ASSERT(t_str->id == tst_struct_id4);
+    CU_ASSERT(list->size == 3);
+
+    ////////////////////////////////////////////////////
+    // Removed 3rd element again
+    ////////////////////////////////////////////////////
+
+    linked_list_remove(list, &tst_struct_id3, compare_testing_struct_elem, free_testing_struct_elem);
+    linked_list_reset_iterator(it);
+    t_str = (TestingStruct *) linked_list_get_element_data_iterator(it);
+    CU_ASSERT(t_str->id == tst_struct_id1);
+    linked_list_advance_iterator(it);
+    t_str = (TestingStruct *) linked_list_get_element_data_iterator(it);
+    CU_ASSERT(t_str->id == tst_struct_id2);
+    linked_list_advance_iterator(it);
+    t_str = (TestingStruct *) linked_list_get_element_data_iterator(it);
+    CU_ASSERT(t_str->id == tst_struct_id4);
+    CU_ASSERT(list->size == 3);
+
+    ////////////////////////////////////////////////////
+    // Removed 4th element
+    ////////////////////////////////////////////////////
+
+    linked_list_remove(list, &tst_struct_id4, compare_testing_struct_elem, free_testing_struct_elem);
+    linked_list_reset_iterator(it);
+    t_str = (TestingStruct *) linked_list_get_element_data_iterator(it);
+    CU_ASSERT(t_str->id == tst_struct_id1);
+    linked_list_advance_iterator(it);
+    t_str = (TestingStruct *) linked_list_get_element_data_iterator(it);
+    CU_ASSERT(t_str->id == tst_struct_id2);
+    CU_ASSERT(list->size == 2);
+
+    ////////////////////////////////////////////////////
+    // Removed 1st element
+    ////////////////////////////////////////////////////
+
+    linked_list_remove(list, &tst_struct_id1, compare_testing_struct_elem, free_testing_struct_elem);
+    linked_list_reset_iterator(it);
+    t_str = (TestingStruct *) linked_list_get_element_data_iterator(it);
+    CU_ASSERT(t_str->id == tst_struct_id2);
+    CU_ASSERT(list->size == 1);
+
+    ////////////////////////////////////////////////////
+    // Removed 2nd element
+    ////////////////////////////////////////////////////
+
+    linked_list_remove(list, &tst_struct_id2, compare_testing_struct_elem, free_testing_struct_elem);
+    linked_list_reset_iterator(it);
+    t_str = (TestingStruct *) linked_list_get_element_data_iterator(it);
+    CU_ASSERT_PTR_NULL(t_str);
+    CU_ASSERT(list->size == 0);
+
+    ////////////////////////////////////////////////////
+    // Add 4th element again
+    ////////////////////////////////////////////////////
+
+    linked_list_add_testing_struct(list, create_testing_struct(tst_struct_str4, strlen(tst_struct_str4), tst_struct_id4));
+    linked_list_reset_iterator(it);
+    t_str = (TestingStruct *) linked_list_get_element_data_iterator(it);
+    CU_ASSERT(t_str->id == tst_struct_id4);
+    CU_ASSERT(list->size == 1);
+
+    ////////////////////////////////////////////////////
+    // Add all elements
+    ////////////////////////////////////////////////////
+
+    linked_list_add_testing_struct(list, create_testing_struct(tst_struct_str1, strlen(tst_struct_str1), tst_struct_id1));
+    linked_list_add_testing_struct(list, create_testing_struct(tst_struct_str2, strlen(tst_struct_str2), tst_struct_id2));
+    linked_list_add_testing_struct(list, create_testing_struct(tst_struct_str3, strlen(tst_struct_str3), tst_struct_id3));
+    linked_list_add_testing_struct(list, create_testing_struct(tst_struct_str4, strlen(tst_struct_str4), tst_struct_id4));
+    linked_list_reset_iterator(it);
+    t_str = (TestingStruct *) linked_list_get_element_data_iterator(it);
+    CU_ASSERT(t_str->id == tst_struct_id4);
+    linked_list_advance_iterator(it);
+    t_str = (TestingStruct *) linked_list_get_element_data_iterator(it);
+    CU_ASSERT(t_str->id == tst_struct_id1);
+    linked_list_advance_iterator(it);
+    t_str = (TestingStruct *) linked_list_get_element_data_iterator(it);
+    CU_ASSERT(t_str->id == tst_struct_id2);
+    linked_list_advance_iterator(it);
+    t_str = (TestingStruct *) linked_list_get_element_data_iterator(it);
+    CU_ASSERT(t_str->id == tst_struct_id3);
+    CU_ASSERT(list->size == 4);
+
+    linked_list_destroy_iterator(&it);
+    linked_list_destroy(&list, free_testing_struct_elem);
+    CU_ASSERT_PTR_NULL(it);
+    CU_ASSERT_PTR_NULL(list);
+}
+
+// Methods to test an integer linked list
 bool compare_int_elem(void *val1, void *val2)
 {
     int *int_val1 = (int *) val1;
@@ -270,3 +415,44 @@ void destroy_int(int **ptr)
     free(*ptr);
     (*ptr) = NULL;
 }
+
+// Methods to test a TestingStruct linked list
+bool compare_testing_struct_elem(void *val1, void *val2)
+{
+    TestingStruct *t_str = (TestingStruct *) val1;
+    int *id = (int *) val2;
+
+    if(t_str->id == *id)
+        return true;
+    return false;
+}
+
+void free_testing_struct_elem(void **val)
+{
+    TestingStruct **ptr = (TestingStruct **) val;
+    destroy_testing_struct(ptr);
+}
+
+TestingStruct * create_testing_struct(char *msg, size_t length, int id)
+{
+    TestingStruct * t_str = (TestingStruct*) malloc(sizeof(TestingStruct));
+    t_str->str = (char *) malloc(length * sizeof(char));
+    strcpy(t_str->str, (const char*) msg);
+    t_str->id = id;
+    return t_str;
+}
+
+void destroy_testing_struct(TestingStruct **t_str)
+{
+     free((*t_str)->str);
+     free(*t_str);
+     (*t_str) = NULL;
+}
+
+void linked_list_add_testing_struct(LinkedList* list, void *elem_data)
+{
+    if(linked_list_find(list, elem_data, compare_testing_struct_elem) == NULL)
+        linked_list_add(list, elem_data);
+    // else: do nothing. Prevents replicated elements
+}
+
