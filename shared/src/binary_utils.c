@@ -66,14 +66,14 @@ char *binary_utils_get_formatted_binary_str(byte *byte_array, size_t byte_array_
     // 2 spaces per byte
     // 1 \0 to terminate string
     size_t formatted_str_size = byte_array_size*8 + byte_array_size*2 + 1;
-    char *formatted_str = (char*) malloc(formatted_str_size * sizeof(byte));
+    char *formatted_str = (char*) malloc(formatted_str_size * sizeof(char));
 
     char * bin_array = binary_utils_to_binary_char_array(byte_array, byte_array_size);
 
     int j=0;
     for(int i=0; i < byte_array_size*8; i++)
     {
-        if(i%4 == 0)
+        if(i%4 == 0 && i != 0)
             formatted_str[j++] = ' '; // Adds a space at every 4 bits
 
         formatted_str[j++] = bin_array[i];
