@@ -451,6 +451,7 @@ void linked_list_add_testing_struct(LinkedList* list, void *elem_data)
 {
     if(linked_list_find(list, elem_data, compare_testing_struct_elem) == NULL)
         linked_list_add(list, elem_data);
-    // else: do nothing. Prevents replicated elements
+    else
+        free_testing_struct_elem(elem_data); // The element is already inserted. Deallocate the space allocated for it.
 }
 
