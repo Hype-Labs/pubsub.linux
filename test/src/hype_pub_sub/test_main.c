@@ -4,12 +4,8 @@
 #include <CUnit/Basic.h>
 
 #include "linked_list_test.h"
+#include "binary_utils_test.h"
 
-
-void test1()
-{
-
-}
 
 int main()
 {
@@ -27,7 +23,7 @@ int main()
    }
 
    if ((CU_add_test(pSuite, "Test the generic linked list", linked_list_test) == NULL) ||
-       (CU_add_test(pSuite, "Test 1", test1) == NULL))
+       (CU_add_test(pSuite, "Test binary utils module", binary_utils_test) == NULL))
    {
       CU_cleanup_registry();
       return CU_get_error();
