@@ -19,7 +19,7 @@ void linked_list_test_create_destroy();
 void linked_list_test_int();
 void linked_list_test_testing_struct();
 
-// Methods to test a integer linked list
+// Methods to test an integer linked list
 bool compare_int_elem(void *val1, void *val2);
 void free_int_elem(void **val);
 int * create_int(int val);
