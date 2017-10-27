@@ -435,7 +435,7 @@ TestingStruct * create_testing_struct(char *msg, size_t length, int id)
 {
     TestingStruct * t_str = (TestingStruct*) malloc(sizeof(TestingStruct));
     t_str->str = (char *) malloc(length * sizeof(char));
-    strcpy(t_str->str, (const char*) msg);
+    memcpy(t_str->str, msg, length);
     t_str->id = id;
     return t_str;
 }
