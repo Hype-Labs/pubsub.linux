@@ -4,8 +4,6 @@
 
 #include <CUnit/Basic.h>
 
-#include <stdlib.h>
-
 #include "hype_pub_sub/client.h"
 
 void hype_pub_sub_client_test();
