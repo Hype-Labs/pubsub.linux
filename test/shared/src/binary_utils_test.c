@@ -4,6 +4,7 @@
 void binary_utils_test()
 {
     binary_utils_test_xor();
+    binary_utils_test_to_binary_char_array();
 }
 
 void binary_utils_test_xor()
@@ -22,8 +23,11 @@ void binary_utils_test_xor()
     xor_result = binary_utils_xor(bin_str3, bin_str4, lenght);
     CU_ASSERT_NSTRING_EQUAL(xor_result, "\x9f\x5f\xf1\x01\x73\x9f\xec\xb0\x17\xf1\xc5\xe7\x3a\xb8\xd7\xc8\xac\x92\x34\xc4", lenght);
     free(xor_result);
-
-
 }
 
+
+void binary_utils_test_to_binary_char_array()
+{
+
+}
 

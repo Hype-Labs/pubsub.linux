@@ -12,5 +12,6 @@
 void binary_utils_test();
 
 void binary_utils_test_xor();
+void binary_utils_test_to_binary_char_array();
 
 #endif /* SHARED_BINARY_UTILS_TEST_H_INCLUDED_ */
