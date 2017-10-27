@@ -24,7 +24,7 @@ byte EXAMPLE_ID4[] = "\x10\x11\x12\x01\x02\x03\x04\x05\x06\x07\x08\x09";
 
 int main()
 {
-    /*
+
     test_hash();
 
     test_message_construction();
@@ -42,7 +42,6 @@ int main()
     printf("------------------------\n");
 
     test_hype_pub_sub();
-    */
 
     test_binary_utils();
 
@@ -198,12 +197,15 @@ void print_clients_list(ListClients* clientList)
     printf("ClientList (size %zu): \n", clientList->size);
 
     LinkedListIterator *it = linked_list_create_iterator(clientList);
-    while(linked_list_get_element_data_iterator(it) != NULL)
+    do
     {
         Client* client = (Client*) linked_list_get_element_data_iterator(it);
+        if(client == NULL)
+            continue;
+
         print_hex_char_array(client->id, HYPE_CONSTANTS_ID_BYTE_SIZE);
-        linked_list_advance_iterator(it);
-    }
+    } while(linked_list_advance_iterator(it) != -1);
+
     linked_list_destroy_iterator(&it);
 }
 
@@ -213,15 +215,18 @@ void print_subscription_list(ListSubscriptions* subsList)
 
     int i=1;
     LinkedListIterator *it = linked_list_create_iterator(subsList);
-    while(linked_list_get_element_data_iterator(it) != NULL)
+    do
     {
         Subscription* subs = (Subscription*) linked_list_get_element_data_iterator(it);
+        if(subs == NULL)
+            continue;
+
         printf("Subscription %i\n",i); i++;
         printf("\tManagerId:  "); print_hex_char_array(subs->manager_id, HYPE_CONSTANTS_ID_BYTE_SIZE);
         printf("\tServiceKey:  "); print_hex_char_array(subs->service_key, SHA1_BLOCK_SIZE);
         printf("\tServiceName:  %s\n", subs->service_name);
         linked_list_advance_iterator(it);
-    }
+    } while(linked_list_advance_iterator(it) != -1);
     linked_list_destroy_iterator(&it);
 }
 
@@ -231,13 +236,15 @@ void print_service_manager_list(ListServiceManagers* srvManList)
 
     int i=1;
     LinkedListIterator *it = linked_list_create_iterator(srvManList);
-    while(linked_list_get_element_data_iterator(it) != NULL)
+    do
     {
         ServiceManager* serMan = (ServiceManager*) linked_list_get_element_data_iterator(it);
+        if(serMan == NULL)
+            continue;
+
         printf("Subscription %i\n",i); i++;
         printf("\tManagedServiceKey:  "); print_hex_char_array(serMan->service_key, SHA1_BLOCK_SIZE);
-        linked_list_advance_iterator(it);
-    }
+    } while(linked_list_advance_iterator(it) != -1);
     linked_list_destroy_iterator(&it);
 
 }

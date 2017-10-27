@@ -134,12 +134,13 @@ void* linked_list_get_element_data_iterator(LinkedListIterator *it)
     return it->it_elem->data;
 }
 
-void linked_list_advance_iterator(LinkedListIterator *it)
+int linked_list_advance_iterator(LinkedListIterator *it)
 {
-    if(it == NULL || it->it_elem->next == NULL)
-        return;
+    if(it == NULL || it->it_elem == NULL || it->it_elem->next == NULL || it->list->size == 0)
+        return -1;
 
     it->it_elem = it->it_elem->next;
+    return 0;
 }
 
 void linked_list_destroy_iterator(LinkedListIterator **it)

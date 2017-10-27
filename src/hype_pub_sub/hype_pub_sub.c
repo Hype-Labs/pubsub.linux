@@ -107,17 +107,18 @@ int hype_pub_sub_process_publish_req(HypePubSub* pub_sub, byte service_key[], ch
         return -1;
 
     LinkedListIterator *it = linked_list_create_iterator(service->subscribers);
-    while(linked_list_get_element_data_iterator(it) != NULL)
+    do
     {
         Client* client = (Client*) linked_list_get_element_data_iterator(it);
+        if(client == NULL)
+            continue;
 
         if(hype_pub_sub_client_is_id_equal(pub_sub->network->own_client->id, client->id))
             hype_pub_sub_process_info_req(pub_sub, service_key, msg, msg_length);
         else
             hype_pub_sub_protocol_send_info_msg(service_key, client->id, msg, msg_length);
 
-        linked_list_advance_iterator(it);
-    }
+    } while(linked_list_advance_iterator(it) != -1);
     linked_list_destroy_iterator(&it);
 
     return 0;
@@ -144,9 +145,11 @@ int hype_pub_sub_process_info_req(HypePubSub* pub_sub, byte service_key[], char*
 static int hype_pub_sub_update_managed_services(HypePubSub* pub_sub)
 {
     LinkedListIterator *it = linked_list_create_iterator(pub_sub->managed_services);
-    while(linked_list_get_element_data_iterator(it) != NULL)
+    do
     {
         ServiceManager* service_man = (ServiceManager*) linked_list_get_element_data_iterator(it);
+        if(service_man == NULL)
+            continue;
 
         // Check if a new Hype client with a closer key to this service key has appeared. If this happens
         // we remove the service from the list of managed services of this Hype client.
@@ -154,8 +157,8 @@ static int hype_pub_sub_update_managed_services(HypePubSub* pub_sub)
         if(memcmp(pub_sub->network->own_client->id, new_manager_id, HYPE_CONSTANTS_ID_BYTE_SIZE) != 0)
             hype_pub_sub_list_service_managers_remove(pub_sub->managed_services, service_man->service_key);
 
-        linked_list_advance_iterator(it);
-    }
+    } while(linked_list_advance_iterator(it) != -1);
+
     linked_list_destroy_iterator(&it);
     return 0;
 }
@@ -166,9 +169,11 @@ static int hype_pub_sub_update_subscriptions(HypePubSub* pub_sub)
         return -1;
 
     LinkedListIterator *it = linked_list_create_iterator(pub_sub->own_subscriptions);
-    while(linked_list_get_element_data_iterator(it) != NULL)
+    do
     {
         Subscription* subscription = (Subscription*) linked_list_get_element_data_iterator(it);
+        if(subscription == NULL)
+            continue;
 
         byte *new_manager_id = hype_pub_sub_network_get_service_manager_id(pub_sub->network, subscription->service_key);
 
@@ -179,8 +184,8 @@ static int hype_pub_sub_update_subscriptions(HypePubSub* pub_sub)
             hype_pub_sub_issue_subscribe_service_req(pub_sub, subscription->service_key); // re-send the subscribe request to the new manager
         }
 
-        linked_list_advance_iterator(it);
-    }
+    } while(linked_list_advance_iterator(it) != -1);
+
     linked_list_destroy_iterator(&it);
 
     return 0;

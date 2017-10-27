@@ -45,7 +45,7 @@ void linked_list_reset_iterator(LinkedListIterator *it);
 
 void* linked_list_get_element_data_iterator(LinkedListIterator *it);
 
-void linked_list_advance_iterator(LinkedListIterator *it);
+int linked_list_advance_iterator(LinkedListIterator *it);
 
 void linked_list_destroy_iterator(LinkedListIterator **it);
 
