@@ -20,4 +20,5 @@ void hype_pub_sub_subscription_destroy(Subscription **subs)
 
     free((*subs)->service_name);
     free(*subs);
+    (*subs) = NULL;
 }
