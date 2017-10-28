@@ -14,6 +14,10 @@ void hype_pub_sub_subscription_test()
     Subscription *subsc2 = hype_pub_sub_subscription_create(SUBS2_SERVICE, strlen(SUBS2_SERVICE), SUBS2_MANAGER);
     Subscription *subsc3 = hype_pub_sub_subscription_create(SUBS3_SERVICE, strlen(SUBS3_SERVICE), SUBS3_MANAGER);
 
+    CU_ASSERT_PTR_NOT_NULL_FATAL(subsc1);
+    CU_ASSERT_PTR_NOT_NULL_FATAL(subsc2);
+    CU_ASSERT_PTR_NOT_NULL_FATAL(subsc3);
+
     CU_ASSERT_NSTRING_EQUAL(subsc1->service_name, SUBS1_SERVICE, strlen(SUBS1_SERVICE));
     CU_ASSERT_NSTRING_EQUAL(subsc2->service_name, SUBS2_SERVICE, strlen(SUBS2_SERVICE));
     CU_ASSERT_NSTRING_EQUAL(subsc3->service_name, SUBS3_SERVICE, strlen(SUBS3_SERVICE));

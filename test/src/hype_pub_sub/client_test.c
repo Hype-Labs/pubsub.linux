@@ -11,6 +11,10 @@ void hype_pub_sub_client_test()
     Client *cl2 = hype_pub_sub_client_create(CLIENT2_ID);
     Client *cl3 = hype_pub_sub_client_create(CLIENT3_ID);
 
+    CU_ASSERT_PTR_NOT_NULL_FATAL(cl1);
+    CU_ASSERT_PTR_NOT_NULL_FATAL(cl2);
+    CU_ASSERT_PTR_NOT_NULL_FATAL(cl3);
+
     CU_ASSERT_NSTRING_EQUAL(cl1->id, "\x85\xa9\xd4\xc4\xde\xd2\x87\x75\x0f\xc0\xed\x32", HYPE_CONSTANTS_ID_BYTE_SIZE);
     CU_ASSERT_NSTRING_EQUAL(cl2->id, "\x66\xd8\xf2\x20\x6a\x56\xdb\xe9\x91\x23\x3b\xc2", HYPE_CONSTANTS_ID_BYTE_SIZE);
     CU_ASSERT_NSTRING_EQUAL(cl3->id, "\xe7\x79\x34\x6c\x66\x9c\x17\xf4\x34\xc8\xce\x0e", HYPE_CONSTANTS_ID_BYTE_SIZE);
@@ -20,6 +24,7 @@ void hype_pub_sub_client_test()
     CU_ASSERT_NSTRING_EQUAL(cl3->key, "\xe4\x9a\xa7\x79\x2c\xf4\xfd\x09\x6c\x10\x3f\x4b\xa4\x63\xe2\x7b\x91\x60\x9e\x6b", SHA1_BLOCK_SIZE);
 
     Client *cl4 = hype_pub_sub_client_create(CLIENT1_ID);
+    CU_ASSERT_PTR_NOT_NULL_FATAL(cl4);
     CU_ASSERT_FALSE(hype_pub_sub_client_is_id_equal(cl1->id, cl2->id));
     CU_ASSERT_TRUE(hype_pub_sub_client_is_id_equal(cl1->id, cl4->id));
 
