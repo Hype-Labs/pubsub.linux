@@ -61,8 +61,8 @@ byte *hpb_network_get_own_id()
 {
     // TODO: get from HypeSDK! Check memory allocation!
     // Dummy id just to prevent seg.fault when creating a network manager
-    byte *own_id = (byte*) malloc(HYPE_CONSTANTS_ID_BYTE_SIZE * sizeof(byte));
-    memcpy(own_id, "\x01\x02\x03\x04\x05\x06\x07\x08\x09\x10\x11\x12", HYPE_CONSTANTS_ID_BYTE_SIZE);
+    byte *own_id = (byte*) malloc(HPB_ID_BYTE_SIZE * sizeof(byte));
+    memcpy(own_id, "\x01\x02\x03\x04\x05\x06\x07\x08\x09\x10\x11\x12", HPB_ID_BYTE_SIZE);
     return own_id;
 }
 

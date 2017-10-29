@@ -15,7 +15,7 @@
  */
 typedef struct Client_
 {
-    byte id[HYPE_CONSTANTS_ID_BYTE_SIZE]; /**< ID of the Hype client. */
+    byte id[HPB_ID_BYTE_SIZE]; /**< ID of the Hype client. */
     byte key[SHA1_BLOCK_SIZE]; /**< Key of the managed service. */
 } Client;
 

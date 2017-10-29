@@ -203,7 +203,7 @@ void print_clients_list(ListClients* clientList)
         if(client == NULL)
             continue;
 
-        print_hex_char_array(client->id, HYPE_CONSTANTS_ID_BYTE_SIZE);
+        print_hex_char_array(client->id, HPB_ID_BYTE_SIZE);
     } while(linked_list_advance_iterator(it) != -1);
 
     linked_list_destroy_iterator(&it);
@@ -222,7 +222,7 @@ void print_subscription_list(ListSubscriptions* subsList)
             continue;
 
         printf("Subscription %i\n",i); i++;
-        printf("\tManagerId:  "); print_hex_char_array(subs->manager_id, HYPE_CONSTANTS_ID_BYTE_SIZE);
+        printf("\tManagerId:  "); print_hex_char_array(subs->manager_id, HPB_ID_BYTE_SIZE);
         printf("\tServiceKey:  "); print_hex_char_array(subs->service_key, SHA1_BLOCK_SIZE);
         printf("\tServiceName:  %s\n", subs->service_name);
         linked_list_advance_iterator(it);

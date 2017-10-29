@@ -32,13 +32,13 @@ typedef struct PacketField_
 
 Protocol *hpb_protocol_create(HypePubSub *pub_sub);
 
-int hpb_protocol_send_subscribe_msg(byte service_key[SHA1_BLOCK_SIZE], byte dest_network_id[HYPE_CONSTANTS_ID_BYTE_SIZE]);
+int hpb_protocol_send_subscribe_msg(byte service_key[SHA1_BLOCK_SIZE], byte dest_network_id[HPB_ID_BYTE_SIZE]);
 
-int hpb_protocol_send_unsubscribe_msg(byte service_key[SHA1_BLOCK_SIZE], byte dest_network_id[HYPE_CONSTANTS_ID_BYTE_SIZE]);
+int hpb_protocol_send_unsubscribe_msg(byte service_key[SHA1_BLOCK_SIZE], byte dest_network_id[HPB_ID_BYTE_SIZE]);
 
-int hpb_protocol_send_publish_msg(byte service_key[SHA1_BLOCK_SIZE], byte dest_network_id[HYPE_CONSTANTS_ID_BYTE_SIZE], char *msg, size_t msg_length);
+int hpb_protocol_send_publish_msg(byte service_key[SHA1_BLOCK_SIZE], byte dest_network_id[HPB_ID_BYTE_SIZE], char *msg, size_t msg_length);
 
-int hpb_protocol_send_info_msg(byte service_key[SHA1_BLOCK_SIZE], byte dest_network_id[HYPE_CONSTANTS_ID_BYTE_SIZE], char *msg, size_t msg_length);
+int hpb_protocol_send_info_msg(byte service_key[SHA1_BLOCK_SIZE], byte dest_network_id[HPB_ID_BYTE_SIZE], char *msg, size_t msg_length);
 
 byte *hpb_protocol_build_packet(int n_fields, ...);
 

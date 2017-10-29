@@ -154,7 +154,7 @@ static int hpb_update_managed_services(HypePubSub *pub_sub)
         // Check if a new Hype client with a closer key to this service key has appeared. If this happens
         // we remove the service from the list of managed services of this Hype client.
         byte *new_manager_id = hpb_network_get_service_manager_id(pub_sub->network, service_man->service_key);
-        if(memcmp(pub_sub->network->own_client->id, new_manager_id, HYPE_CONSTANTS_ID_BYTE_SIZE) != 0)
+        if(memcmp(pub_sub->network->own_client->id, new_manager_id, HPB_ID_BYTE_SIZE) != 0)
             hpb_list_service_managers_remove(pub_sub->managed_services, service_man->service_key);
 
     } while(linked_list_advance_iterator(it) != -1);
@@ -178,9 +178,9 @@ static int hpb_update_subscriptions(HypePubSub *pub_sub)
         byte *new_manager_id = hpb_network_get_service_manager_id(pub_sub->network, subscription->service_key);
 
         // If there is a node with a closer key to the service key we change the manager
-        if(memcmp(subscription->manager_id, new_manager_id, HYPE_CONSTANTS_ID_BYTE_SIZE) != 0)
+        if(memcmp(subscription->manager_id, new_manager_id, HPB_ID_BYTE_SIZE) != 0)
         {
-            memcpy(subscription->manager_id, new_manager_id, HYPE_CONSTANTS_ID_BYTE_SIZE);
+            memcpy(subscription->manager_id, new_manager_id, HPB_ID_BYTE_SIZE);
             hpb_issue_subscribe_req(pub_sub, subscription->service_key); // re-send the subscribe request to the new manager
         }
 

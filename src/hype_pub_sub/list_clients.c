@@ -47,7 +47,7 @@ bool hpb_list_clients_compare_data_callback(void *cl1, void *cl2)
     if (cl1 == NULL || cl2 == NULL)
         return false;
 
-    if (memcmp(((Client *) cl1)->id, (byte *) cl2, HYPE_CONSTANTS_ID_BYTE_SIZE * sizeof(byte)) == 0)
+    if (memcmp(((Client *) cl1)->id, (byte *) cl2, HPB_ID_BYTE_SIZE * sizeof(byte)) == 0)
         return true;
 
     return false;

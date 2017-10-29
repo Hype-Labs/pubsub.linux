@@ -23,7 +23,7 @@ byte *hpb_network_get_service_manager_id(Network *net, byte service_key[SHA1_BLO
 
 int hpb_network_update_clients(Network *net);
 
-bool hpb_network_is_client_online(Network *net, byte client_id[HYPE_CONSTANTS_ID_BYTE_SIZE]);
+bool hpb_network_is_client_online(Network *net, byte client_id[HPB_ID_BYTE_SIZE]);
 
 byte *hpb_network_get_own_id();
 
