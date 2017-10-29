@@ -34,6 +34,8 @@ int binary_utils_get_higher_binary_string(byte *byte_array1, byte *byte_array2, 
             return 2; // The second string has a higher value
     }
 
+    free(bin_str1);
+    free(bin_str2);
     return 0;
 }
 
