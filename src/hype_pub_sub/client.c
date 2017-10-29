@@ -11,7 +11,7 @@ Client *hpb_client_create(byte id[])
 
 bool hpb_client_is_id_equal(byte id1[], byte id2[])
 {
-    if(memcmp(id1, id2, HPB_ID_BYTE_SIZE) == 0)
+    if(memcmp(id1, id2, HPB_ID_BYTE_SIZE * sizeof(byte)) == 0)
         return true;
     return false;
 }

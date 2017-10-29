@@ -24,17 +24,17 @@ Client *hpb_list_clients_add(ListClients *list_cl, byte client_id[])
 
 int hpb_list_clients_remove(ListClients *list_cl, byte client_id[])
 {
-    return linked_list_remove(list_cl, client_id, hpb_list_clients_compare_data_callback, hpb_list_clients_free_data_callback);
+    return linked_list_remove(list_cl, client_id, linked_list_callback_is_client_id, linked_list_callback_free_client);
 }
 
 void hpb_list_clients_destroy(ListClients *list_cl)
 {
-    linked_list_destroy(&list_cl, hpb_list_clients_free_data_callback);
+    linked_list_destroy(&list_cl, linked_list_callback_free_client);
 }
 
 Client *hpb_list_clients_find(ListClients *list_cl, byte client_id[])
 {
-    ListClientElement *elem = linked_list_find(list_cl, client_id, hpb_list_clients_compare_data_callback);
+    ListClientElement *elem = linked_list_find(list_cl, client_id, linked_list_callback_is_client_id);
 
     if(elem == NULL)
         return NULL;
@@ -42,19 +42,15 @@ Client *hpb_list_clients_find(ListClients *list_cl, byte client_id[])
     return (Client*) elem->element;
 }
 
-bool hpb_list_clients_compare_data_callback(void *cl1, void *cl2)
+static bool linked_list_callback_is_client_id(void *client, void *id)
 {
-    if (cl1 == NULL || cl2 == NULL)
+    if (client == NULL || id == NULL)
         return false;
 
-    if (memcmp(((Client *) cl1)->id, (byte *) cl2, HPB_ID_BYTE_SIZE * sizeof(byte)) == 0)
-        return true;
-
-    return false;
+    return hpb_client_is_id_equal((((Client *) client)->id), (byte *) id);
 }
 
-void hpb_list_clients_free_data_callback(void **cl)
+static void linked_list_callback_free_client(void **client)
 {
-    Client **ptr = (Client **) cl;
-    hpb_client_destroy(ptr);
+    hpb_client_destroy((Client **) client);
 }

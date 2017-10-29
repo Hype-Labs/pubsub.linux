@@ -11,6 +11,7 @@
 
 /*************************** HEADER FILES ***************************/
 #include <stddef.h>
+#include <stdbool.h>
 
 /****************************** MACROS ******************************/
 #define SHA1_BLOCK_SIZE 20              // SHA1 outputs a 20 byte digest
@@ -33,5 +34,6 @@ void sha1_update(SHA1_CTX *ctx, const BYTE data[], size_t len);
 void sha1_final(SHA1_CTX *ctx, BYTE hash[]);
 
 void sha1_digest(const BYTE* msg, size_t msg_len, BYTE * msg_digest);
+bool is_sha1_key_equal(BYTE key1[], BYTE key2[]);
 
 #endif /* EXTERNAL_SHA_SHA1_H */

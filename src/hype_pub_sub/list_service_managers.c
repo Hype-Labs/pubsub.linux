@@ -24,17 +24,17 @@ ServiceManager *hpb_list_service_managers_add(ListServiceManagers *list_serv_man
 
 int hpb_list_service_managers_remove(ListServiceManagers *list_serv_man, byte service_key[])
 {
-    return linked_list_remove(list_serv_man, service_key, hpb_list_service_managers_compare_data_callback, hpb_list_service_managers_free_data_callback);
+    return linked_list_remove(list_serv_man, service_key, linked_list_callback_is_service_manager_key, linked_list_callback_free_service_manager);
 }
 
 void hpb_list_service_managers_destroy(ListServiceManagers *list_serv_man)
 {
-    linked_list_destroy(&list_serv_man, hpb_list_service_managers_free_data_callback);
+    linked_list_destroy(&list_serv_man, linked_list_callback_free_service_manager);
 }
 
 ServiceManager *hpb_list_service_managers_find(ListServiceManagers *list_serv_man, byte service_key[])
 {
-    LinkedListNode *elem = linked_list_find(list_serv_man, service_key, hpb_list_service_managers_compare_data_callback);
+    LinkedListNode *elem = linked_list_find(list_serv_man, service_key, linked_list_callback_is_service_manager_key);
 
     if(elem == NULL)
         return NULL;
@@ -42,19 +42,15 @@ ServiceManager *hpb_list_service_managers_find(ListServiceManagers *list_serv_ma
     return (ServiceManager*) elem->element;
 }
 
-bool hpb_list_service_managers_compare_data_callback(void *serv_man1, void *serv_man2)
+static bool linked_list_callback_is_service_manager_key(void *service_manager, void *key)
 {
-    if (serv_man1 == NULL || serv_man2 == NULL)
+    if (service_manager == NULL || key == NULL)
         return false;
 
-    if(memcmp(((ServiceManager*) serv_man1)->service_key, (byte*) serv_man2, SHA1_BLOCK_SIZE * sizeof(byte)) == 0)
-        return true;
-
-    return false;
+    return is_sha1_key_equal(((ServiceManager*) service_manager)->service_key, (byte*) key);
 }
 
-void hpb_list_service_managers_free_data_callback(void **serv_man)
+static void linked_list_callback_free_service_manager(void **service_manager)
 {
-    ServiceManager **ptr = (ServiceManager**) serv_man;
-    hpb_service_manager_destroy(ptr);
+    hpb_service_manager_destroy((ServiceManager**) service_manager);
 }

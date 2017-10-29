@@ -31,17 +31,17 @@ Subscription *hpb_list_subscriptions_add(ListSubscriptions *list_subscrpt, char 
 int hpb_list_subscriptions_remove(ListSubscriptions *list_subscrpt, char *serv_name, size_t serv_name_len, byte man_id[HPB_ID_BYTE_SIZE])
 {
     Subscription *subscrpt = hpb_subscription_create(serv_name, serv_name_len, man_id);
-    return linked_list_remove(list_subscrpt, subscrpt, hpb_list_subscriptions_compare_data_callback, hpb_list_subscriptions_free_data_callback);
+    return linked_list_remove(list_subscrpt, subscrpt, linked_list_callback_is_subscription_service_key, linked_list_callback_free_subscription);
 }
 
 void hpb_list_subscriptions_destroy(ListSubscriptions *list_subscrpt)
 {
-    linked_list_destroy(&list_subscrpt, hpb_list_subscriptions_free_data_callback);
+    linked_list_destroy(&list_subscrpt, linked_list_callback_free_subscription);
 }
 
 Subscription *hpb_list_subscriptions_find(ListSubscriptions *list_subscrpt, byte service_key[])
 {
-    LinkedListNode *elem = linked_list_find(list_subscrpt, service_key, hpb_list_subscriptions_compare_data_callback);
+    LinkedListNode *elem = linked_list_find(list_subscrpt, service_key, linked_list_callback_is_subscription_service_key);
 
     if(elem == NULL)
         return NULL;
@@ -49,19 +49,15 @@ Subscription *hpb_list_subscriptions_find(ListSubscriptions *list_subscrpt, byte
     return (Subscription*) elem->element;
 }
 
-bool hpb_list_subscriptions_compare_data_callback(void *subscrpt1, void *subscrpt2)
+static bool linked_list_callback_is_subscription_service_key(void *subscription, void *service_key)
 {
-    if (subscrpt1 == NULL || subscrpt2 == NULL)
+    if (subscription == NULL || service_key == NULL)
         return false;
 
-    if (memcmp(((Subscription*) subscrpt1)->service_key, (byte*) subscrpt2, SHA1_BLOCK_SIZE * sizeof(byte)) == 0)
-        return true;
-
-    return false;
+    return is_sha1_key_equal(((Subscription*) subscription)->service_key, (byte*) service_key);
 }
 
-void hpb_list_subscriptions_free_data_callback(void **subscrpt)
+static void linked_list_callback_free_subscription(void **subscription)
 {
-    Subscription **ptr = (Subscription**) subscrpt;
-    hpb_subscription_destroy(ptr);
+    hpb_subscription_destroy((Subscription**) subscription);
 }

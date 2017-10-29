@@ -23,8 +23,8 @@ void hpb_list_subscriptions_destroy(ListSubscriptions *list_subscrpt);
 
 Subscription *hpb_list_subscriptions_find(ListSubscriptions *list_subscrpt, byte service_key[]);
 
-bool hpb_list_subscriptions_compare_data_callback(void *subscrpt1, void *subscrpt2);
+static bool linked_list_callback_is_subscription_service_key(void *subscription, void *service_key);
 
-void hpb_list_subscriptions_free_data_callback(void **subscrpt);
+static void linked_list_callback_free_subscription(void **subscription);
 
 #endif /* HYPE_PUB_SUB_LIST_SUBSCRIPTIONS_H_INCLUDED_ */

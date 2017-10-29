@@ -27,8 +27,8 @@ void hpb_list_clients_destroy(ListClients *list_cl);
 
 Client *hpb_list_clients_find(ListClients *list_cl, byte client_id[]);
 
-bool hpb_list_clients_compare_data_callback(void *cl1, void *cl2);
+static bool linked_list_callback_is_client_id(void *client, void *id);
 
-void hpb_list_clients_free_data_callback(void **cl);
+static void linked_list_callback_free_client(void **client);
 
 #endif /* HPB_LIST_CLIENTS_H_INCLUDED_ */

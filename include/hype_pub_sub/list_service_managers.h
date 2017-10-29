@@ -21,8 +21,8 @@ void hpb_list_service_managers_destroy(ListServiceManagers *list_serv_man);
 
 ServiceManager *hpb_list_service_managers_find(ListServiceManagers *list_cl, byte service_key[]);
 
-bool hpb_list_service_managers_compare_data_callback(void *serv_man1, void *serv_man2);
+static bool linked_list_callback_is_service_manager_key(void *service_manager, void *key);
 
-void hpb_list_service_managers_free_data_callback(void **serv_man);
+static void linked_list_callback_free_service_manager(void **service_manager);
 
 #endif /* HPB_LIST_SERVICE_MANAGERS_H_INCLUDED_ */

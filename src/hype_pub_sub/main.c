@@ -24,7 +24,6 @@ byte EXAMPLE_ID4[] = "\x10\x11\x12\x01\x02\x03\x04\x05\x06\x07\x08\x09";
 
 int main()
 {
-
     test_hash();
 
     test_message_construction();

@@ -155,3 +155,10 @@ void sha1_digest(const BYTE* msg, size_t msg_len, BYTE * msg_digest)
     sha1_update(&ctx, msg, msg_len);
     sha1_final(&ctx, msg_digest);
 }
+
+bool is_sha1_key_equal(BYTE key1[], BYTE key2[])
+{
+    if(memcmp(key1, key2, SHA1_BLOCK_SIZE * sizeof(BYTE)) == 0)
+        return true;
+    return false;
+}
