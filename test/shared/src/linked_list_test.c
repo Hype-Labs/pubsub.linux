@@ -23,7 +23,7 @@ void linked_list_test_create_destroy()
 
 void linked_list_test_int()
 {
-    LinkedListElement *elem;
+    LinkedListNode *elem;
     int *elem_data;
     int return_val;
 
@@ -71,49 +71,49 @@ void linked_list_test_int()
     it = linked_list_create_iterator(list);
     CU_ASSERT_PTR_NOT_NULL(it);
 
-    elem_data = linked_list_get_element_data_iterator(it);
+    elem_data = linked_list_iterator_get_element(it);
     CU_ASSERT_PTR_NOT_NULL(elem_data);
     CU_ASSERT( *((int *) elem_data) == int_to_add1);
 
-    linked_list_advance_iterator(it);
-    elem_data = linked_list_get_element_data_iterator(it);
+    linked_list_iterator_advance(it);
+    elem_data = linked_list_iterator_get_element(it);
     CU_ASSERT( *((int *) elem_data) == int_to_add2);
 
-    linked_list_advance_iterator(it);
-    elem_data = linked_list_get_element_data_iterator(it);
+    linked_list_iterator_advance(it);
+    elem_data = linked_list_iterator_get_element(it);
     CU_ASSERT( *((int *) elem_data) == int_to_add3);
 
-    linked_list_advance_iterator(it);
-    elem_data = linked_list_get_element_data_iterator(it);
+    linked_list_iterator_advance(it);
+    elem_data = linked_list_iterator_get_element(it);
     CU_ASSERT( *((int *) elem_data) == int_to_add4);
 
-    linked_list_advance_iterator(it);
-    elem_data = linked_list_get_element_data_iterator(it);
+    linked_list_iterator_advance(it);
+    elem_data = linked_list_iterator_get_element(it);
     CU_ASSERT( *((int *) elem_data) == int_to_add5);
 
-    linked_list_advance_iterator(it);
-    elem_data = linked_list_get_element_data_iterator(it);
+    linked_list_iterator_advance(it);
+    elem_data = linked_list_iterator_get_element(it);
     CU_ASSERT( *((int *) elem_data) == int_to_add6);
 
-    linked_list_advance_iterator(it);
-    elem_data = linked_list_get_element_data_iterator(it);
+    linked_list_iterator_advance(it);
+    elem_data = linked_list_iterator_get_element(it);
     CU_ASSERT( *((int *) elem_data) == int_to_add7);
 
-    linked_list_advance_iterator(it);
-    elem_data = linked_list_get_element_data_iterator(it);
+    linked_list_iterator_advance(it);
+    elem_data = linked_list_iterator_get_element(it);
     CU_ASSERT( *((int *) elem_data) == int_to_add8);
 
-    linked_list_advance_iterator(it);
-    elem_data = linked_list_get_element_data_iterator(it);
+    linked_list_iterator_advance(it);
+    elem_data = linked_list_iterator_get_element(it);
     CU_ASSERT( *((int *) elem_data) == int_to_add9);
 
-    linked_list_advance_iterator(it);
-    elem_data = linked_list_get_element_data_iterator(it);
+    linked_list_iterator_advance(it);
+    elem_data = linked_list_iterator_get_element(it);
     CU_ASSERT( *((int *) elem_data) == int_to_add10);
 
     // Test iterator when we get to the end of the list
-    linked_list_advance_iterator(it);
-    elem_data = linked_list_get_element_data_iterator(it);
+    linked_list_iterator_advance(it);
+    elem_data = linked_list_iterator_get_element(it);
     CU_ASSERT_PTR_NOT_NULL(elem_data);
     CU_ASSERT( *((int *) elem_data) == int_to_add10);
 
@@ -146,35 +146,35 @@ void linked_list_test_int()
     // Iterate over the remaining 7 integer elements
     ////////////////////////////////////////////////////
 
-    linked_list_reset_iterator(it); // reset to get back to the head of the list
-    elem_data = linked_list_get_element_data_iterator(it);
+    linked_list_iterator_reset(it); // reset to get back to the head of the list
+    elem_data = linked_list_iterator_get_element(it);
     CU_ASSERT( *((int *) elem_data) == int_to_add2);
 
-    linked_list_advance_iterator(it);
-    elem_data = linked_list_get_element_data_iterator(it);
+    linked_list_iterator_advance(it);
+    elem_data = linked_list_iterator_get_element(it);
     CU_ASSERT( *((int *) elem_data) == int_to_add3);
 
-    linked_list_advance_iterator(it);
-    elem_data = linked_list_get_element_data_iterator(it);
+    linked_list_iterator_advance(it);
+    elem_data = linked_list_iterator_get_element(it);
     CU_ASSERT( *((int *) elem_data) == int_to_add4);
 
-    linked_list_advance_iterator(it);
-    elem_data = linked_list_get_element_data_iterator(it);
+    linked_list_iterator_advance(it);
+    elem_data = linked_list_iterator_get_element(it);
     CU_ASSERT( *((int *) elem_data) == int_to_add6);
 
-    linked_list_advance_iterator(it);
-    elem_data = linked_list_get_element_data_iterator(it);
+    linked_list_iterator_advance(it);
+    elem_data = linked_list_iterator_get_element(it);
     CU_ASSERT( *((int *) elem_data) == int_to_add7);
 
-    linked_list_advance_iterator(it);
-    elem_data = linked_list_get_element_data_iterator(it);
+    linked_list_iterator_advance(it);
+    elem_data = linked_list_iterator_get_element(it);
     CU_ASSERT( *((int *) elem_data) == int_to_add8);
 
-    linked_list_advance_iterator(it);
-    elem_data = linked_list_get_element_data_iterator(it);
+    linked_list_iterator_advance(it);
+    elem_data = linked_list_iterator_get_element(it);
     CU_ASSERT( *((int *) elem_data) == int_to_add9);
 
-    linked_list_destroy_iterator(&it);
+    linked_list_iterator_destroy(&it);
     CU_ASSERT_PTR_NULL(it);
 
     ////////////////////////////////////////////////////
@@ -191,14 +191,14 @@ void linked_list_test_int()
 
     elem = linked_list_find(list, &int_to_find2, compare_int_elem);
     CU_ASSERT_PTR_NOT_NULL(elem);
-    CU_ASSERT( *((int *) elem->data) == int_to_add2);
+    CU_ASSERT( *((int *) elem->element) == int_to_add2);
 
     elem = linked_list_find(list, &int_to_find3, compare_int_elem);
     CU_ASSERT_PTR_NULL(elem);
 
     elem = linked_list_find(list, &int_to_find4, compare_int_elem);
     CU_ASSERT_PTR_NOT_NULL(elem);
-    CU_ASSERT( *((int *) elem->data) == int_to_add8);
+    CU_ASSERT( *((int *) elem->element) == int_to_add8);
 
     ////////////////////////////////////////////////////
     // Remove all elements
@@ -222,7 +222,7 @@ void linked_list_test_int()
     ////////////////////////////////////////////////////
 
     linked_list_add(list, create_int(int_to_add1));
-    LinkedListElement * elem1 = linked_list_find(list, &int_to_add1, compare_int_elem);
+    LinkedListNode * elem1 = linked_list_find(list, &int_to_add1, compare_int_elem);
     linked_list_add(list, create_int(int_to_add2));
     linked_list_add(list, create_int(int_to_add3));
     linked_list_add(list, create_int(int_to_add4));
@@ -264,20 +264,20 @@ void linked_list_test_testing_struct()
     linked_list_add_testing_struct(list, create_testing_struct(tst_struct_str2, strlen(tst_struct_str2), tst_struct_id2));
     linked_list_add_testing_struct(list, create_testing_struct(tst_struct_str3, strlen(tst_struct_str3), tst_struct_id3));
     linked_list_add_testing_struct(list, create_testing_struct(tst_struct_str4, strlen(tst_struct_str4), tst_struct_id4));
-    linked_list_reset_iterator(it);
-    t_str = (TestingStruct *) linked_list_get_element_data_iterator(it);
+    linked_list_iterator_reset(it);
+    t_str = (TestingStruct *) linked_list_iterator_get_element(it);
     CU_ASSERT(t_str->id == tst_struct_id1);
-    linked_list_advance_iterator(it);
-    t_str = (TestingStruct *) linked_list_get_element_data_iterator(it);
+    linked_list_iterator_advance(it);
+    t_str = (TestingStruct *) linked_list_iterator_get_element(it);
     CU_ASSERT(t_str->id == tst_struct_id2);
-    linked_list_advance_iterator(it);
-    t_str = (TestingStruct *) linked_list_get_element_data_iterator(it);
+    linked_list_iterator_advance(it);
+    t_str = (TestingStruct *) linked_list_iterator_get_element(it);
     CU_ASSERT(t_str->id == tst_struct_id3);
-    linked_list_advance_iterator(it);
-    t_str = (TestingStruct *) linked_list_get_element_data_iterator(it);
+    linked_list_iterator_advance(it);
+    t_str = (TestingStruct *) linked_list_iterator_get_element(it);
     CU_ASSERT(t_str->id == tst_struct_id4);
-    linked_list_advance_iterator(it);
-    t_str = (TestingStruct *) linked_list_get_element_data_iterator(it);
+    linked_list_iterator_advance(it);
+    t_str = (TestingStruct *) linked_list_iterator_get_element(it);
     CU_ASSERT(t_str->id == tst_struct_id4);
     CU_ASSERT(list->size == 4);
 
@@ -286,14 +286,14 @@ void linked_list_test_testing_struct()
     ////////////////////////////////////////////////////
 
     linked_list_remove(list, &tst_struct_id3, compare_testing_struct_elem, free_testing_struct_elem);
-    linked_list_reset_iterator(it);
-    t_str = (TestingStruct *) linked_list_get_element_data_iterator(it);
+    linked_list_iterator_reset(it);
+    t_str = (TestingStruct *) linked_list_iterator_get_element(it);
     CU_ASSERT(t_str->id == tst_struct_id1);
-    linked_list_advance_iterator(it);
-    t_str = (TestingStruct *) linked_list_get_element_data_iterator(it);
+    linked_list_iterator_advance(it);
+    t_str = (TestingStruct *) linked_list_iterator_get_element(it);
     CU_ASSERT(t_str->id == tst_struct_id2);
-    linked_list_advance_iterator(it);
-    t_str = (TestingStruct *) linked_list_get_element_data_iterator(it);
+    linked_list_iterator_advance(it);
+    t_str = (TestingStruct *) linked_list_iterator_get_element(it);
     CU_ASSERT(t_str->id == tst_struct_id4);
     CU_ASSERT(list->size == 3);
 
@@ -302,14 +302,14 @@ void linked_list_test_testing_struct()
     ////////////////////////////////////////////////////
 
     linked_list_remove(list, &tst_struct_id3, compare_testing_struct_elem, free_testing_struct_elem);
-    linked_list_reset_iterator(it);
-    t_str = (TestingStruct *) linked_list_get_element_data_iterator(it);
+    linked_list_iterator_reset(it);
+    t_str = (TestingStruct *) linked_list_iterator_get_element(it);
     CU_ASSERT(t_str->id == tst_struct_id1);
-    linked_list_advance_iterator(it);
-    t_str = (TestingStruct *) linked_list_get_element_data_iterator(it);
+    linked_list_iterator_advance(it);
+    t_str = (TestingStruct *) linked_list_iterator_get_element(it);
     CU_ASSERT(t_str->id == tst_struct_id2);
-    linked_list_advance_iterator(it);
-    t_str = (TestingStruct *) linked_list_get_element_data_iterator(it);
+    linked_list_iterator_advance(it);
+    t_str = (TestingStruct *) linked_list_iterator_get_element(it);
     CU_ASSERT(t_str->id == tst_struct_id4);
     CU_ASSERT(list->size == 3);
 
@@ -318,11 +318,11 @@ void linked_list_test_testing_struct()
     ////////////////////////////////////////////////////
 
     linked_list_remove(list, &tst_struct_id4, compare_testing_struct_elem, free_testing_struct_elem);
-    linked_list_reset_iterator(it);
-    t_str = (TestingStruct *) linked_list_get_element_data_iterator(it);
+    linked_list_iterator_reset(it);
+    t_str = (TestingStruct *) linked_list_iterator_get_element(it);
     CU_ASSERT(t_str->id == tst_struct_id1);
-    linked_list_advance_iterator(it);
-    t_str = (TestingStruct *) linked_list_get_element_data_iterator(it);
+    linked_list_iterator_advance(it);
+    t_str = (TestingStruct *) linked_list_iterator_get_element(it);
     CU_ASSERT(t_str->id == tst_struct_id2);
     CU_ASSERT(list->size == 2);
 
@@ -331,8 +331,8 @@ void linked_list_test_testing_struct()
     ////////////////////////////////////////////////////
 
     linked_list_remove(list, &tst_struct_id1, compare_testing_struct_elem, free_testing_struct_elem);
-    linked_list_reset_iterator(it);
-    t_str = (TestingStruct *) linked_list_get_element_data_iterator(it);
+    linked_list_iterator_reset(it);
+    t_str = (TestingStruct *) linked_list_iterator_get_element(it);
     CU_ASSERT(t_str->id == tst_struct_id2);
     CU_ASSERT(list->size == 1);
 
@@ -341,8 +341,8 @@ void linked_list_test_testing_struct()
     ////////////////////////////////////////////////////
 
     linked_list_remove(list, &tst_struct_id2, compare_testing_struct_elem, free_testing_struct_elem);
-    linked_list_reset_iterator(it);
-    t_str = (TestingStruct *) linked_list_get_element_data_iterator(it);
+    linked_list_iterator_reset(it);
+    t_str = (TestingStruct *) linked_list_iterator_get_element(it);
     CU_ASSERT_PTR_NULL(t_str);
     CU_ASSERT(list->size == 0);
 
@@ -351,8 +351,8 @@ void linked_list_test_testing_struct()
     ////////////////////////////////////////////////////
 
     linked_list_add_testing_struct(list, create_testing_struct(tst_struct_str4, strlen(tst_struct_str4), tst_struct_id4));
-    linked_list_reset_iterator(it);
-    t_str = (TestingStruct *) linked_list_get_element_data_iterator(it);
+    linked_list_iterator_reset(it);
+    t_str = (TestingStruct *) linked_list_iterator_get_element(it);
     CU_ASSERT(t_str->id == tst_struct_id4);
     CU_ASSERT(list->size == 1);
 
@@ -364,21 +364,21 @@ void linked_list_test_testing_struct()
     linked_list_add_testing_struct(list, create_testing_struct(tst_struct_str2, strlen(tst_struct_str2), tst_struct_id2));
     linked_list_add_testing_struct(list, create_testing_struct(tst_struct_str3, strlen(tst_struct_str3), tst_struct_id3));
     linked_list_add_testing_struct(list, create_testing_struct(tst_struct_str4, strlen(tst_struct_str4), tst_struct_id4));
-    linked_list_reset_iterator(it);
-    t_str = (TestingStruct *) linked_list_get_element_data_iterator(it);
+    linked_list_iterator_reset(it);
+    t_str = (TestingStruct *) linked_list_iterator_get_element(it);
     CU_ASSERT(t_str->id == tst_struct_id4);
-    linked_list_advance_iterator(it);
-    t_str = (TestingStruct *) linked_list_get_element_data_iterator(it);
+    linked_list_iterator_advance(it);
+    t_str = (TestingStruct *) linked_list_iterator_get_element(it);
     CU_ASSERT(t_str->id == tst_struct_id1);
-    linked_list_advance_iterator(it);
-    t_str = (TestingStruct *) linked_list_get_element_data_iterator(it);
+    linked_list_iterator_advance(it);
+    t_str = (TestingStruct *) linked_list_iterator_get_element(it);
     CU_ASSERT(t_str->id == tst_struct_id2);
-    linked_list_advance_iterator(it);
-    t_str = (TestingStruct *) linked_list_get_element_data_iterator(it);
+    linked_list_iterator_advance(it);
+    t_str = (TestingStruct *) linked_list_iterator_get_element(it);
     CU_ASSERT(t_str->id == tst_struct_id3);
     CU_ASSERT(list->size == 4);
 
-    linked_list_destroy_iterator(&it);
+    linked_list_iterator_destroy(&it);
     linked_list_destroy(&list, free_testing_struct_elem);
     CU_ASSERT_PTR_NULL(it);
     CU_ASSERT_PTR_NULL(list);

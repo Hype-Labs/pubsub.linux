@@ -7,7 +7,7 @@
 #include "constants.h"
 
 
-typedef LinkedListElement ListServiceManagerElement;
+typedef LinkedListNode ListServiceManagerElement;
 typedef LinkedList ListServiceManagers;
 
 

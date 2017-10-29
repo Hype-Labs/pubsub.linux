@@ -6,51 +6,51 @@
 #include <stdbool.h>
 #include <string.h>
 
-//typedef bool (*LinkedListOnCompareDataCallback) (void*, void*);
-//typedef void (*LinkedListOnRemoveDataCallback) (void*);
+typedef bool (*LinkedListCompareElementsCallback) (void *, void *);
+typedef void (*LinkedListFreeElementCallback) (void **);
 
-typedef struct LinkedListElement_
+typedef struct LinkedListNode_
 {
-    void *data;
-    struct LinkedListElement_ *next;
-} LinkedListElement;
+    void *element;
+    struct LinkedListNode_ *next;
+} LinkedListNode;
 
 typedef struct LinkedList_
 {
-    LinkedListElement *head;
+    LinkedListNode *head;
     size_t size;
 } LinkedList;
 
 typedef struct LinkedListIterator_
 {
     LinkedList *list;
-    LinkedListElement *it_elem;
+    LinkedListNode *it_node;
 } LinkedListIterator;
 
-LinkedList* linked_list_create();
+LinkedList *linked_list_create();
 
-LinkedListElement* linked_list_create_element(void *elem_data);
+LinkedListNode *linked_list_create_node(void *element);
 
-LinkedListIterator* linked_list_create_iterator(LinkedList *list);
+LinkedListIterator *linked_list_create_iterator(LinkedList *list);
 
-int linked_list_add(LinkedList* list, void *elem_data);
+int linked_list_add(LinkedList *list, void *element);
 
-int linked_list_remove(LinkedList *list, void* elem_data, bool (*compare_elements_data) (void*, void*), void (*free_element_data) (void**));
+int linked_list_remove(LinkedList *list, void *element, LinkedListCompareElementsCallback cmp_elements, LinkedListFreeElementCallback free_element);
 
-bool linked_list_is_empty(LinkedList* list);
+bool linked_list_is_empty(LinkedList *list);
 
-LinkedListElement* linked_list_find(LinkedList* list, void *elem_data, bool (*compare_elements_data) (void*, void*));
+LinkedListNode *linked_list_find(LinkedList *list, void *element, LinkedListCompareElementsCallback cmp_elements);
 
-void linked_list_reset_iterator(LinkedListIterator *it);
+void linked_list_iterator_reset(LinkedListIterator *it);
 
-void* linked_list_get_element_data_iterator(LinkedListIterator *it);
+void *linked_list_iterator_get_element(LinkedListIterator *it);
 
-int linked_list_advance_iterator(LinkedListIterator *it);
+int linked_list_iterator_advance(LinkedListIterator *it);
 
-void linked_list_destroy_iterator(LinkedListIterator **it);
+void linked_list_iterator_destroy(LinkedListIterator **it);
 
-void linked_list_destroy_element(LinkedListElement **element, void (*free_element_data) (void**));
+void linked_list_destroy_node(LinkedListNode **node, LinkedListFreeElementCallback free_element);
 
-void linked_list_destroy(LinkedList **list, void (*free_element_data) (void**));
+void linked_list_destroy(LinkedList **list, LinkedListFreeElementCallback free_element);
 
 #endif /* SHARED_LINKED_LIST_H_INCLUDED_ */

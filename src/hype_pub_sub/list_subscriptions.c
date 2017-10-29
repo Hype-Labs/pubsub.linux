@@ -41,12 +41,12 @@ void hpb_list_subscriptions_destroy(ListSubscriptions *list_subscrpt)
 
 Subscription *hpb_list_subscriptions_find(ListSubscriptions *list_subscrpt, byte service_key[])
 {
-    LinkedListElement *elem = linked_list_find(list_subscrpt, service_key, hpb_list_subscriptions_compare_data_callback);
+    LinkedListNode *elem = linked_list_find(list_subscrpt, service_key, hpb_list_subscriptions_compare_data_callback);
 
     if(elem == NULL)
         return NULL;
 
-    return (Subscription*) elem->data;
+    return (Subscription*) elem->element;
 }
 
 bool hpb_list_subscriptions_compare_data_callback(void *subscrpt1, void *subscrpt2)

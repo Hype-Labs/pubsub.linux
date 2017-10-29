@@ -39,7 +39,7 @@ Client *hpb_list_clients_find(ListClients *list_cl, byte client_id[])
     if(elem == NULL)
         return NULL;
 
-    return (Client*) elem->data;
+    return (Client*) elem->element;
 }
 
 bool hpb_list_clients_compare_data_callback(void *cl1, void *cl2)

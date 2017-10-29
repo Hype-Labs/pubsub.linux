@@ -109,7 +109,7 @@ int hpb_process_publish_req(HypePubSub *hpb, byte service_key[], char *msg, size
     LinkedListIterator *it = linked_list_create_iterator(service->subscribers);
     do
     {
-        Client* client = (Client*) linked_list_get_element_data_iterator(it);
+        Client* client = (Client*) linked_list_iterator_get_element(it);
         if(client == NULL)
             continue;
 
@@ -118,8 +118,8 @@ int hpb_process_publish_req(HypePubSub *hpb, byte service_key[], char *msg, size
         else
             hpb_protocol_send_info_msg(service_key, client->id, msg, msg_length);
 
-    } while(linked_list_advance_iterator(it) != -1);
-    linked_list_destroy_iterator(&it);
+    } while(linked_list_iterator_advance(it) != -1);
+    linked_list_iterator_destroy(&it);
 
     return 0;
 }
@@ -147,7 +147,7 @@ static int hpb_update_managed_services(HypePubSub *hpb)
     LinkedListIterator *it = linked_list_create_iterator(hpb->managed_services);
     do
     {
-        ServiceManager* service_man = (ServiceManager*) linked_list_get_element_data_iterator(it);
+        ServiceManager* service_man = (ServiceManager*) linked_list_iterator_get_element(it);
         if(service_man == NULL)
             continue;
 
@@ -157,9 +157,9 @@ static int hpb_update_managed_services(HypePubSub *hpb)
         if(memcmp(hpb->network->own_client->id, new_manager_id, HPB_ID_BYTE_SIZE) != 0)
             hpb_list_service_managers_remove(hpb->managed_services, service_man->service_key);
 
-    } while(linked_list_advance_iterator(it) != -1);
+    } while(linked_list_iterator_advance(it) != -1);
 
-    linked_list_destroy_iterator(&it);
+    linked_list_iterator_destroy(&it);
     return 0;
 }
 
@@ -171,7 +171,7 @@ static int hpb_update_own_subscriptions(HypePubSub *hpb)
     LinkedListIterator *it = linked_list_create_iterator(hpb->own_subscriptions);
     do
     {
-        Subscription* subscription = (Subscription*) linked_list_get_element_data_iterator(it);
+        Subscription* subscription = (Subscription*) linked_list_iterator_get_element(it);
         if(subscription == NULL)
             continue;
 
@@ -184,9 +184,9 @@ static int hpb_update_own_subscriptions(HypePubSub *hpb)
             hpb_issue_subscribe_req(hpb, subscription->service_key); // re-send the subscribe request to the new manager
         }
 
-    } while(linked_list_advance_iterator(it) != -1);
+    } while(linked_list_iterator_advance(it) != -1);
 
-    linked_list_destroy_iterator(&it);
+    linked_list_iterator_destroy(&it);
 
     return 0;
 }

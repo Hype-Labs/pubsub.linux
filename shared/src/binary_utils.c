@@ -2,9 +2,9 @@
 #include "binary_utils.h"
 
 
-byte* binary_utils_xor(byte *byte_array1, byte *byte_array2, size_t byte_array_size)
+byte *binary_utils_xor(byte *byte_array1, byte *byte_array2, size_t byte_array_size)
 {
-    byte* str_xor = (byte*) malloc(byte_array_size * sizeof(byte));
+    byte *str_xor = (byte*) malloc(byte_array_size * sizeof(byte));
     for(int i=0; i < byte_array_size; i++)
         str_xor[i] = byte_array1[i] ^ byte_array2[i];
     return str_xor;
@@ -68,7 +68,7 @@ char *binary_utils_get_formatted_binary_str(byte *byte_array, size_t byte_array_
     size_t formatted_str_size = byte_array_size*8 + byte_array_size*2 + 1;
     char *formatted_str = (char*) malloc(formatted_str_size * sizeof(char));
 
-    char * bin_array = binary_utils_to_binary_char_array(byte_array, byte_array_size);
+    char  *bin_array = binary_utils_to_binary_char_array(byte_array, byte_array_size);
 
     int j=0;
     for(int i=0; i < byte_array_size*8; i++)
@@ -85,7 +85,7 @@ char *binary_utils_get_formatted_binary_str(byte *byte_array, size_t byte_array_
 }
 
 
-void binary_utils_print_hex_array(unsigned char* array, size_t len)
+void binary_utils_print_hex_array(unsigned char *array, size_t len)
 {
     for(int i=0; i<len; i++)
         printf("%.2x", array[i]);
