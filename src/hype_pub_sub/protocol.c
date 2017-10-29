@@ -1,10 +1,10 @@
 
 #include "hype_pub_sub/protocol.h"
 
-Protocol *hpb_protocol_create(HypePubSub *pub_sub)
+Protocol *hpb_protocol_create(HypePubSub *hpb)
 {
     Protocol *prot = (Protocol *) malloc(sizeof(Protocol));
-    prot->application = pub_sub;
+    prot->application = hpb;
     return prot;
 }
 

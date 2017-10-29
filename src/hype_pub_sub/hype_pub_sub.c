@@ -45,7 +45,7 @@ int hpb_issue_unsubscribe_req(HypePubSub *hpb, byte service_key[])
     return 0;
 }
 
-int hpb_issue_publish_req(HypePubSub *hpb, byte service_key[], char* msg, size_t msg_length)
+int hpb_issue_publish_req(HypePubSub *hpb, byte service_key[], char *msg, size_t msg_length)
 {
     if(hpb == NULL)
         return -1;
@@ -96,7 +96,7 @@ int hpb_process_unsubscribe_req(HypePubSub *hpb, byte service_key[], byte reques
     return 0;
 }
 
-int hpb_process_publish_req(HypePubSub *hpb, byte service_key[], char* msg, size_t msg_length)
+int hpb_process_publish_req(HypePubSub *hpb, byte service_key[], char *msg, size_t msg_length)
 {
     if(hpb == NULL)
         return -1;
@@ -124,7 +124,7 @@ int hpb_process_publish_req(HypePubSub *hpb, byte service_key[], char* msg, size
     return 0;
 }
 
-int hpb_process_info_req(HypePubSub *hpb, byte service_key[], char* msg, size_t msg_length)
+int hpb_process_info_req(HypePubSub *hpb, byte service_key[], char *msg, size_t msg_length)
 {
     if(hpb == NULL)
         return -1;
@@ -163,7 +163,7 @@ static int hpb_update_managed_services(HypePubSub *hpb)
     return 0;
 }
 
-static int hpb_update_subscriptions(HypePubSub *hpb)
+static int hpb_update_own_subscriptions(HypePubSub *hpb)
 {
     if(hpb == NULL)
         return -1;

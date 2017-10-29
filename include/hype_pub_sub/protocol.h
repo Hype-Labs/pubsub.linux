@@ -30,7 +30,7 @@ typedef struct PacketField_
     size_t size;
 } PacketField;
 
-Protocol *hpb_protocol_create(HypePubSub *pub_sub);
+Protocol *hpb_protocol_create(HypePubSub *hpb);
 
 int hpb_protocol_send_subscribe_msg(byte service_key[SHA1_BLOCK_SIZE], byte dest_network_id[HPB_ID_BYTE_SIZE]);
 
@@ -56,8 +56,8 @@ static MessageType hpb_protocol_get_message_type(char *msg);
 
 void hpb_protocol_destroy(Protocol **protocol);
 
-// TODO: Review this later. Currently it seems that these methods are replaced by the hype_pub_sub_update_subscriptions() and hype_pub_sub_update_managed_services() methods
-// int hype_pub_sub_protocol_send_change_service_manager_msg(byte service_key[SHA1_BLOCK_SIZE], byte dest_network_id[HYPE_CONSTANTS_ID_BYTE_SIZE], byte** subscribers_ids[SHA1_BLOCK_SIZE]);
-// int hype_pub_sub_protocol_receive_change_service_manager_msg(Protocol* protocol, char* msg);
+// TODO: Review this later. Currently it seems that these methods are replaced by the hpb_update_subscriptions() and hpb_update_managed_services() methods
+// int hpb_protocol_send_change_service_manager_msg(byte service_key[SHA1_BLOCK_SIZE], byte dest_network_id[HYPE_CONSTANTS_ID_BYTE_SIZE], byte** subscribers_ids[SHA1_BLOCK_SIZE]);
+// int hpb_protocol_receive_change_service_manager_msg(Protocol* protocol, char* msg);
 
 #endif /* HPB_PROTOCOL_H_INCLUDED_ */
