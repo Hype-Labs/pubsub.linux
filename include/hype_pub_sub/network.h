@@ -1,6 +1,6 @@
 
-#ifndef HYPE_PUB_SUB_NETWORK_H_INCLUDED_
-#define HYPE_PUB_SUB_NETWORK_H_INCLUDED_
+#ifndef HPB_NETWORK_H_INCLUDED_
+#define HPB_NETWORK_H_INCLUDED_
 
 #include <stdlib.h>
 #include <stdbool.h>
@@ -17,16 +17,16 @@ typedef struct Network_
     ListClients *network_clients;
 } Network;
 
-Network* hype_pub_sub_network_create();
+Network *hpb_network_create();
 
-byte* hype_pub_sub_network_get_service_manager_id(Network* net, byte service_key[SHA1_BLOCK_SIZE]);
+byte *hpb_network_get_service_manager_id(Network *net, byte service_key[SHA1_BLOCK_SIZE]);
 
-int hype_pub_sub_network_update_clients(Network* net);
+int hpb_network_update_clients(Network *net);
 
-bool hype_pub_sub_network_is_client_online(Network* net, byte client_id[HYPE_CONSTANTS_ID_BYTE_SIZE]);
+bool hpb_network_is_client_online(Network *net, byte client_id[HYPE_CONSTANTS_ID_BYTE_SIZE]);
 
-byte* hype_pub_sub_network_get_own_id();
+byte *hpb_network_get_own_id();
 
-void hype_pub_sub_network_destroy(Network **net);
+void hpb_network_destroy(Network **net);
 
-#endif /* HYPE_PUB_SUB_NETWORK_H_INCLUDED_ */
+#endif /* HPB_NETWORK_H_INCLUDED_ */

@@ -66,59 +66,59 @@ void test_message_construction()
     char msg1[] = {"HelloWorld"};
     char msg2[] = {"HelloWorlda"};
 
-    HypePubSub* myPubSubApp = hype_pub_sub_create();
+    HypePubSub* myPubSubApp = hpb_create();
 
-    hype_pub_sub_protocol_send_subscribe_msg(servKey1,EXAMPLE_ID1);
-    hype_pub_sub_protocol_send_unsubscribe_msg(servKey1,EXAMPLE_ID1);
-    hype_pub_sub_protocol_send_publish_msg(servKey1,EXAMPLE_ID1, msg1, strlen(msg1));
-    hype_pub_sub_protocol_send_info_msg(servKey1,EXAMPLE_ID1, msg2, strlen(msg2));
+    hpb_protocol_send_subscribe_msg(servKey1,EXAMPLE_ID1);
+    hpb_protocol_send_unsubscribe_msg(servKey1,EXAMPLE_ID1);
+    hpb_protocol_send_publish_msg(servKey1,EXAMPLE_ID1, msg1, strlen(msg1));
+    hpb_protocol_send_info_msg(servKey1,EXAMPLE_ID1, msg2, strlen(msg2));
 
-    hype_pub_sub_destroy(&myPubSubApp);
+    hpb_destroy(&myPubSubApp);
 }
 
 void test_subscribers_list()
 {
-    ListClients* subscribers = hype_pub_sub_list_clients_create();
+    ListClients* subscribers = hpb_list_clients_create();
 
     printf("\nAdding id1, id2, id3, id4\n");
-    hype_pub_sub_list_clients_add(subscribers, EXAMPLE_ID1);
-    hype_pub_sub_list_clients_add(subscribers, EXAMPLE_ID2);
-    hype_pub_sub_list_clients_add(subscribers, EXAMPLE_ID3);
-    hype_pub_sub_list_clients_add(subscribers, EXAMPLE_ID4);
+    hpb_list_clients_add(subscribers, EXAMPLE_ID1);
+    hpb_list_clients_add(subscribers, EXAMPLE_ID2);
+    hpb_list_clients_add(subscribers, EXAMPLE_ID3);
+    hpb_list_clients_add(subscribers, EXAMPLE_ID4);
     print_clients_list(subscribers);
 
     printf("\nRemoving id3\n");
-    hype_pub_sub_list_clients_remove(subscribers, EXAMPLE_ID3);
+    hpb_list_clients_remove(subscribers, EXAMPLE_ID3);
     print_clients_list(subscribers);
 
     printf("\nRemoving id3 again\n");
-    hype_pub_sub_list_clients_remove(subscribers, EXAMPLE_ID3);
+    hpb_list_clients_remove(subscribers, EXAMPLE_ID3);
     print_clients_list(subscribers);
 
     printf("\nRemoving id4\n");
-    hype_pub_sub_list_clients_remove(subscribers, EXAMPLE_ID4);
+    hpb_list_clients_remove(subscribers, EXAMPLE_ID4);
     print_clients_list(subscribers);
 
     printf("\nRemoving id1\n");
-    hype_pub_sub_list_clients_remove(subscribers, EXAMPLE_ID1);
+    hpb_list_clients_remove(subscribers, EXAMPLE_ID1);
     print_clients_list(subscribers);
 
     printf("\nRemoving id2\n");
-    hype_pub_sub_list_clients_remove(subscribers, EXAMPLE_ID2);
+    hpb_list_clients_remove(subscribers, EXAMPLE_ID2);
     print_clients_list(subscribers);
 
     printf("\nAdding id4\n");
-    hype_pub_sub_list_clients_add(subscribers, EXAMPLE_ID4);
+    hpb_list_clients_add(subscribers, EXAMPLE_ID4);
     print_clients_list(subscribers);
 
     printf("\nAdding id1, id2, id3, id4\n");
-    hype_pub_sub_list_clients_add(subscribers, EXAMPLE_ID1);
-    hype_pub_sub_list_clients_add(subscribers, EXAMPLE_ID2);
-    hype_pub_sub_list_clients_add(subscribers, EXAMPLE_ID3);
-    hype_pub_sub_list_clients_add(subscribers, EXAMPLE_ID4);
+    hpb_list_clients_add(subscribers, EXAMPLE_ID1);
+    hpb_list_clients_add(subscribers, EXAMPLE_ID2);
+    hpb_list_clients_add(subscribers, EXAMPLE_ID3);
+    hpb_list_clients_add(subscribers, EXAMPLE_ID4);
     print_clients_list(subscribers);
 
-    hype_pub_sub_list_clients_destroy(subscribers);
+    hpb_list_clients_destroy(subscribers);
 }
 
 void test_service_manager()
@@ -137,27 +137,27 @@ void test_service_manager()
     sha1_digest((const byte*) serv3, strlen(serv3), servKey3);
     sha1_digest((const byte*) serv4, strlen(serv4), servKey4);
 
-    HypePubSub* myPubSubApp = hype_pub_sub_create();
+    HypePubSub* myPubSubApp = hpb_create();
 
     printf("\nAdding serv1\n");
-    hype_pub_sub_list_service_managers_add(myPubSubApp->managed_services,servKey1);
+    hpb_list_service_managers_add(myPubSubApp->managed_services,servKey1);
     print_service_manager_list(myPubSubApp->managed_services);
 
     printf("\nRemoving serv1\n");
-    hype_pub_sub_list_service_managers_remove(myPubSubApp->managed_services,servKey1);
+    hpb_list_service_managers_remove(myPubSubApp->managed_services,servKey1);
     print_service_manager_list(myPubSubApp->managed_services);
 
     printf("\nAdding serv2, serv1\n");
-    hype_pub_sub_list_service_managers_add(myPubSubApp->managed_services,servKey2);
-    hype_pub_sub_list_service_managers_add(myPubSubApp->managed_services,servKey1);
+    hpb_list_service_managers_add(myPubSubApp->managed_services,servKey2);
+    hpb_list_service_managers_add(myPubSubApp->managed_services,servKey1);
     print_service_manager_list(myPubSubApp->managed_services);
 
-    hype_pub_sub_destroy(&myPubSubApp);
+    hpb_destroy(&myPubSubApp);
 }
 
 void test_hype_pub_sub()
 {
-    HypePubSub* myPubSubApp = hype_pub_sub_create();
+    HypePubSub* myPubSubApp = hpb_create();
 
     char serv1[] = {"HypeCoffe"};
     char serv2[] = {"HypeFruit"};
@@ -168,20 +168,20 @@ void test_hype_pub_sub()
     byte serv3ManId[] = "\x03\x01\x02\x04\x05\x06\x07\x08\x09\x10\x11\x12";
     byte serv4ManId[] = "\x04\x01\x02\x03\x05\x06\x07\x08\x09\x10\x11\x12";
 
-    hype_pub_sub_list_subscriptions_add(myPubSubApp->own_subscriptions, serv1, strlen(serv1), serv1ManId);
+    hpb_list_subscriptions_add(myPubSubApp->own_subscriptions, serv1, strlen(serv1), serv1ManId);
     print_subscription_list(myPubSubApp->own_subscriptions);
 
-    hype_pub_sub_list_subscriptions_add(myPubSubApp->own_subscriptions, serv2, strlen(serv2), serv2ManId);
-    hype_pub_sub_list_subscriptions_add(myPubSubApp->own_subscriptions, serv3, strlen(serv3), serv3ManId);
+    hpb_list_subscriptions_add(myPubSubApp->own_subscriptions, serv2, strlen(serv2), serv2ManId);
+    hpb_list_subscriptions_add(myPubSubApp->own_subscriptions, serv3, strlen(serv3), serv3ManId);
     print_subscription_list(myPubSubApp->own_subscriptions);
 
-    hype_pub_sub_list_subscriptions_add(myPubSubApp->own_subscriptions, serv4, strlen(serv4), serv4ManId);
+    hpb_list_subscriptions_add(myPubSubApp->own_subscriptions, serv4, strlen(serv4), serv4ManId);
     print_subscription_list(myPubSubApp->own_subscriptions);
 
-    hype_pub_sub_list_subscriptions_remove(myPubSubApp->own_subscriptions, serv3, strlen(serv3), serv3ManId);
+    hpb_list_subscriptions_remove(myPubSubApp->own_subscriptions, serv3, strlen(serv3), serv3ManId);
     print_subscription_list(myPubSubApp->own_subscriptions);
 
-    hype_pub_sub_destroy(&myPubSubApp);
+    hpb_destroy(&myPubSubApp);
 }
 
 void print_hex_char_array(unsigned char* array, size_t len)

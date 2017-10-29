@@ -10,9 +10,9 @@ void hype_pub_sub_subscription_test()
     char SUBS3_SERVICE[] = "HypeTech";
     byte SUBS3_MANAGER[] = "\xdd\x52\x54\xe5\xe7\x7c\x07\xfa\x43\xb2\x70\x3d";
 
-    Subscription *subsc1 = hype_pub_sub_subscription_create(SUBS1_SERVICE, strlen(SUBS1_SERVICE), SUBS1_MANAGER);
-    Subscription *subsc2 = hype_pub_sub_subscription_create(SUBS2_SERVICE, strlen(SUBS2_SERVICE), SUBS2_MANAGER);
-    Subscription *subsc3 = hype_pub_sub_subscription_create(SUBS3_SERVICE, strlen(SUBS3_SERVICE), SUBS3_MANAGER);
+    Subscription *subsc1 = hpb_subscription_create(SUBS1_SERVICE, strlen(SUBS1_SERVICE), SUBS1_MANAGER);
+    Subscription *subsc2 = hpb_subscription_create(SUBS2_SERVICE, strlen(SUBS2_SERVICE), SUBS2_MANAGER);
+    Subscription *subsc3 = hpb_subscription_create(SUBS3_SERVICE, strlen(SUBS3_SERVICE), SUBS3_MANAGER);
 
     CU_ASSERT_PTR_NOT_NULL_FATAL(subsc1);
     CU_ASSERT_PTR_NOT_NULL_FATAL(subsc2);
@@ -30,9 +30,9 @@ void hype_pub_sub_subscription_test()
     CU_ASSERT_NSTRING_EQUAL(subsc2->manager_id, "\xd5\x5b\x68\x8c\xe5\xe8\x3f\xd4\x5e\x5d\xe1\xae", HYPE_CONSTANTS_ID_BYTE_SIZE);
     CU_ASSERT_NSTRING_EQUAL(subsc3->manager_id, "\xdd\x52\x54\xe5\xe7\x7c\x07\xfa\x43\xb2\x70\x3d", HYPE_CONSTANTS_ID_BYTE_SIZE);
 
-    hype_pub_sub_subscription_destroy(&subsc1);
-    hype_pub_sub_subscription_destroy(&subsc2);
-    hype_pub_sub_subscription_destroy(&subsc3);
+    hpb_subscription_destroy(&subsc1);
+    hpb_subscription_destroy(&subsc2);
+    hpb_subscription_destroy(&subsc3);
     CU_ASSERT_PTR_NULL(subsc1);
     CU_ASSERT_PTR_NULL(subsc2);
     CU_ASSERT_PTR_NULL(subsc3);

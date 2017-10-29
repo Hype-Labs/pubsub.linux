@@ -84,3 +84,10 @@ char *binary_utils_get_formatted_binary_str(byte *byte_array, size_t byte_array_
     return formatted_str;
 }
 
+
+void binary_utils_print_hex_array(unsigned char* array, size_t len)
+{
+    for(int i=0; i<len; i++)
+        printf("%.2x", array[i]);
+    printf("\n");
+}

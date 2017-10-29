@@ -1,6 +1,6 @@
 
-#ifndef HYPE_PUB_SUB_CLIENT_H_INCLUDED_
-#define HYPE_PUB_SUB_CLIENT_H_INCLUDED_
+#ifndef HPB_CLIENT_H_INCLUDED_
+#define HPB_CLIENT_H_INCLUDED_
 
 #include <stdlib.h>
 #include <stdbool.h>
@@ -24,14 +24,14 @@ typedef struct Client_
  * @param id Hype ID of the node.
  * @return Returns a pointer to the created struct or NULL if the space could not be allocated.
  */
-Client* hype_pub_sub_client_create(byte id[]);
+Client *hpb_client_create(byte id[]);
 
-bool hype_pub_sub_client_is_id_equal(byte id1[], byte id2[]);
+bool hpb_client_is_id_equal(byte id1[], byte id2[]);
 
 /**
  * @brief Deallocates the space previously allocated for a Client struct.
  * @param client Pointer to the Client struct to be deallocated.
  */
-void hype_pub_sub_client_destroy(Client **client);
+void hpb_client_destroy(Client **client);
 
-#endif /* HYPE_PUB_SUB_CLIENT_H_INCLUDED_ */
+#endif /* HPB_CLIENT_H_INCLUDED_ */
