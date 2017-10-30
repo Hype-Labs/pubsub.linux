@@ -4,8 +4,10 @@
 Network *hpb_network_create()
 {
     Network *net = (Network*) malloc(sizeof(Network));
-    net->own_client = hpb_client_create(hpb_network_get_own_id());
+    byte *own_id = hpb_network_get_own_id();
+    net->own_client = hpb_client_create(own_id);
     net->network_clients = hpb_list_clients_create();
+    free(own_id);
     return net;
 }
 

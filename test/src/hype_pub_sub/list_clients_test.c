@@ -108,6 +108,7 @@ void hpb_list_clients_test()
     CU_ASSERT_NSTRING_EQUAL(aux_cl->id, CLIENT_ID4, HPB_ID_BYTE_SIZE);
     CU_ASSERT_NSTRING_EQUAL(aux_cl->key, CLIENT_KEY4, SHA1_BLOCK_SIZE);
 
+    linked_list_iterator_destroy(&it);
     hpb_list_clients_destroy(&clients);
     CU_ASSERT_PTR_NULL(clients);
 }
