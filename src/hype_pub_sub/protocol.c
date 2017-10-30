@@ -8,7 +8,7 @@ Protocol *hpb_protocol_create(HypePubSub *hpb)
     return prot;
 }
 
-int hpb_protocol_send_subscribe_msg(byte service_key[], byte dest_network_id[])
+byte *hpb_protocol_send_subscribe_msg(byte service_key[], byte dest_network_id[])
 {
     byte type = (byte) SUBSCRIBE_SERVICE;
     PacketField msg_type_field = {&type, MESSAGE_TYPE_BYTE_SIZE };
@@ -19,10 +19,10 @@ int hpb_protocol_send_subscribe_msg(byte service_key[], byte dest_network_id[])
 
     binary_utils_print_hex_array(packet, MESSAGE_TYPE_BYTE_SIZE+SHA1_BLOCK_SIZE);
     // TODO: msg memory must freed
-    return 0;
+    return packet;
 }
 
-int hpb_protocol_send_unsubscribe_msg(byte service_key[], byte dest_network_id[])
+byte *hpb_protocol_send_unsubscribe_msg(byte service_key[], byte dest_network_id[])
 {
     byte type = (byte) UNSUBSCRIBE_SERVICE;
     PacketField msg_type_field = {&type, MESSAGE_TYPE_BYTE_SIZE };
@@ -33,10 +33,10 @@ int hpb_protocol_send_unsubscribe_msg(byte service_key[], byte dest_network_id[]
 
     binary_utils_print_hex_array(packet, MESSAGE_TYPE_BYTE_SIZE+SHA1_BLOCK_SIZE);
     // TODO: msg memory must freed
-    return 0;
+    return packet;
 }
 
-int hpb_protocol_send_publish_msg(byte service_key[], byte dest_network_id[], char *msg, size_t msg_length)
+byte *hpb_protocol_send_publish_msg(byte service_key[], byte dest_network_id[], char *msg, size_t msg_length)
 {
     byte type = (byte) PUBLISH;
     PacketField msg_type_field = {&type, MESSAGE_TYPE_BYTE_SIZE };
@@ -48,10 +48,10 @@ int hpb_protocol_send_publish_msg(byte service_key[], byte dest_network_id[], ch
 
     binary_utils_print_hex_array(packet, MESSAGE_TYPE_BYTE_SIZE+SHA1_BLOCK_SIZE+msg_length);
     // TODO: msg memory must freed
-    return 0;
+    return packet;
 }
 
-int hpb_protocol_send_info_msg(byte service_key[], byte dest_network_id[], char *msg, size_t msg_length)
+byte *hpb_protocol_send_info_msg(byte service_key[], byte dest_network_id[], char *msg, size_t msg_length)
 {
     byte type = (byte) INFO;
     PacketField msg_type_field = {&type, MESSAGE_TYPE_BYTE_SIZE };
@@ -63,7 +63,7 @@ int hpb_protocol_send_info_msg(byte service_key[], byte dest_network_id[], char 
 
     binary_utils_print_hex_array(packet, MESSAGE_TYPE_BYTE_SIZE+SHA1_BLOCK_SIZE+msg_length);
     // TODO: msg memory must freed
-    return 0;
+    return packet;
 }
 
 byte *hpb_protocol_build_packet(int n_fields, ...)
