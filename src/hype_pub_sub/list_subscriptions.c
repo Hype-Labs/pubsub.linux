@@ -34,9 +34,9 @@ int hpb_list_subscriptions_remove(ListSubscriptions *list_subscrpt, char *serv_n
     return linked_list_remove(list_subscrpt, subscrpt, linked_list_callback_is_subscription_service_key, linked_list_callback_free_subscription);
 }
 
-void hpb_list_subscriptions_destroy(ListSubscriptions *list_subscrpt)
+void hpb_list_subscriptions_destroy(ListSubscriptions **list_subscrpt)
 {
-    linked_list_destroy(&list_subscrpt, linked_list_callback_free_subscription);
+    linked_list_destroy(list_subscrpt, linked_list_callback_free_subscription);
 }
 
 Subscription *hpb_list_subscriptions_find(ListSubscriptions *list_subscrpt, byte service_key[])

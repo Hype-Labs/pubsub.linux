@@ -117,7 +117,7 @@ void test_subscribers_list()
     hpb_list_clients_add(subscribers, EXAMPLE_ID4);
     print_clients_list(subscribers);
 
-    hpb_list_clients_destroy(subscribers);
+    hpb_list_clients_destroy(&subscribers);
 }
 
 void test_service_manager()
@@ -195,7 +195,7 @@ void print_clients_list(ListClients* clientList)
 {
     printf("ClientList (size %zu): \n", clientList->size);
 
-    LinkedListIterator *it = linked_list_create_iterator(clientList);
+    LinkedListIterator *it = linked_list_iterator_create(clientList);
     do
     {
         Client* client = (Client*) linked_list_iterator_get_element(it);
@@ -213,7 +213,7 @@ void print_subscription_list(ListSubscriptions* subsList)
     printf("\nSubscriptionsList (size %zu): \n", subsList->size);
 
     int i=1;
-    LinkedListIterator *it = linked_list_create_iterator(subsList);
+    LinkedListIterator *it = linked_list_iterator_create(subsList);
     do
     {
         Subscription* subs = (Subscription*) linked_list_iterator_get_element(it);
@@ -234,7 +234,7 @@ void print_service_manager_list(ListServiceManagers* srvManList)
     printf("\nServiceManagerList (size %zu): \n", srvManList->size);
 
     int i=1;
-    LinkedListIterator *it = linked_list_create_iterator(srvManList);
+    LinkedListIterator *it = linked_list_iterator_create(srvManList);
     do
     {
         ServiceManager* serMan = (ServiceManager*) linked_list_iterator_get_element(it);

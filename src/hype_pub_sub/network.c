@@ -19,7 +19,7 @@ byte *hpb_network_get_service_manager_id(Network *net, byte service_key[])
     byte *dist = NULL;
 
 
-    LinkedListIterator *it = linked_list_create_iterator(net->network_clients);
+    LinkedListIterator *it = linked_list_iterator_create(net->network_clients);
     while(linked_list_iterator_get_element(it) != NULL)
     {
         Client *client = (Client*) linked_list_iterator_get_element(it);
@@ -72,7 +72,7 @@ void hpb_network_destroy(Network **net)
         return;
 
     hpb_client_destroy(&((*net)->own_client));
-    hpb_list_clients_destroy((*net)->network_clients);
+    hpb_list_clients_destroy(&((*net)->network_clients));
     free(*net);
     (*net) = NULL;
 }

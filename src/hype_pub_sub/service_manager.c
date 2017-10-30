@@ -34,7 +34,7 @@ void hpb_service_manager_destroy(ServiceManager **serv_man)
     if((*serv_man) == NULL)
         return;
 
-    hpb_list_clients_destroy((*serv_man)->subscribers);
+    hpb_list_clients_destroy(&((*serv_man)->subscribers));
     free(*serv_man);
     (*serv_man) = NULL;
 }

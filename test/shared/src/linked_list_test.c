@@ -65,10 +65,10 @@ void linked_list_test_int()
     // Iterate over the 10 integer elements
     ////////////////////////////////////////////////////
 
-    LinkedListIterator *it = linked_list_create_iterator(NULL);
+    LinkedListIterator *it = linked_list_iterator_create(NULL);
     CU_ASSERT_PTR_NULL(it);
 
-    it = linked_list_create_iterator(list);
+    it = linked_list_iterator_create(list);
     CU_ASSERT_PTR_NOT_NULL(it);
 
     elem_data = linked_list_iterator_get_element(it);
@@ -236,7 +236,7 @@ void linked_list_test_int()
     CU_ASSERT(linked_list_add(list, &int_to_add1) == -1);
     CU_ASSERT(linked_list_remove(list, &int_to_remove1, compare_int_elem, free_int_elem) == -1);
     CU_ASSERT_TRUE(linked_list_is_empty(list));
-    CU_ASSERT_PTR_NULL(linked_list_create_iterator(list));
+    CU_ASSERT_PTR_NULL(linked_list_iterator_create(list));
     CU_ASSERT_PTR_NULL(linked_list_find(list, &int_to_find1, compare_int_elem));
 }
 
@@ -244,7 +244,7 @@ void linked_list_test_testing_struct()
 {
     LinkedList* list = linked_list_create();
     TestingStruct *t_str;
-    LinkedListIterator *it = linked_list_create_iterator(list);
+    LinkedListIterator *it = linked_list_iterator_create(list);
 
     int tst_struct_id1 = 1;
     int tst_struct_id2 = 2;

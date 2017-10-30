@@ -27,9 +27,9 @@ int hpb_list_service_managers_remove(ListServiceManagers *list_serv_man, byte se
     return linked_list_remove(list_serv_man, service_key, linked_list_callback_is_service_manager_key, linked_list_callback_free_service_manager);
 }
 
-void hpb_list_service_managers_destroy(ListServiceManagers *list_serv_man)
+void hpb_list_service_managers_destroy(ListServiceManagers **list_serv_man)
 {
-    linked_list_destroy(&list_serv_man, linked_list_callback_free_service_manager);
+    linked_list_destroy(list_serv_man, linked_list_callback_free_service_manager);
 }
 
 ServiceManager *hpb_list_service_managers_find(ListServiceManagers *list_serv_man, byte service_key[])

@@ -106,7 +106,7 @@ int hpb_process_publish_req(HypePubSub *hpb, byte service_key[], char *msg, size
     if(service == NULL)
         return -1;
 
-    LinkedListIterator *it = linked_list_create_iterator(service->subscribers);
+    LinkedListIterator *it = linked_list_iterator_create(service->subscribers);
     do
     {
         Client* client = (Client*) linked_list_iterator_get_element(it);
@@ -144,7 +144,7 @@ int hpb_process_info_req(HypePubSub *hpb, byte service_key[], char *msg, size_t 
 
 static int hpb_update_managed_services(HypePubSub *hpb)
 {
-    LinkedListIterator *it = linked_list_create_iterator(hpb->managed_services);
+    LinkedListIterator *it = linked_list_iterator_create(hpb->managed_services);
     do
     {
         ServiceManager* service_man = (ServiceManager*) linked_list_iterator_get_element(it);
@@ -168,7 +168,7 @@ static int hpb_update_own_subscriptions(HypePubSub *hpb)
     if(hpb == NULL)
         return -1;
 
-    LinkedListIterator *it = linked_list_create_iterator(hpb->own_subscriptions);
+    LinkedListIterator *it = linked_list_iterator_create(hpb->own_subscriptions);
     do
     {
         Subscription* subscription = (Subscription*) linked_list_iterator_get_element(it);
@@ -196,8 +196,8 @@ void hpb_destroy(HypePubSub **hpb)
     if((*hpb) == NULL)
         return;
 
-    hpb_list_service_managers_destroy((*hpb)->managed_services);
-    hpb_list_subscriptions_destroy((*hpb)->own_subscriptions);
+    hpb_list_service_managers_destroy(&((*hpb)->managed_services));
+    hpb_list_subscriptions_destroy(&((*hpb)->own_subscriptions));
     hpb_network_destroy(&((*hpb)->network));
     hpb_protocol_destroy(&((*hpb)->protocol));
     free(*hpb);

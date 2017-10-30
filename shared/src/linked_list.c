@@ -13,7 +13,7 @@ LinkedList *linked_list_create()
     return list;
 }
 
-LinkedListNode *linked_list_create_node(void *element)
+LinkedListNode *linked_list_node_create(void *element)
 {
     LinkedListNode *node = (LinkedListNode *) malloc(sizeof(LinkedListNode));
 
@@ -25,7 +25,7 @@ LinkedListNode *linked_list_create_node(void *element)
     return node;
 }
 
-LinkedListIterator *linked_list_create_iterator(LinkedList *list)
+LinkedListIterator *linked_list_iterator_create(LinkedList *list)
 {
     if(list == NULL)
         return NULL;
@@ -47,7 +47,7 @@ int linked_list_add(LinkedList *list, void *element)
 
     if(linked_list_is_empty(list)) // List is empty. Add element in the first node.
     {
-        list->head = linked_list_create_node(element);
+        list->head = linked_list_node_create(element);
     }
     else
     {
@@ -55,7 +55,7 @@ int linked_list_add(LinkedList *list, void *element)
         while(current_node->next != NULL) // Get to the tail of the list.
             current_node = current_node->next;
 
-        current_node->next = linked_list_create_node(element);
+        current_node->next = linked_list_node_create(element);
     }
 
     (list->size)++;
@@ -71,7 +71,7 @@ int linked_list_remove(LinkedList *list, void *element, LinkedListCompareElement
     if(cmp_elements(list->head->element, element) == true)
     {
         LinkedListNode *next_head = list->head->next;
-        linked_list_destroy_node(&(list->head), free_element);
+        linked_list_node_destroy(&(list->head), free_element);
         list->head = next_head; // redefine head if necessary
         (list->size)--;
         return 1;
@@ -84,7 +84,7 @@ int linked_list_remove(LinkedList *list, void *element, LinkedListCompareElement
         if(cmp_elements(current_node->element, element) == true)
         {
             previous_node->next = current_node->next;
-            linked_list_destroy_node(&current_node, free_element);
+            linked_list_node_destroy(&current_node, free_element);
             (list->size)--;
             return 0;
         }
@@ -148,7 +148,7 @@ void linked_list_iterator_destroy(LinkedListIterator **it)
     (*it) = NULL;
 }
 
-void linked_list_destroy_node(LinkedListNode **node, LinkedListFreeElementCallback free_element)
+void linked_list_node_destroy(LinkedListNode **node, LinkedListFreeElementCallback free_element)
 {
     free_element(&((*node)->element));
     free(*node);
@@ -164,7 +164,7 @@ void linked_list_destroy(LinkedList **list, LinkedListFreeElementCallback free_e
     while(current_node != NULL)
     {
         LinkedListNode *next_node = current_node->next;
-        linked_list_destroy_node(&current_node, free_element);
+        linked_list_node_destroy(&current_node, free_element);
         current_node = next_node;
     }
 

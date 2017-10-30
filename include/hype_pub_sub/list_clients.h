@@ -23,7 +23,7 @@ int hpb_list_clients_remove(ListClients *list_cl, byte client_id[]);
  * @brief hype_pub_sub_list_clients_destroy Deallocates the space previously allocated for a linked list of Client elements
  * @param list_cl Pointer to the Client linked list to be deallocated.
  */
-void hpb_list_clients_destroy(ListClients *list_cl);
+void hpb_list_clients_destroy(ListClients **list_cl);
 
 Client *hpb_list_clients_find(ListClients *list_cl, byte client_id[]);
 

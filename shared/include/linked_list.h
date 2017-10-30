@@ -29,9 +29,9 @@ typedef struct LinkedListIterator_
 
 LinkedList *linked_list_create();
 
-LinkedListNode *linked_list_create_node(void *element);
+LinkedListNode *linked_list_node_create(void *element);
 
-LinkedListIterator *linked_list_create_iterator(LinkedList *list);
+LinkedListIterator *linked_list_iterator_create(LinkedList *list);
 
 int linked_list_add(LinkedList *list, void *element);
 
@@ -49,7 +49,7 @@ int linked_list_iterator_advance(LinkedListIterator *it);
 
 void linked_list_iterator_destroy(LinkedListIterator **it);
 
-void linked_list_destroy_node(LinkedListNode **node, LinkedListFreeElementCallback free_element);
+void linked_list_node_destroy(LinkedListNode **node, LinkedListFreeElementCallback free_element);
 
 void linked_list_destroy(LinkedList **list, LinkedListFreeElementCallback free_element);
 
