@@ -190,7 +190,4 @@ void hpb_protocol_test_get_message_type()
     packet = hpb_protocol_build_packet(1, &field);
     CU_ASSERT(hpb_protocol_get_message_type(packet) == INVALID);
     free(packet);
-
-
-
 }

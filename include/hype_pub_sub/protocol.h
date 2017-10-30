@@ -22,7 +22,7 @@ typedef enum  {SUBSCRIBE_SERVICE,
  */
 typedef struct Protocol_
 {
-    HypePubSub *application; /**< Hype ID of this client. */
+    HypePubSub *hpb;
 } Protocol;
 
 typedef struct PacketField_

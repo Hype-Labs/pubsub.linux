@@ -4,7 +4,7 @@
 Protocol *hpb_protocol_create(HypePubSub *hpb)
 {
     Protocol *prot = (Protocol *) malloc(sizeof(Protocol));
-    prot->application = hpb;
+    prot->hpb = hpb;
     return prot;
 }
 
@@ -130,7 +130,7 @@ int hpb_protocol_receive_subscribe_msg(Protocol *protocol, byte origin_network_i
 
     byte *service_key = (byte *) malloc(SHA1_BLOCK_SIZE * sizeof(char));
     memmove(service_key,msg+MESSAGE_TYPE_BYTE_SIZE, SHA1_BLOCK_SIZE);
-    hpb_process_subscribe_req(protocol->application, service_key, origin_network_id);
+    hpb_process_subscribe_req(protocol->hpb, service_key, origin_network_id);
     return 0;
 }
 
@@ -141,7 +141,7 @@ int hpb_protocol_receive_unsubscribe_msg(Protocol *protocol, byte origin_network
 
     byte *service_key = (byte *) malloc(SHA1_BLOCK_SIZE * sizeof(char));
     memmove(service_key,msg+MESSAGE_TYPE_BYTE_SIZE, SHA1_BLOCK_SIZE);
-    hpb_process_unsubscribe_req(protocol->application, service_key, origin_network_id);
+    hpb_process_unsubscribe_req(protocol->hpb, service_key, origin_network_id);
     return 0;
 }
 
@@ -155,7 +155,7 @@ int hpb_protocol_receive_publish_msg(Protocol *protocol, byte origin_network_id[
     size_t msg_content_size = msg_length - MESSAGE_TYPE_BYTE_SIZE - SHA1_BLOCK_SIZE;
     char *msg_content = (char *) malloc(msg_content_size* sizeof(char));
     memmove(msg_content, (msg + MESSAGE_TYPE_BYTE_SIZE + SHA1_BLOCK_SIZE), msg_content_size);
-    hpb_process_publish_req(protocol->application, service_key, msg_content, msg_content_size);
+    hpb_process_publish_req(protocol->hpb, service_key, msg_content, msg_content_size);
     return 0;
 }
 
@@ -170,7 +170,7 @@ int hpb_protocol_receive_info_msg(Protocol *protocol, byte *msg, size_t msg_leng
     char *msg_content = (char *) malloc(msg_content_size* sizeof(char));
     memmove(msg_content, (msg + MESSAGE_TYPE_BYTE_SIZE + SHA1_BLOCK_SIZE), msg_content_size);
     msg_content[msg_content_size-1] = '\0';
-    hpb_process_info_req(protocol->application, service_key, msg_content, msg_content_size);
+    hpb_process_info_req(protocol->hpb, service_key, msg_content, msg_content_size);
 
     return 0;
 }

@@ -20,11 +20,13 @@ byte *hpb_network_get_service_manager_id(Network *net, byte service_key[])
     byte *lowest_dist = binary_utils_xor(service_key, net->own_client->key, SHA1_BLOCK_SIZE);
     byte *dist = NULL;
 
-
     LinkedListIterator *it = linked_list_iterator_create(net->network_clients);
-    while(linked_list_iterator_get_element(it) != NULL)
+    do
     {
         Client *client = (Client*) linked_list_iterator_get_element(it);
+
+        if(client == NULL)
+            continue;
 
         byte *dist = binary_utils_xor(service_key, client->key, SHA1_BLOCK_SIZE);
 
@@ -34,10 +36,9 @@ byte *hpb_network_get_service_manager_id(Network *net, byte service_key[])
             manager_id = client->id;
         }
 
-        linked_list_iterator_advance(it);
-    }
-    linked_list_iterator_destroy(&it);
+    } while(linked_list_iterator_advance(it) != -1);
 
+    linked_list_iterator_destroy(&it);
 
     free(lowest_dist);
     free(dist);
