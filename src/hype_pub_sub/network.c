@@ -35,13 +35,13 @@ byte *hpb_network_get_service_manager_id(Network *net, byte service_key[])
             memcpy(lowest_dist, dist, SHA1_BLOCK_SIZE);
             manager_id = client->id;
         }
+        free(dist);
 
     } while(linked_list_iterator_advance(it) != -1);
 
     linked_list_iterator_destroy(&it);
 
     free(lowest_dist);
-    free(dist);
 
     return manager_id;
 }
