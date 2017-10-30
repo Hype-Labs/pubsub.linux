@@ -9,7 +9,7 @@
 #include "constants.h"
 
 
-typedef LinkedListNode ListSubscriptionElement;
+typedef LinkedListNode ListSubscriptionNode;
 typedef LinkedList ListSubscriptions;
 
 

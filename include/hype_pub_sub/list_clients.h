@@ -6,7 +6,7 @@
 #include "client.h"
 #include "constants.h"
 
-typedef LinkedListNode ListClientElement;
+typedef LinkedListNode ListClientNode;
 typedef LinkedList ListClients;
 
 /**

@@ -34,12 +34,12 @@ void hpb_list_service_managers_destroy(ListServiceManagers *list_serv_man)
 
 ServiceManager *hpb_list_service_managers_find(ListServiceManagers *list_serv_man, byte service_key[])
 {
-    LinkedListNode *elem = linked_list_find(list_serv_man, service_key, linked_list_callback_is_service_manager_key);
+    LinkedListNode *node = linked_list_find(list_serv_man, service_key, linked_list_callback_is_service_manager_key);
 
-    if(elem == NULL)
+    if(node == NULL)
         return NULL;
 
-    return (ServiceManager*) elem->element;
+    return (ServiceManager*) node->element;
 }
 
 static bool linked_list_callback_is_service_manager_key(void *service_manager, void *key)

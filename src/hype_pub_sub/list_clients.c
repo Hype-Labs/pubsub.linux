@@ -34,12 +34,12 @@ void hpb_list_clients_destroy(ListClients *list_cl)
 
 Client *hpb_list_clients_find(ListClients *list_cl, byte client_id[])
 {
-    ListClientElement *elem = linked_list_find(list_cl, client_id, linked_list_callback_is_client_id);
+    ListClientNode *node = linked_list_find(list_cl, client_id, linked_list_callback_is_client_id);
 
-    if(elem == NULL)
+    if(node == NULL)
         return NULL;
 
-    return (Client*) elem->element;
+    return (Client*) node->element;
 }
 
 static bool linked_list_callback_is_client_id(void *client, void *id)
