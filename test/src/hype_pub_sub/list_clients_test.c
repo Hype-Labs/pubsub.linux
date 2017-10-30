@@ -1,6 +1,6 @@
 #include "list_clients_test.h"
 
-void hype_pub_sub_list_clients_test()
+void hpb_list_clients_test()
 {
     byte CLIENT_ID1[] = "\x01\x02\x03\x04\x05\x06\x07\x08\x09\x10\x11\x12";
     byte CLIENT_ID2[] = "\x12\x01\x02\x03\x04\x05\x06\x07\x08\x09\x10\x11";

@@ -21,7 +21,7 @@ int main()
    if (CUE_SUCCESS != CU_initialize_registry())
       return CU_get_error();
 
-   pSuite = CU_add_suite("HypePubSub_TestSuite", NULL, NULL);
+   pSuite = CU_add_suite("HypePubSub TestSuite", NULL, NULL);
 
    if (pSuite == NULL)
    {
@@ -31,15 +31,15 @@ int main()
 
    if ((CU_add_test(pSuite, "Test LinkedList module", linked_list_test) == NULL) ||
        (CU_add_test(pSuite, "Test BinaryUtils module", binary_utils_test) == NULL) ||
-       (CU_add_test(pSuite, "Test HypePubSub module", hype_pub_sub_test) == NULL) ||
-       (CU_add_test(pSuite, "Test HypePubSub/Client module", hype_pub_sub_client_test) == NULL) ||
-       (CU_add_test(pSuite, "Test HypePubSub/ServiceManager module", hype_pub_sub_service_manager_test) == NULL) ||
-       (CU_add_test(pSuite, "Test HypePubSub/Subscription module", hype_pub_sub_subscription_test) == NULL) ||
-       (CU_add_test(pSuite, "Test HypePubSub/Network module", hype_pub_sub_network_test) == NULL) ||
-       (CU_add_test(pSuite, "Test HypePubSub/Protocol module", hype_pub_sub_protocol_test) == NULL) ||
-       (CU_add_test(pSuite, "Test HypePubSub/ListClients module", hype_pub_sub_list_clients_test) == NULL) ||
-       (CU_add_test(pSuite, "Test HypePubSub/ListServiceManagers module", hype_pub_sub_list_service_managers_test) == NULL) ||
-       (CU_add_test(pSuite, "Test HypePubSub/ListSubscriptions module", hype_pub_sub_list_subscriptions_test) == NULL))
+       (CU_add_test(pSuite, "Test HypePubSub module", hpb_test) == NULL) ||
+       (CU_add_test(pSuite, "Test HypePubSub/Client module", hpb_client_test) == NULL) ||
+       (CU_add_test(pSuite, "Test HypePubSub/ServiceManager module", hpb_service_manager_test) == NULL) ||
+       (CU_add_test(pSuite, "Test HypePubSub/Subscription module", hpb_subscription_test) == NULL) ||
+       (CU_add_test(pSuite, "Test HypePubSub/Network module", hpb_network_test) == NULL) ||
+       (CU_add_test(pSuite, "Test HypePubSub/Protocol module", hpb_protocol_test) == NULL) ||
+       (CU_add_test(pSuite, "Test HypePubSub/ListClients module", hpb_list_clients_test) == NULL) ||
+       (CU_add_test(pSuite, "Test HypePubSub/ListServiceManagers module", hpb_list_service_managers_test) == NULL) ||
+       (CU_add_test(pSuite, "Test HypePubSub/ListSubscriptions module", hpb_list_subscriptions_test) == NULL))
    {
       CU_cleanup_registry();
       return CU_get_error();
