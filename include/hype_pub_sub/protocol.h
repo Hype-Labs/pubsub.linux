@@ -14,7 +14,8 @@ typedef struct HypePubSub_ HypePubSub; // Forward declaration due to circular de
 typedef enum  {SUBSCRIBE_SERVICE,
                UNSUBSCRIBE_SERVICE,
                PUBLISH,
-               INFO} MessageType;
+               INFO,
+               INVALID} MessageType;
 
 /**
  * @brief
@@ -42,17 +43,17 @@ byte *hpb_protocol_send_info_msg(byte service_key[SHA1_BLOCK_SIZE], byte dest_ne
 
 byte *hpb_protocol_build_packet(int n_fields, ...);
 
-int hpb_protocol_receive_msg(Protocol *protocol, byte origin_network_id[], char *msg, size_t msg_length);
+int hpb_protocol_receive_msg(Protocol *protocol, byte origin_network_id[], byte *msg, size_t msg_length);
 
-int hpb_protocol_receive_subscribe_msg(Protocol *protocol, byte origin_network_id[], char *msg, size_t msg_length);
+int hpb_protocol_receive_subscribe_msg(Protocol *protocol, byte origin_network_id[], byte *msg, size_t msg_length);
 
-int hpb_protocol_receive_unsubscribe_msg(Protocol *protocol, byte origin_network_id[], char *msg, size_t msg_length);
+int hpb_protocol_receive_unsubscribe_msg(Protocol *protocol, byte origin_network_id[], byte *msg, size_t msg_length);
 
-int hpb_protocol_receive_publish_msg(Protocol *protocol, byte origin_network_id[], char *msg, size_t msg_length);
+int hpb_protocol_receive_publish_msg(Protocol *protocol, byte origin_network_id[], byte *msg, size_t msg_length);
 
-int hpb_protocol_receive_info_msg(Protocol *protocol, char *msg, size_t msg_length);
+int hpb_protocol_receive_info_msg(Protocol *protocol, byte *msg, size_t msg_length);
 
-static MessageType hpb_protocol_get_message_type(char *msg);
+MessageType hpb_protocol_get_message_type(byte *msg);
 
 void hpb_protocol_destroy(Protocol **protocol);
 

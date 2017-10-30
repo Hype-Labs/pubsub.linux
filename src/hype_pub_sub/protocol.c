@@ -94,7 +94,7 @@ byte *hpb_protocol_build_packet(int n_fields, ...)
     return packet;
 }
 
-int hpb_protocol_receive_msg(Protocol *protocol, byte origin_network_id[], char *msg, size_t msg_length)
+int hpb_protocol_receive_msg(Protocol *protocol, byte origin_network_id[], byte *msg, size_t msg_length)
 {
     if(msg_length <= 0)
         return -1;
@@ -115,7 +115,7 @@ int hpb_protocol_receive_msg(Protocol *protocol, byte origin_network_id[], char 
         case INFO:
             hpb_protocol_receive_info_msg(protocol, msg, msg_length);
             break;
-        default:
+        case INVALID:
             return -1; // Message type not recognized. Discard
             break;
     }
@@ -123,7 +123,7 @@ int hpb_protocol_receive_msg(Protocol *protocol, byte origin_network_id[], char 
     return 0;
 }
 
-int hpb_protocol_receive_subscribe_msg(Protocol *protocol, byte origin_network_id[], char *msg, size_t msg_length)
+int hpb_protocol_receive_subscribe_msg(Protocol *protocol, byte origin_network_id[], byte *msg, size_t msg_length)
 {
     if(msg_length != (MESSAGE_TYPE_BYTE_SIZE + SHA1_BLOCK_SIZE))
         return -1; // Invalid lenght for a subscribe message
@@ -134,7 +134,7 @@ int hpb_protocol_receive_subscribe_msg(Protocol *protocol, byte origin_network_i
     return 0;
 }
 
-int hpb_protocol_receive_unsubscribe_msg(Protocol *protocol, byte origin_network_id[], char *msg, size_t msg_length)
+int hpb_protocol_receive_unsubscribe_msg(Protocol *protocol, byte origin_network_id[], byte *msg, size_t msg_length)
 {
     if(msg_length != (MESSAGE_TYPE_BYTE_SIZE + SHA1_BLOCK_SIZE))
         return -1; // Invalid lenght for a unsubscribe message
@@ -145,7 +145,7 @@ int hpb_protocol_receive_unsubscribe_msg(Protocol *protocol, byte origin_network
     return 0;
 }
 
-int hpb_protocol_receive_publish_msg(Protocol *protocol, byte origin_network_id[], char *msg, size_t msg_length)
+int hpb_protocol_receive_publish_msg(Protocol *protocol, byte origin_network_id[], byte *msg, size_t msg_length)
 {
     if(msg_length <= (MESSAGE_TYPE_BYTE_SIZE + SHA1_BLOCK_SIZE))
         return -1; // Invalid lenght for a publish message
@@ -159,7 +159,7 @@ int hpb_protocol_receive_publish_msg(Protocol *protocol, byte origin_network_id[
     return 0;
 }
 
-int hpb_protocol_receive_info_msg(Protocol *protocol, char *msg, size_t msg_length)
+int hpb_protocol_receive_info_msg(Protocol *protocol, byte *msg, size_t msg_length)
 {
     if(msg_length <= (MESSAGE_TYPE_BYTE_SIZE + SHA1_BLOCK_SIZE))
         return -1; // Invalid lenght for a info message
@@ -175,7 +175,7 @@ int hpb_protocol_receive_info_msg(Protocol *protocol, char *msg, size_t msg_leng
     return 0;
 }
 
-MessageType hpb_protocol_get_message_type(char *msg)
+MessageType hpb_protocol_get_message_type(byte *msg)
 {
     if(msg[0] == (byte) SUBSCRIBE_SERVICE)
         return SUBSCRIBE_SERVICE;
@@ -186,7 +186,7 @@ MessageType hpb_protocol_get_message_type(char *msg)
     else if(msg[0] == (byte) INFO)
         return INFO;
     else
-        return -1; // This should never happen
+        return INVALID; // This should never happen
 }
 
 void hpb_protocol_destroy(Protocol **protocol)

@@ -157,5 +157,40 @@ void hpb_protocol_test_sending_build_packet()
 
 void hpb_protocol_test_receiving(Protocol *prtcl)
 {
+    hpb_protocol_test_get_message_type();
+}
+
+void hpb_protocol_test_get_message_type()
+{
+    byte *packet;
+    byte DEST_ID[] = "\x10\x11\x12\x01\x02\x03\x04\x05\x06\x07\x08\x09";
+    byte SERVICE_KEY[] = "\x9a\xc1\xb0\x41\x5e\x0a\x97\x73\x8c\x57\xe7\xe6\x3f\x68\x50\xab\x21\xe4\x7e\xb4";
+    byte MSG[] = "HelloHypeWorld";
+    size_t MSG_SIZE = 14;
+
+    packet = hpb_protocol_send_subscribe_msg(SERVICE_KEY, DEST_ID);
+    CU_ASSERT(hpb_protocol_get_message_type(packet) == SUBSCRIBE_SERVICE);
+    free(packet);
+
+    packet = hpb_protocol_send_unsubscribe_msg(SERVICE_KEY, DEST_ID);
+    CU_ASSERT(hpb_protocol_get_message_type(packet) == UNSUBSCRIBE_SERVICE);
+    free(packet);
+
+    packet = hpb_protocol_send_publish_msg(SERVICE_KEY, DEST_ID, (char*) MSG, MSG_SIZE);
+    CU_ASSERT(hpb_protocol_get_message_type(packet) == PUBLISH);
+    free(packet);
+
+    packet = hpb_protocol_send_info_msg(SERVICE_KEY, DEST_ID, (char*) MSG, MSG_SIZE);
+    CU_ASSERT(hpb_protocol_get_message_type(packet) == INFO);
+    free(packet);
+
+    byte FIELD_DATA[] = "field1-hello";
+    size_t FIELD_SIZE = 12;
+    PacketField field = {FIELD_DATA, FIELD_SIZE };
+    packet = hpb_protocol_build_packet(1, &field);
+    CU_ASSERT(hpb_protocol_get_message_type(packet) == INVALID);
+    free(packet);
+
+
 
 }
