@@ -17,7 +17,6 @@ byte *hpb_protocol_send_subscribe_msg(byte service_key[], byte dest_network_id[]
 
     byte *packet = hpb_protocol_build_packet(n_fields, &msg_type_field, &ser_key_field) ;
 
-    binary_utils_print_hex_array(packet, MESSAGE_TYPE_BYTE_SIZE+SHA1_BLOCK_SIZE);
     // TODO: msg memory must freed
     return packet;
 }
@@ -31,7 +30,6 @@ byte *hpb_protocol_send_unsubscribe_msg(byte service_key[], byte dest_network_id
 
     byte *packet = hpb_protocol_build_packet(n_fields, &msg_type_field, &ser_key_field) ;
 
-    binary_utils_print_hex_array(packet, MESSAGE_TYPE_BYTE_SIZE+SHA1_BLOCK_SIZE);
     // TODO: msg memory must freed
     return packet;
 }
@@ -46,7 +44,6 @@ byte *hpb_protocol_send_publish_msg(byte service_key[], byte dest_network_id[], 
 
     byte *packet = hpb_protocol_build_packet(n_fields, &msg_type_field, &ser_key_field, &msg_field) ;
 
-    binary_utils_print_hex_array(packet, MESSAGE_TYPE_BYTE_SIZE+SHA1_BLOCK_SIZE+msg_length);
     // TODO: msg memory must freed
     return packet;
 }
@@ -61,7 +58,6 @@ byte *hpb_protocol_send_info_msg(byte service_key[], byte dest_network_id[], cha
 
     byte *packet = hpb_protocol_build_packet(n_fields, &msg_type_field, &ser_key_field, &msg_field) ;
 
-    binary_utils_print_hex_array(packet, MESSAGE_TYPE_BYTE_SIZE+SHA1_BLOCK_SIZE+msg_length);
     // TODO: msg memory must freed
     return packet;
 }

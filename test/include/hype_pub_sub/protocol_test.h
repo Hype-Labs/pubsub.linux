@@ -11,6 +11,9 @@ void hpb_protocol_test();
 void hpb_protocol_test_sending();
 void hpb_protocol_test_sending_subscribe();
 void hpb_protocol_test_sending_unsubscribe();
+void hpb_protocol_test_sending_publish();
+void hpb_protocol_test_sending_info();
+void hpb_protocol_test_sending_build_packet();
 
 void hpb_protocol_test_receiving(Protocol *prtcl);
 
