@@ -18,6 +18,7 @@ void hpb_service_manager_test()
     CU_ASSERT(serv2->subscribers->size == 0);
     CU_ASSERT_PTR_NULL(serv2->subscribers->head);
 
+    // Test add_subscriber
     byte SUBSCRIBER_ID1[] = "\x85\xa9\xd4\xc4\xde\xd2\x87\x75\x0f\xc0\xed\x32";
     byte SUBSCRIBER_ID2[] = "\xe7\x79\x34\x6c\x66\x9c\x17\xf4\x34\xc8\xce\x0e";
     hpb_service_manager_add_subscriber(serv1, SUBSCRIBER_ID1);
@@ -27,6 +28,8 @@ void hpb_service_manager_test()
     CU_ASSERT_FATAL(serv1->subscribers->size == 2);
     CU_ASSERT_NSTRING_EQUAL(((Client *) serv1->subscribers->head->element)->id, "\x85\xa9\xd4\xc4\xde\xd2\x87\x75\x0f\xc0\xed\x32", HPB_ID_BYTE_SIZE);
     CU_ASSERT_NSTRING_EQUAL(((Client *) serv1->subscribers->head->next->element)->id, "\xe7\x79\x34\x6c\x66\x9c\x17\xf4\x34\xc8\xce\x0e", HPB_ID_BYTE_SIZE);
+
+    // Test remove_subscriber
     hpb_service_manager_remove_subscriber(serv1, SUBSCRIBER_ID1);
     CU_ASSERT_FATAL(serv1->subscribers->size == 1);
     CU_ASSERT_NSTRING_EQUAL(((Client *) serv1->subscribers->head->element)->id, "\xe7\x79\x34\x6c\x66\x9c\x17\xf4\x34\xc8\xce\x0e", HPB_ID_BYTE_SIZE);
