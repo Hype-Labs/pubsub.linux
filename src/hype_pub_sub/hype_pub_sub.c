@@ -201,4 +201,5 @@ void hpb_destroy(HypePubSub **hpb)
     hpb_network_destroy(&((*hpb)->network));
     hpb_protocol_destroy(&((*hpb)->protocol));
     free(*hpb);
+    *hpb = NULL;
 }
