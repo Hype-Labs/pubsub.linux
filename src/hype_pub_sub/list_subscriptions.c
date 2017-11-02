@@ -28,10 +28,9 @@ Subscription *hpb_list_subscriptions_add(ListSubscriptions *list_subscrpt, char 
     return subscrpt;
 }
 
-int hpb_list_subscriptions_remove(ListSubscriptions *list_subscrpt, char *serv_name, size_t serv_name_len, byte man_id[HPB_ID_BYTE_SIZE])
+int hpb_list_subscriptions_remove(ListSubscriptions *list_subscrpt, byte service_key[])
 {
-    Subscription *subscrpt = hpb_subscription_create(serv_name, serv_name_len, man_id);
-    return linked_list_remove(list_subscrpt, subscrpt, linked_list_callback_is_subscription_service_key, linked_list_callback_free_subscription);
+    return linked_list_remove(list_subscrpt, service_key, linked_list_callback_is_subscription_service_key, linked_list_callback_free_subscription);
 }
 
 void hpb_list_subscriptions_destroy(ListSubscriptions **list_subscrpt)

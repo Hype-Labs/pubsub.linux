@@ -40,13 +40,46 @@ void hpb_list_subscriptions_test()
     aux_subscr = (Subscription *) linked_list_iterator_get_element(it);
     CU_ASSERT_NSTRING_EQUAL(aux_subscr->manager_id, MANAGER_ID2, HPB_ID_BYTE_SIZE);
     CU_ASSERT_NSTRING_EQUAL(aux_subscr->service_name, SERVICE2_NAME, SERVICE2_SIZE);
+    CU_ASSERT(subscriptions->size == 3);
 
     // Test find against existent and non-existent service keys
-    byte NON_EXISTENT_KEY[] = "--------------------";
+    byte NON_EXISTENT_KEY[] = "\xee\x5d\xa9\xde\x58\xa0\xa5\xfb\x42\x14\x7b\xab\x42\xa4\x07\x80\xdf\x94\x48\x88";
     CU_ASSERT_PTR_NOT_NULL(hpb_list_subscriptions_find(subscriptions, SERVICE1_KEY));
     CU_ASSERT_PTR_NOT_NULL(hpb_list_subscriptions_find(subscriptions, SERVICE2_KEY));
     CU_ASSERT_PTR_NOT_NULL(hpb_list_subscriptions_find(subscriptions, SERVICE3_KEY));
     CU_ASSERT_PTR_NULL(hpb_list_subscriptions_find(subscriptions, NON_EXISTENT_KEY));
+
+    // Test element removal
+    hpb_list_subscriptions_remove(subscriptions, SERVICE3_KEY);
+    linked_list_iterator_reset(it);
+    aux_subscr = (Subscription *) linked_list_iterator_get_element(it);
+    CU_ASSERT_NSTRING_EQUAL(aux_subscr->manager_id, MANAGER_ID1, HPB_ID_BYTE_SIZE);
+    CU_ASSERT_NSTRING_EQUAL(aux_subscr->service_name, SERVICE1_NAME, SERVICE1_SIZE);
+    linked_list_iterator_advance(it);
+    aux_subscr = (Subscription *) linked_list_iterator_get_element(it);
+    CU_ASSERT_NSTRING_EQUAL(aux_subscr->manager_id, MANAGER_ID2, HPB_ID_BYTE_SIZE);
+    CU_ASSERT_NSTRING_EQUAL(aux_subscr->service_name, SERVICE2_NAME, SERVICE2_SIZE);
+    CU_ASSERT(subscriptions->size == 2);
+
+    // Test non-existent element removal
+    hpb_list_subscriptions_remove(subscriptions, NON_EXISTENT_KEY);
+    CU_ASSERT(subscriptions->size == 2);
+
+    // Test element removal
+    hpb_list_subscriptions_remove(subscriptions, SERVICE2_KEY);
+    linked_list_iterator_reset(it);
+    aux_subscr = (Subscription *) linked_list_iterator_get_element(it);
+    CU_ASSERT_NSTRING_EQUAL(aux_subscr->manager_id, MANAGER_ID1, HPB_ID_BYTE_SIZE);
+    CU_ASSERT_NSTRING_EQUAL(aux_subscr->service_name, SERVICE1_NAME, SERVICE1_SIZE);
+    CU_ASSERT(subscriptions->size == 1);
+
+    // Test last element removal
+    hpb_list_subscriptions_remove(subscriptions, SERVICE1_KEY);
+    linked_list_iterator_reset(it);
+    aux_subscr = (Subscription *) linked_list_iterator_get_element(it);
+    CU_ASSERT_PTR_NULL(it->it_node);
+    CU_ASSERT_PTR_NULL(aux_subscr);
+    CU_ASSERT(subscriptions->size == 0);
 
     // Test the destruction of the subscriptions list
     hpb_list_subscriptions_destroy(&subscriptions);

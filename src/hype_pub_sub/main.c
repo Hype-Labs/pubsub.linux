@@ -177,7 +177,9 @@ void test_hype_pub_sub()
     hpb_list_subscriptions_add(myPubSubApp->own_subscriptions, serv4, strlen(serv4), serv4ManId);
     print_subscription_list(myPubSubApp->own_subscriptions);
 
-    hpb_list_subscriptions_remove(myPubSubApp->own_subscriptions, serv3, strlen(serv3), serv3ManId);
+    byte *serv3_key = (byte *) malloc(SHA1_BLOCK_SIZE * sizeof(byte));
+    sha1_digest((byte *) serv3, strlen(serv3), serv3_key);
+    hpb_list_subscriptions_remove(myPubSubApp->own_subscriptions, serv3_key);
     print_subscription_list(myPubSubApp->own_subscriptions);
 
     hpb_destroy(&myPubSubApp);
