@@ -196,8 +196,8 @@ void hpb_destroy(HypePubSub **hpb)
     if((*hpb) == NULL)
         return;
 
-    hpb_list_service_managers_destroy(&((*hpb)->managed_services));
     hpb_list_subscriptions_destroy(&((*hpb)->own_subscriptions));
+    hpb_list_service_managers_destroy(&((*hpb)->managed_services));
     hpb_network_destroy(&((*hpb)->network));
     hpb_protocol_destroy(&((*hpb)->protocol));
     free(*hpb);
