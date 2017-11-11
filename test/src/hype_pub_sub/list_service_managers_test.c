@@ -63,7 +63,8 @@ void hpb_list_service_managers_test()
     CU_ASSERT(serv_managers->size == 0);
     CU_ASSERT_PTR_NULL(serv_managers->head);
 
-    // Test the creation of the service managers list
+    // Test the destruction of the service managers list
+    linked_list_iterator_destroy(&it);
     hpb_list_service_managers_destroy(&serv_managers);
     CU_ASSERT_PTR_NULL(serv_managers);
 }
