@@ -82,6 +82,7 @@ void hpb_list_subscriptions_test()
     CU_ASSERT(subscriptions->size == 0);
 
     // Test the destruction of the subscriptions list
+    linked_list_iterator_destroy(&it);
     hpb_list_subscriptions_destroy(&subscriptions);
     CU_ASSERT_PTR_NULL(subscriptions);
 
