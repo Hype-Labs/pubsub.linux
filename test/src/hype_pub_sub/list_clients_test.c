@@ -7,7 +7,7 @@ void hpb_list_clients_test()
     byte CLIENT_ID3[] = "\x11\x12\x01\x02\x03\x04\x05\x06\x07\x08\x09\x10";
     byte CLIENT_ID4[] = "\x10\x11\x12\x01\x02\x03\x04\x05\x06\x07\x08\x09";
 
-    // Test the creation of the client's list
+    // Test the creation of a client's list
     Client *aux_cl;
     ListClients *clients = hpb_list_clients_create();
     CU_ASSERT_PTR_NOT_NULL_FATAL(clients);

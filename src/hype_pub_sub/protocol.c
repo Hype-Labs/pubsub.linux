@@ -170,7 +170,7 @@ int hpb_protocol_receive_info_msg(Protocol *protocol, byte *msg, size_t msg_leng
     char *msg_content = (char *) malloc(msg_content_size* sizeof(char));
     memmove(msg_content, (msg + MESSAGE_TYPE_BYTE_SIZE + SHA1_BLOCK_SIZE), msg_content_size);
     msg_content[msg_content_size-1] = '\0';
-    hpb_process_info_req(protocol->hpb, service_key, msg_content, msg_content_size);
+    hpb_process_info_msg(protocol->hpb, service_key, msg_content, msg_content_size);
 
     return 0;
 }

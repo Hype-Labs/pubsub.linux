@@ -91,7 +91,7 @@ int hpb_process_unsubscribe_req(HypePubSub *hpb, byte service_key[], byte reques
  */
 int hpb_process_publish_req(HypePubSub *hpb, byte service_key[], char *msg, size_t msg_length);
 
-int hpb_process_info_req(HypePubSub *hpb, byte service_key[], char *msg, size_t msg_length);
+int hpb_process_info_msg(HypePubSub *hpb, byte service_key[], char *msg, size_t msg_length);
 
 static int hpb_update_managed_services(HypePubSub *hpb);
 

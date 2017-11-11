@@ -93,6 +93,9 @@ int hpb_process_unsubscribe_req(HypePubSub *hpb, byte service_key[], byte reques
 
     hpb_list_clients_remove(service->subscribers, requester_client_id);
 
+    if(service->subscribers->size == 0) // Remove the service if there is no subscribers
+        hpb_list_service_managers_remove(hpb->managed_services, service_key);
+
     return 0;
 }
 
@@ -114,7 +117,7 @@ int hpb_process_publish_req(HypePubSub *hpb, byte service_key[], char *msg, size
             continue;
 
         if(hpb_client_is_id_equal(hpb->network->own_client->id, client->id))
-            hpb_process_info_req(hpb, service_key, msg, msg_length);
+            hpb_process_info_msg(hpb, service_key, msg, msg_length);
         else
             hpb_protocol_send_info_msg(service_key, client->id, msg, msg_length);
 
@@ -124,12 +127,12 @@ int hpb_process_publish_req(HypePubSub *hpb, byte service_key[], char *msg, size
     return 0;
 }
 
-int hpb_process_info_req(HypePubSub *hpb, byte service_key[], char *msg, size_t msg_length)
+int hpb_process_info_msg(HypePubSub *hpb, byte service_key[], char *msg, size_t msg_length)
 {
     if(hpb == NULL)
         return -1;
 
-    Subscription *subs = hpb_list_subscriptions_find(hpb->managed_services, service_key);
+    Subscription *subs = hpb_list_subscriptions_find(hpb->own_subscriptions, service_key);
 
     printf("ServiceName:");
     if(subs != NULL)
