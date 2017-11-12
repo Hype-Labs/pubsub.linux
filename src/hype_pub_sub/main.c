@@ -9,6 +9,7 @@ int main()
     HypePubSub *hpb = hpb_create();
     // Hype Start
 
+    hpb_cmd_interface_print_header();
     while(true){
         char user_option[1000];
         scanf("%s", user_option);
@@ -19,15 +20,15 @@ int main()
             hpb_cmd_interface_unsubscribe(hpb);
         else if(strcmp(user_option, HPB_CMD_INTERFACE_PUBLISH) == 0)
             hpb_cmd_interface_publish(hpb);
-        else if(strcmp(user_option, HPB_CMD_INTERFACE_GET_OWN_ID) == 0)
+        else if(strcmp(user_option, HPB_CMD_INTERFACE_PRINT_OWN_ID) == 0)
             hpb_cmd_interface_print_own_id(hpb);
-        else if(strcmp(user_option, HPB_CMD_INTERFACE_GET_HYPE_DEVICES) == 0)
+        else if(strcmp(user_option, HPB_CMD_INTERFACE_PRINT_HYPE_DEVICES) == 0)
             hpb_cmd_interface_print_hype_devices(hpb);
-        else if(strcmp(user_option, HPB_CMD_INTERFACE_GET_MANAGED_SERVICES) == 0)
+        else if(strcmp(user_option, HPB_CMD_INTERFACE_PRINT_MANAGED_SERVICES) == 0)
             hpb_cmd_interface_print_managed_services(hpb);
-        else if(strcmp(user_option, HPB_CMD_INTERFACE_GET_SUBSCRIPTIONS) == 0)
+        else if(strcmp(user_option, HPB_CMD_INTERFACE_PRINT_SUBSCRIPTIONS) == 0)
             hpb_cmd_interface_print_subscriptions(hpb);
-        else if(strcmp(user_option, HPB_CMD_INTERFACE_GET_SERVICE_MANAGER) == 0)
+        else if(strcmp(user_option, HPB_CMD_INTERFACE_PRINT_SERVICE_MANAGER) == 0)
             hpb_cmd_interface_print_service_manager(hpb);
         else if(strcmp(user_option, HPB_CMD_INTERFACE_HELP) == 0)
             hpb_cmd_interface_print_helper();
