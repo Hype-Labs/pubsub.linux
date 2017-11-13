@@ -63,7 +63,7 @@ void hpb_cmd_interface_print_managed_services(HypePubSub *hpb)
 
     while(true)
     {
-        ServiceManager *srvc = (ServiceManager *) linked_list_iterator_get_element(it);
+        HpbServiceManager *srvc = (HpbServiceManager *) linked_list_iterator_get_element(it);
 
         if(srvc == NULL)
             break;
@@ -96,7 +96,7 @@ void hpb_cmd_interface_print_subscriptions(HypePubSub *hpb)
 
     while(true)
     {
-        Subscription *sbscrptn = (Subscription *) linked_list_iterator_get_element(it);
+        HpbSubscription *sbscrptn = (HpbSubscription *) linked_list_iterator_get_element(it);
 
         if(sbscrptn == NULL)
             break;

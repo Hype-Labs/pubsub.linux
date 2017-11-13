@@ -6,12 +6,12 @@ ListSubscriptions *hpb_list_subscriptions_create()
     return linked_list_create();
 }
 
-Subscription *hpb_list_subscriptions_add(ListSubscriptions *list_subscrpt, char *serv_name, size_t serv_name_len, byte man_id[HPB_ID_BYTE_SIZE])
+HpbSubscription *hpb_list_subscriptions_add(ListSubscriptions *list_subscrpt, char *serv_name, size_t serv_name_len, byte man_id[HPB_ID_BYTE_SIZE])
 {
     if(list_subscrpt == NULL)
         return NULL;
 
-    Subscription *subscrpt;
+    HpbSubscription *subscrpt;
 
     // Get service key from service name
     byte subscrpt_service_key[SHA1_BLOCK_SIZE];
@@ -38,14 +38,14 @@ void hpb_list_subscriptions_destroy(ListSubscriptions **list_subscrpt)
     linked_list_destroy(list_subscrpt, linked_list_callback_free_subscription);
 }
 
-Subscription *hpb_list_subscriptions_find(ListSubscriptions *list_subscrpt, byte service_key[])
+HpbSubscription *hpb_list_subscriptions_find(ListSubscriptions *list_subscrpt, byte service_key[])
 {
     LinkedListNode *node = linked_list_find(list_subscrpt, service_key, linked_list_callback_is_subscription_service_key);
 
     if(node == NULL)
         return NULL;
 
-    return (Subscription*) node->element;
+    return (HpbSubscription*) node->element;
 }
 
 static bool linked_list_callback_is_subscription_service_key(void *subscription, void *service_key)
@@ -53,10 +53,10 @@ static bool linked_list_callback_is_subscription_service_key(void *subscription,
     if (subscription == NULL || service_key == NULL)
         return false;
 
-    return is_sha1_key_equal(((Subscription*) subscription)->service_key, (byte*) service_key);
+    return is_sha1_key_equal(((HpbSubscription*) subscription)->service_key, (byte*) service_key);
 }
 
 static void linked_list_callback_free_subscription(void **subscription)
 {
-    hpb_subscription_destroy((Subscription**) subscription);
+    hpb_subscription_destroy((HpbSubscription**) subscription);
 }

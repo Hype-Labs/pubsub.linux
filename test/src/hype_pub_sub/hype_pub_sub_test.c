@@ -67,10 +67,10 @@ void hpb_test_process_subscribe_and_unsubscribe(HypePubSub *hpb)
     hpb_process_subscribe_req(hpb, HPB_TEST_SERVICE1, HPB_TEST_CLIENT3);
     CU_ASSERT(hpb->managed_services->size == 2);
 
-    ServiceManager *service1 = hpb_list_service_managers_find(hpb->managed_services, HPB_TEST_SERVICE1);
+    HpbServiceManager *service1 = hpb_list_service_managers_find(hpb->managed_services, HPB_TEST_SERVICE1);
     CU_ASSERT_PTR_NOT_NULL_FATAL(service1);
     CU_ASSERT(service1->subscribers->size == 2);
-    ServiceManager *service2 = hpb_list_service_managers_find(hpb->managed_services, HPB_TEST_SERVICE2);
+    HpbServiceManager *service2 = hpb_list_service_managers_find(hpb->managed_services, HPB_TEST_SERVICE2);
     CU_ASSERT_PTR_NOT_NULL_FATAL(service2);
     CU_ASSERT(service2->subscribers->size == 1);
 

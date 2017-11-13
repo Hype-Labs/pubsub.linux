@@ -67,7 +67,7 @@ int hpb_process_subscribe_req(HypePubSub *hpb, byte service_key[], byte requeste
     if(hpb == NULL)
         return -1;
 
-    ServiceManager *service = hpb_list_service_managers_find(hpb->managed_services, service_key);
+    HpbServiceManager *service = hpb_list_service_managers_find(hpb->managed_services, service_key);
 
     if(service == NULL) // If the service does not exist we create it.
     {
@@ -86,7 +86,7 @@ int hpb_process_unsubscribe_req(HypePubSub *hpb, byte service_key[], byte reques
     if(hpb == NULL)
         return -1;
 
-    ServiceManager *service = hpb_list_service_managers_find(hpb->managed_services, service_key);
+    HpbServiceManager *service = hpb_list_service_managers_find(hpb->managed_services, service_key);
 
     if(service == NULL) // If the service does not exist we ignore the unsubscribe request.
         return -2;
@@ -104,7 +104,7 @@ int hpb_process_publish_req(HypePubSub *hpb, byte service_key[], char *msg, size
     if(hpb == NULL)
         return -1;
 
-    ServiceManager *service = hpb_list_service_managers_find(hpb->managed_services, service_key);
+    HpbServiceManager *service = hpb_list_service_managers_find(hpb->managed_services, service_key);
 
     if(service == NULL)
         return -1;
@@ -132,7 +132,7 @@ int hpb_process_info_msg(HypePubSub *hpb, byte service_key[], char *msg, size_t 
     if(hpb == NULL)
         return -1;
 
-    Subscription *subs = hpb_list_subscriptions_find(hpb->own_subscriptions, service_key);
+    HpbSubscription *subs = hpb_list_subscriptions_find(hpb->own_subscriptions, service_key);
 
     printf("ServiceName:");
     if(subs != NULL)
@@ -150,7 +150,7 @@ static int hpb_update_managed_services(HypePubSub *hpb)
     LinkedListIterator *it = linked_list_iterator_create(hpb->managed_services);
     do
     {
-        ServiceManager* service_man = (ServiceManager*) linked_list_iterator_get_element(it);
+        HpbServiceManager* service_man = (HpbServiceManager*) linked_list_iterator_get_element(it);
         if(service_man == NULL)
             continue;
 
@@ -174,7 +174,7 @@ static int hpb_update_own_subscriptions(HypePubSub *hpb)
     LinkedListIterator *it = linked_list_iterator_create(hpb->own_subscriptions);
     do
     {
-        Subscription* subscription = (Subscription*) linked_list_iterator_get_element(it);
+        HpbSubscription* subscription = (HpbSubscription*) linked_list_iterator_get_element(it);
         if(subscription == NULL)
             continue;
 

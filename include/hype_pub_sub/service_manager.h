@@ -13,18 +13,18 @@
 /**
  * @brief
  */
-typedef struct ServiceManager_
+typedef struct HpbServiceManager_
 {
     byte service_key[SHA1_BLOCK_SIZE]; /**< Key of the managed service. */
     ListClients *subscribers; /**< Linked list with the subscribers of the service. */
-} ServiceManager;
+} HpbServiceManager;
 
-ServiceManager *hpb_service_manager_create(byte service_key[SHA1_BLOCK_SIZE]);
+HpbServiceManager *hpb_service_manager_create(byte service_key[SHA1_BLOCK_SIZE]);
 
-int hpb_service_manager_add_subscriber(ServiceManager *serv_man, byte client_id[]);
+int hpb_service_manager_add_subscriber(HpbServiceManager *serv_man, byte client_id[]);
 
-int hpb_service_manager_remove_subscriber(ServiceManager *serv_man, byte client_id[]);
+int hpb_service_manager_remove_subscriber(HpbServiceManager *serv_man, byte client_id[]);
 
-void hpb_service_manager_destroy(ServiceManager **serv_man);
+void hpb_service_manager_destroy(HpbServiceManager **serv_man);
 
 #endif /* HPB_SERVICE_MANAGER_H_INCLUDED_ */

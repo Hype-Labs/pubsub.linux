@@ -10,9 +10,9 @@ void hpb_subscription_test()
     char SUBS3_SERVICE[] = "HypeTech";
     byte SUBS3_MANAGER[] = "\xdd\x52\x54\xe5\xe7\x7c\x07\xfa\x43\xb2\x70\x3d";
 
-    Subscription *subsc1 = hpb_subscription_create(SUBS1_SERVICE, strlen(SUBS1_SERVICE), SUBS1_MANAGER);
-    Subscription *subsc2 = hpb_subscription_create(SUBS2_SERVICE, strlen(SUBS2_SERVICE), SUBS2_MANAGER);
-    Subscription *subsc3 = hpb_subscription_create(SUBS3_SERVICE, strlen(SUBS3_SERVICE), SUBS3_MANAGER);
+    HpbSubscription *subsc1 = hpb_subscription_create(SUBS1_SERVICE, strlen(SUBS1_SERVICE), SUBS1_MANAGER);
+    HpbSubscription *subsc2 = hpb_subscription_create(SUBS2_SERVICE, strlen(SUBS2_SERVICE), SUBS2_MANAGER);
+    HpbSubscription *subsc3 = hpb_subscription_create(SUBS3_SERVICE, strlen(SUBS3_SERVICE), SUBS3_MANAGER);
 
     CU_ASSERT_PTR_NOT_NULL_FATAL(subsc1);
     CU_ASSERT_PTR_NOT_NULL_FATAL(subsc2);

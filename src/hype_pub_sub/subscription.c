@@ -1,9 +1,9 @@
 
 #include "hype_pub_sub/subscription.h"
 
-Subscription *hpb_subscription_create(char *serv_name, size_t serv_name_len, byte man_id[HPB_ID_BYTE_SIZE])
+HpbSubscription *hpb_subscription_create(char *serv_name, size_t serv_name_len, byte man_id[HPB_ID_BYTE_SIZE])
 {
-    Subscription *subs = (Subscription *) malloc(sizeof(Subscription));
+    HpbSubscription *subs = (HpbSubscription *) malloc(sizeof(HpbSubscription));
 
     subs->service_name = (char *) malloc ((serv_name_len + 1) * sizeof(char)); // +1 -> \0
     strncpy(subs->service_name, (const char*) serv_name, serv_name_len);
@@ -13,7 +13,7 @@ Subscription *hpb_subscription_create(char *serv_name, size_t serv_name_len, byt
     return subs;
 }
 
-void hpb_subscription_destroy(Subscription **subs)
+void hpb_subscription_destroy(HpbSubscription **subs)
 {
     if((*subs) == NULL)
         return;

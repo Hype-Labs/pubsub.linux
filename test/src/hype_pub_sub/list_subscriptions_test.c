@@ -16,7 +16,7 @@ void hpb_list_subscriptions_test()
     byte MANAGER_ID3[] = "\x11\x12\x01\x02\x03\x04\x05\x06\x07\x08\x09\x10";
 
     // Test the creation of the subscriptions list
-    Subscription *aux_subscr;
+    HpbSubscription *aux_subscr;
     ListSubscriptions *subscriptions = hpb_list_subscriptions_create();
     CU_ASSERT_PTR_NOT_NULL_FATAL(subscriptions);
     CU_ASSERT_PTR_NULL(subscriptions->head);
@@ -29,15 +29,15 @@ void hpb_list_subscriptions_test()
 
     // Validate that the subscriptions are inserted in the right order
     LinkedListIterator *it = linked_list_iterator_create(subscriptions);
-    aux_subscr = (Subscription *) linked_list_iterator_get_element(it);
+    aux_subscr = (HpbSubscription *) linked_list_iterator_get_element(it);
     CU_ASSERT_NSTRING_EQUAL(aux_subscr->manager_id, MANAGER_ID3, HPB_ID_BYTE_SIZE);
     CU_ASSERT_NSTRING_EQUAL(aux_subscr->service_name, SERVICE3_NAME, SERVICE3_SIZE);
     linked_list_iterator_advance(it);
-    aux_subscr = (Subscription *) linked_list_iterator_get_element(it);
+    aux_subscr = (HpbSubscription *) linked_list_iterator_get_element(it);
     CU_ASSERT_NSTRING_EQUAL(aux_subscr->manager_id, MANAGER_ID1, HPB_ID_BYTE_SIZE);
     CU_ASSERT_NSTRING_EQUAL(aux_subscr->service_name, SERVICE1_NAME, SERVICE1_SIZE);
     linked_list_iterator_advance(it);
-    aux_subscr = (Subscription *) linked_list_iterator_get_element(it);
+    aux_subscr = (HpbSubscription *) linked_list_iterator_get_element(it);
     CU_ASSERT_NSTRING_EQUAL(aux_subscr->manager_id, MANAGER_ID2, HPB_ID_BYTE_SIZE);
     CU_ASSERT_NSTRING_EQUAL(aux_subscr->service_name, SERVICE2_NAME, SERVICE2_SIZE);
     CU_ASSERT(subscriptions->size == 3);
@@ -52,11 +52,11 @@ void hpb_list_subscriptions_test()
     // Test element removal
     hpb_list_subscriptions_remove(subscriptions, SERVICE3_KEY);
     linked_list_iterator_reset(it);
-    aux_subscr = (Subscription *) linked_list_iterator_get_element(it);
+    aux_subscr = (HpbSubscription *) linked_list_iterator_get_element(it);
     CU_ASSERT_NSTRING_EQUAL(aux_subscr->manager_id, MANAGER_ID1, HPB_ID_BYTE_SIZE);
     CU_ASSERT_NSTRING_EQUAL(aux_subscr->service_name, SERVICE1_NAME, SERVICE1_SIZE);
     linked_list_iterator_advance(it);
-    aux_subscr = (Subscription *) linked_list_iterator_get_element(it);
+    aux_subscr = (HpbSubscription *) linked_list_iterator_get_element(it);
     CU_ASSERT_NSTRING_EQUAL(aux_subscr->manager_id, MANAGER_ID2, HPB_ID_BYTE_SIZE);
     CU_ASSERT_NSTRING_EQUAL(aux_subscr->service_name, SERVICE2_NAME, SERVICE2_SIZE);
     CU_ASSERT(subscriptions->size == 2);
@@ -68,7 +68,7 @@ void hpb_list_subscriptions_test()
     // Test element removal
     hpb_list_subscriptions_remove(subscriptions, SERVICE2_KEY);
     linked_list_iterator_reset(it);
-    aux_subscr = (Subscription *) linked_list_iterator_get_element(it);
+    aux_subscr = (HpbSubscription *) linked_list_iterator_get_element(it);
     CU_ASSERT_NSTRING_EQUAL(aux_subscr->manager_id, MANAGER_ID1, HPB_ID_BYTE_SIZE);
     CU_ASSERT_NSTRING_EQUAL(aux_subscr->service_name, SERVICE1_NAME, SERVICE1_SIZE);
     CU_ASSERT(subscriptions->size == 1);
@@ -76,7 +76,7 @@ void hpb_list_subscriptions_test()
     // Test last element removal
     hpb_list_subscriptions_remove(subscriptions, SERVICE1_KEY);
     linked_list_iterator_reset(it);
-    aux_subscr = (Subscription *) linked_list_iterator_get_element(it);
+    aux_subscr = (HpbSubscription *) linked_list_iterator_get_element(it);
     CU_ASSERT_PTR_NULL(it->it_node);
     CU_ASSERT_PTR_NULL(aux_subscr);
     CU_ASSERT(subscriptions->size == 0);
