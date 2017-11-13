@@ -36,7 +36,7 @@ HypePubSub *hpb_create();
  * @param service_key Key of the service to be subscribed.
  * @return Return 0 in case of success and -1 otherwise.
  */
-int hpb_issue_subscribe_req(HypePubSub *hpb, byte service_key[]);
+int hpb_issue_subscribe_req(HypePubSub *hpb, HLByte service_key[]);
 
 /**
  * @brief Obtains the Hype client responsible for a given service through the network manager
@@ -45,7 +45,7 @@ int hpb_issue_subscribe_req(HypePubSub *hpb, byte service_key[]);
  * @param service_key Key of the service to be unsubscribed.
  * @return Return 0 in case of success and -1 otherwise.
  */
-int hpb_issue_unsubscribe_req(HypePubSub *hpb, byte service_key[]);
+int hpb_issue_unsubscribe_req(HypePubSub *hpb, HLByte service_key[]);
 
 /**
  * @brief Obtains the Hype client responsible for a given service through the network manager
@@ -56,7 +56,7 @@ int hpb_issue_unsubscribe_req(HypePubSub *hpb, byte service_key[]);
  * @param msg_length Lenght of the message to be published
  * @return Return 0 in case of success and -1 otherwise.
  */
-int hpb_issue_publish_req(HypePubSub *hpb, byte service_key[], char *msg, size_t msg_length);
+int hpb_issue_publish_req(HypePubSub *hpb, HLByte service_key[], char *msg, size_t msg_length);
 
 /**
  * @brief Processes a subscribe request to a given service. It adds the ID of the Hype client that sent the
@@ -67,7 +67,7 @@ int hpb_issue_publish_req(HypePubSub *hpb, byte service_key[], char *msg, size_t
  * @param requester_client_id Hype ID of the client that sent the subscribe message.
  * @return Returns 0 in case of success and < 0 otherwise.
  */
-int hpb_process_subscribe_req(HypePubSub *hpb, byte service_key[], byte requester_client_id[]);
+int hpb_process_subscribe_req(HypePubSub *hpb, HLByte service_key[], HLByte requester_client_id[]);
 
 /**
  * @brief Processes an unsubscribe request to a given service. It removes the ID of the Hype client that sent
@@ -78,7 +78,7 @@ int hpb_process_subscribe_req(HypePubSub *hpb, byte service_key[], byte requeste
  * @param requester_client_id Hype ID of the client that sent the unsubscribe message.
  * @return Returns 0 in case of success and < 0 otherwise.
  */
-int hpb_process_unsubscribe_req(HypePubSub *hpb, byte service_key[], byte requester_client_id[]);
+int hpb_process_unsubscribe_req(HypePubSub *hpb, HLByte service_key[], HLByte requester_client_id[]);
 
 /**
  * @brief Processes a publish request to a given service. It sends the message to all the subscribers of the
@@ -89,9 +89,9 @@ int hpb_process_unsubscribe_req(HypePubSub *hpb, byte service_key[], byte reques
  * @param msg_length Length of the message to be sent.
  * @return Returns 0 in case of success and < 0 otherwise.
  */
-int hpb_process_publish_req(HypePubSub *hpb, byte service_key[], char *msg, size_t msg_length);
+int hpb_process_publish_req(HypePubSub *hpb, HLByte service_key[], char *msg, size_t msg_length);
 
-int hpb_process_info_msg(HypePubSub *hpb, byte service_key[], char *msg, size_t msg_length);
+int hpb_process_info_msg(HypePubSub *hpb, HLByte service_key[], char *msg, size_t msg_length);
 
 static int hpb_update_managed_services(HypePubSub *hpb);
 

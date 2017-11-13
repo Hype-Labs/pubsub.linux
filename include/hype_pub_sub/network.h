@@ -19,13 +19,13 @@ typedef struct HpbNetwork_
 
 HpbNetwork *hpb_network_create();
 
-byte *hpb_network_get_service_manager_id(HpbNetwork *net, byte service_key[SHA1_BLOCK_SIZE]);
+HLByte *hpb_network_get_service_manager_id(HpbNetwork *net, HLByte service_key[SHA1_BLOCK_SIZE]);
 
 int hpb_network_update_clients(HpbNetwork *net);
 
-bool hpb_network_is_client_online(HpbNetwork *net, byte client_id[HPB_ID_BYTE_SIZE]);
+bool hpb_network_is_client_online(HpbNetwork *net, HLByte client_id[HPB_ID_BYTE_SIZE]);
 
-byte *hpb_network_get_own_id();
+HLByte *hpb_network_get_own_id();
 
 void hpb_network_destroy(HpbNetwork **net);
 

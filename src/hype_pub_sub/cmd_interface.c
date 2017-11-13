@@ -3,21 +3,21 @@
 
 void hpb_cmd_interface_subscribe(HypePubSub *hpb, char* service_name)
 {
-    byte service_key[SHA1_BLOCK_SIZE];
+    HLByte service_key[SHA1_BLOCK_SIZE];
     sha1_digest((const BYTE *) service_name, strlen(service_name), service_key);
     hpb_issue_subscribe_req(hpb, service_key);
 }
 
 void hpb_cmd_interface_unsubscribe(HypePubSub *hpb, char* service_name)
 {
-    byte service_key[SHA1_BLOCK_SIZE];
+    HLByte service_key[SHA1_BLOCK_SIZE];
     sha1_digest((const BYTE *) service_name, strlen(service_name), service_key);
     hpb_issue_unsubscribe_req(hpb, service_key);
 }
 
 void hpb_cmd_interface_publish(HypePubSub *hpb, char* service_name)
 {
-    byte service_key[SHA1_BLOCK_SIZE];
+    HLByte service_key[SHA1_BLOCK_SIZE];
     sha1_digest((const BYTE *) service_name, strlen(service_name), service_key);
 
     printf("Insert message to be published on the service '%s': ", service_name);

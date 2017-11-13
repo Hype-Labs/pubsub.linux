@@ -2,15 +2,15 @@
 #include "binary_utils.h"
 
 
-byte *binary_utils_xor(byte *byte_array1, byte *byte_array2, size_t byte_array_size)
+HLByte *binary_utils_xor(HLByte *byte_array1, HLByte *byte_array2, size_t byte_array_size)
 {
-    byte *str_xor = (byte*) malloc(byte_array_size * sizeof(byte));
+    HLByte *str_xor = (HLByte*) malloc(byte_array_size * sizeof(HLByte));
     for(int i=0; i < byte_array_size; i++)
         str_xor[i] = byte_array1[i] ^ byte_array2[i];
     return str_xor;
 }
 
-int binary_utils_get_higher_binary_string(byte *byte_array1, byte *byte_array2, size_t byte_array_size)
+int binary_utils_get_higher_binary_string(HLByte *byte_array1, HLByte *byte_array2, size_t byte_array_size)
 {
     char *bin_str1 = binary_utils_to_binary_char_array(byte_array1, byte_array_size);
     char *bin_str2 = binary_utils_to_binary_char_array(byte_array2, byte_array_size);
@@ -39,15 +39,15 @@ int binary_utils_get_higher_binary_string(byte *byte_array1, byte *byte_array2, 
     return 0;
 }
 
-char *binary_utils_to_binary_char_array(byte *byte_array, size_t byte_array_size)
+char *binary_utils_to_binary_char_array(HLByte *byte_array, size_t byte_array_size)
 {
     // 8 binary chars per byte
     size_t str_size = byte_array_size*8;
-    char *bin_str = (char*) malloc(str_size * sizeof(byte));
+    char *bin_str = (char*) malloc(str_size * sizeof(HLByte));
 
     for(int i=0; i < byte_array_size; i++)
     {
-        byte b = byte_array[i];
+        HLByte b = byte_array[i];
         bin_str[i*8]   = ((b & 0x80) == 0x80)? '1': '0';
         bin_str[i*8+1] = ((b & 0x40) == 0x40)? '1': '0';
         bin_str[i*8+2] = ((b & 0x20) == 0x20)? '1': '0';
@@ -61,7 +61,7 @@ char *binary_utils_to_binary_char_array(byte *byte_array, size_t byte_array_size
     return bin_str;
 }
 
-char *binary_utils_get_formatted_binary_str(byte *byte_array, size_t byte_array_size)
+char *binary_utils_get_formatted_binary_str(HLByte *byte_array, size_t byte_array_size)
 {
     // Size:
     // 8 binary chars per byte

@@ -4,11 +4,11 @@ void hpb_subscription_test()
 {
 
     char SUBS1_SERVICE[] = "CoffeService";
-    byte SUBS1_MANAGER[] = "\x85\xa9\xd4\xc4\xde\xd2\x87\x75\x0f\xc0\xed\x32";
+    HLByte SUBS1_MANAGER[] = "\x85\xa9\xd4\xc4\xde\xd2\x87\x75\x0f\xc0\xed\x32";
     char SUBS2_SERVICE[] = "HypeSports";
-    byte SUBS2_MANAGER[] = "\xd5\x5b\x68\x8c\xe5\xe8\x3f\xd4\x5e\x5d\xe1\xae";
+    HLByte SUBS2_MANAGER[] = "\xd5\x5b\x68\x8c\xe5\xe8\x3f\xd4\x5e\x5d\xe1\xae";
     char SUBS3_SERVICE[] = "HypeTech";
-    byte SUBS3_MANAGER[] = "\xdd\x52\x54\xe5\xe7\x7c\x07\xfa\x43\xb2\x70\x3d";
+    HLByte SUBS3_MANAGER[] = "\xdd\x52\x54\xe5\xe7\x7c\x07\xfa\x43\xb2\x70\x3d";
 
     HpbSubscription *subsc1 = hpb_subscription_create(SUBS1_SERVICE, strlen(SUBS1_SERVICE), SUBS1_MANAGER);
     HpbSubscription *subsc2 = hpb_subscription_create(SUBS2_SERVICE, strlen(SUBS2_SERVICE), SUBS2_MANAGER);

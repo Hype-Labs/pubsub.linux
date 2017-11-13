@@ -27,33 +27,33 @@ typedef struct HpbProtocol_
 
 typedef struct PacketField_
 {
-    byte *data;
+    HLByte *data;
     size_t size;
 } PacketField;
 
 HpbProtocol *hpb_protocol_create(HypePubSub *hpb);
 
-byte *hpb_protocol_send_subscribe_msg(byte service_key[SHA1_BLOCK_SIZE], byte dest_network_id[HPB_ID_BYTE_SIZE]);
+HLByte *hpb_protocol_send_subscribe_msg(HLByte service_key[SHA1_BLOCK_SIZE], HLByte dest_network_id[HPB_ID_BYTE_SIZE]);
 
-byte *hpb_protocol_send_unsubscribe_msg(byte service_key[SHA1_BLOCK_SIZE], byte dest_network_id[HPB_ID_BYTE_SIZE]);
+HLByte *hpb_protocol_send_unsubscribe_msg(HLByte service_key[SHA1_BLOCK_SIZE], HLByte dest_network_id[HPB_ID_BYTE_SIZE]);
 
-byte *hpb_protocol_send_publish_msg(byte service_key[SHA1_BLOCK_SIZE], byte dest_network_id[HPB_ID_BYTE_SIZE], char *msg, size_t msg_length);
+HLByte *hpb_protocol_send_publish_msg(HLByte service_key[SHA1_BLOCK_SIZE], HLByte dest_network_id[HPB_ID_BYTE_SIZE], char *msg, size_t msg_length);
 
-byte *hpb_protocol_send_info_msg(byte service_key[SHA1_BLOCK_SIZE], byte dest_network_id[HPB_ID_BYTE_SIZE], char *msg, size_t msg_length);
+HLByte *hpb_protocol_send_info_msg(HLByte service_key[SHA1_BLOCK_SIZE], HLByte dest_network_id[HPB_ID_BYTE_SIZE], char *msg, size_t msg_length);
 
-byte *hpb_protocol_build_packet(int n_fields, ...);
+HLByte *hpb_protocol_build_packet(int n_fields, ...);
 
-int hpb_protocol_receive_msg(HpbProtocol *protocol, byte origin_network_id[], byte *msg, size_t msg_length);
+int hpb_protocol_receive_msg(HpbProtocol *protocol, HLByte origin_network_id[], HLByte *msg, size_t msg_length);
 
-int hpb_protocol_receive_subscribe_msg(HpbProtocol *protocol, byte origin_network_id[], byte *msg, size_t msg_length);
+int hpb_protocol_receive_subscribe_msg(HpbProtocol *protocol, HLByte origin_network_id[], HLByte *msg, size_t msg_length);
 
-int hpb_protocol_receive_unsubscribe_msg(HpbProtocol *protocol, byte origin_network_id[], byte *msg, size_t msg_length);
+int hpb_protocol_receive_unsubscribe_msg(HpbProtocol *protocol, HLByte origin_network_id[], HLByte *msg, size_t msg_length);
 
-int hpb_protocol_receive_publish_msg(HpbProtocol *protocol, byte origin_network_id[], byte *msg, size_t msg_length);
+int hpb_protocol_receive_publish_msg(HpbProtocol *protocol, HLByte origin_network_id[], HLByte *msg, size_t msg_length);
 
-int hpb_protocol_receive_info_msg(HpbProtocol *protocol, byte *msg, size_t msg_length);
+int hpb_protocol_receive_info_msg(HpbProtocol *protocol, HLByte *msg, size_t msg_length);
 
-MessageType hpb_protocol_get_message_type(byte *msg);
+MessageType hpb_protocol_get_message_type(HLByte *msg);
 
 void hpb_protocol_destroy(HpbProtocol **protocol);
 

@@ -1,17 +1,17 @@
 
 #include "hype_pub_sub/service_manager.h"
 
-HpbServiceManager *hpb_service_manager_create(byte service_key[SHA1_BLOCK_SIZE])
+HpbServiceManager *hpb_service_manager_create(HLByte service_key[SHA1_BLOCK_SIZE])
 {
     HpbServiceManager *servMan = (HpbServiceManager*) malloc(sizeof(HpbServiceManager));
-    memcpy(servMan->service_key, service_key, SHA1_BLOCK_SIZE * sizeof(byte));
+    memcpy(servMan->service_key, service_key, SHA1_BLOCK_SIZE * sizeof(HLByte));
 
     servMan->subscribers = hpb_list_clients_create();
 
     return servMan;
 }
 
-int hpb_service_manager_add_subscriber(HpbServiceManager *serv_man, byte client_id[])
+int hpb_service_manager_add_subscriber(HpbServiceManager *serv_man, HLByte client_id[])
 {
     if(serv_man == NULL)
         return -1;
@@ -20,7 +20,7 @@ int hpb_service_manager_add_subscriber(HpbServiceManager *serv_man, byte client_
     return 0;
 }
 
-int hpb_service_manager_remove_subscriber(HpbServiceManager *serv_man, byte client_id[])
+int hpb_service_manager_remove_subscriber(HpbServiceManager *serv_man, HLByte client_id[])
 {
     if(serv_man == NULL)
         return -1;

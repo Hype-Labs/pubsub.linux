@@ -11,12 +11,12 @@ HypePubSub* hpb_create()
     return hpb;
 }
 
-int hpb_issue_subscribe_req(HypePubSub *hpb, byte service_key[])
+int hpb_issue_subscribe_req(HypePubSub *hpb, HLByte service_key[])
 {
     if(hpb == NULL)
         return -1;
 
-    byte *manager_id = hpb_network_get_service_manager_id(hpb->network, service_key);
+    HLByte *manager_id = hpb_network_get_service_manager_id(hpb->network, service_key);
 
     // if this client is the manager of the service we don't need to send the subscribe message to
     // the protocol manager
@@ -28,12 +28,12 @@ int hpb_issue_subscribe_req(HypePubSub *hpb, byte service_key[])
     return 0;
 }
 
-int hpb_issue_unsubscribe_req(HypePubSub *hpb, byte service_key[])
+int hpb_issue_unsubscribe_req(HypePubSub *hpb, HLByte service_key[])
 {
     if(hpb == NULL)
         return -1;
 
-    byte *manager_id = hpb_network_get_service_manager_id(hpb->network, service_key);
+    HLByte *manager_id = hpb_network_get_service_manager_id(hpb->network, service_key);
 
     // if this client is the manager of the service we don't need to send the unsubscribe message
     // to the protocol manager
@@ -45,12 +45,12 @@ int hpb_issue_unsubscribe_req(HypePubSub *hpb, byte service_key[])
     return 0;
 }
 
-int hpb_issue_publish_req(HypePubSub *hpb, byte service_key[], char *msg, size_t msg_length)
+int hpb_issue_publish_req(HypePubSub *hpb, HLByte service_key[], char *msg, size_t msg_length)
 {
     if(hpb == NULL)
         return -1;
 
-    byte *manager_id = hpb_network_get_service_manager_id(hpb->network, service_key);
+    HLByte *manager_id = hpb_network_get_service_manager_id(hpb->network, service_key);
 
     // if this client is the manager of the service we don't need to send the publish message
     // to the protocol manager
@@ -62,7 +62,7 @@ int hpb_issue_publish_req(HypePubSub *hpb, byte service_key[], char *msg, size_t
     return 0;
 }
 
-int hpb_process_subscribe_req(HypePubSub *hpb, byte service_key[], byte requester_client_id[])
+int hpb_process_subscribe_req(HypePubSub *hpb, HLByte service_key[], HLByte requester_client_id[])
 {
     if(hpb == NULL)
         return -1;
@@ -81,7 +81,7 @@ int hpb_process_subscribe_req(HypePubSub *hpb, byte service_key[], byte requeste
     return 0;
 }
 
-int hpb_process_unsubscribe_req(HypePubSub *hpb, byte service_key[], byte requester_client_id[])
+int hpb_process_unsubscribe_req(HypePubSub *hpb, HLByte service_key[], HLByte requester_client_id[])
 {
     if(hpb == NULL)
         return -1;
@@ -99,7 +99,7 @@ int hpb_process_unsubscribe_req(HypePubSub *hpb, byte service_key[], byte reques
     return 0;
 }
 
-int hpb_process_publish_req(HypePubSub *hpb, byte service_key[], char *msg, size_t msg_length)
+int hpb_process_publish_req(HypePubSub *hpb, HLByte service_key[], char *msg, size_t msg_length)
 {
     if(hpb == NULL)
         return -1;
@@ -127,7 +127,7 @@ int hpb_process_publish_req(HypePubSub *hpb, byte service_key[], char *msg, size
     return 0;
 }
 
-int hpb_process_info_msg(HypePubSub *hpb, byte service_key[], char *msg, size_t msg_length)
+int hpb_process_info_msg(HypePubSub *hpb, HLByte service_key[], char *msg, size_t msg_length)
 {
     if(hpb == NULL)
         return -1;
@@ -156,7 +156,7 @@ static int hpb_update_managed_services(HypePubSub *hpb)
 
         // Check if a new Hype client with a closer key to this service key has appeared. If this happens
         // we remove the service from the list of managed services of this Hype client.
-        byte *new_manager_id = hpb_network_get_service_manager_id(hpb->network, service_man->service_key);
+        HLByte *new_manager_id = hpb_network_get_service_manager_id(hpb->network, service_man->service_key);
         if(memcmp(hpb->network->own_client->id, new_manager_id, HPB_ID_BYTE_SIZE) != 0)
             hpb_list_service_managers_remove(hpb->managed_services, service_man->service_key);
 
@@ -178,7 +178,7 @@ static int hpb_update_own_subscriptions(HypePubSub *hpb)
         if(subscription == NULL)
             continue;
 
-        byte *new_manager_id = hpb_network_get_service_manager_id(hpb->network, subscription->service_key);
+        HLByte *new_manager_id = hpb_network_get_service_manager_id(hpb->network, subscription->service_key);
 
         // If there is a node with a closer key to the service key we change the manager
         if(memcmp(subscription->manager_id, new_manager_id, HPB_ID_BYTE_SIZE) != 0)

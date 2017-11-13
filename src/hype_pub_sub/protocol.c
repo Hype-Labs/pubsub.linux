@@ -8,61 +8,61 @@ HpbProtocol *hpb_protocol_create(HypePubSub *hpb)
     return prot;
 }
 
-byte *hpb_protocol_send_subscribe_msg(byte service_key[], byte dest_network_id[])
+HLByte *hpb_protocol_send_subscribe_msg(HLByte service_key[], HLByte dest_network_id[])
 {
-    byte type = (byte) SUBSCRIBE_SERVICE;
+    HLByte type = (HLByte) SUBSCRIBE_SERVICE;
     PacketField msg_type_field = {&type, MESSAGE_TYPE_BYTE_SIZE };
     PacketField ser_key_field = {service_key, SHA1_BLOCK_SIZE };
     size_t n_fields = 2;
 
-    byte *packet = hpb_protocol_build_packet(n_fields, &msg_type_field, &ser_key_field) ;
+    HLByte *packet = hpb_protocol_build_packet(n_fields, &msg_type_field, &ser_key_field) ;
 
     // TODO: msg memory must freed
     return packet;
 }
 
-byte *hpb_protocol_send_unsubscribe_msg(byte service_key[], byte dest_network_id[])
+HLByte *hpb_protocol_send_unsubscribe_msg(HLByte service_key[], HLByte dest_network_id[])
 {
-    byte type = (byte) UNSUBSCRIBE_SERVICE;
+    HLByte type = (HLByte) UNSUBSCRIBE_SERVICE;
     PacketField msg_type_field = {&type, MESSAGE_TYPE_BYTE_SIZE };
     PacketField ser_key_field = {service_key, SHA1_BLOCK_SIZE };
     size_t n_fields = 2;
 
-    byte *packet = hpb_protocol_build_packet(n_fields, &msg_type_field, &ser_key_field) ;
+    HLByte *packet = hpb_protocol_build_packet(n_fields, &msg_type_field, &ser_key_field) ;
 
     // TODO: msg memory must freed
     return packet;
 }
 
-byte *hpb_protocol_send_publish_msg(byte service_key[], byte dest_network_id[], char *msg, size_t msg_length)
+HLByte *hpb_protocol_send_publish_msg(HLByte service_key[], HLByte dest_network_id[], char *msg, size_t msg_length)
 {
-    byte type = (byte) PUBLISH;
+    HLByte type = (HLByte) PUBLISH;
     PacketField msg_type_field = {&type, MESSAGE_TYPE_BYTE_SIZE };
     PacketField ser_key_field = {service_key, SHA1_BLOCK_SIZE };
-    PacketField msg_field = {(byte *) msg, msg_length };
+    PacketField msg_field = {(HLByte *) msg, msg_length };
     size_t n_fields = 3;
 
-    byte *packet = hpb_protocol_build_packet(n_fields, &msg_type_field, &ser_key_field, &msg_field) ;
+    HLByte *packet = hpb_protocol_build_packet(n_fields, &msg_type_field, &ser_key_field, &msg_field) ;
 
     // TODO: msg memory must freed
     return packet;
 }
 
-byte *hpb_protocol_send_info_msg(byte service_key[], byte dest_network_id[], char *msg, size_t msg_length)
+HLByte *hpb_protocol_send_info_msg(HLByte service_key[], HLByte dest_network_id[], char *msg, size_t msg_length)
 {
-    byte type = (byte) INFO;
+    HLByte type = (HLByte) INFO;
     PacketField msg_type_field = {&type, MESSAGE_TYPE_BYTE_SIZE };
     PacketField ser_key_field = {service_key, SHA1_BLOCK_SIZE };
-    PacketField msg_field = {(byte *) msg, msg_length };
+    PacketField msg_field = {(HLByte *) msg, msg_length };
     size_t n_fields = 3;
 
-    byte *packet = hpb_protocol_build_packet(n_fields, &msg_type_field, &ser_key_field, &msg_field) ;
+    HLByte *packet = hpb_protocol_build_packet(n_fields, &msg_type_field, &ser_key_field, &msg_field) ;
 
     // TODO: msg memory must freed
     return packet;
 }
 
-byte *hpb_protocol_build_packet(int n_fields, ...)
+HLByte *hpb_protocol_build_packet(int n_fields, ...)
 {
     if(n_fields <=0)
         return NULL;
@@ -76,7 +76,7 @@ byte *hpb_protocol_build_packet(int n_fields, ...)
     for (int i = 0; i < n_fields; i++)
         p_size += va_arg(p_fields, PacketField*)->size;
 
-    byte *packet = (byte*) malloc(p_size * sizeof(byte));
+    HLByte *packet = (HLByte*) malloc(p_size * sizeof(HLByte));
 
     va_start(p_fields, n_fields); // re-initialize the list to re-iterate
 
@@ -94,7 +94,7 @@ byte *hpb_protocol_build_packet(int n_fields, ...)
     return packet;
 }
 
-int hpb_protocol_receive_msg(HpbProtocol *protocol, byte origin_network_id[], byte *msg, size_t msg_length)
+int hpb_protocol_receive_msg(HpbProtocol *protocol, HLByte origin_network_id[], HLByte *msg, size_t msg_length)
 {
     if(msg_length <= 0)
         return -1;
@@ -123,34 +123,34 @@ int hpb_protocol_receive_msg(HpbProtocol *protocol, byte origin_network_id[], by
     return 0;
 }
 
-int hpb_protocol_receive_subscribe_msg(HpbProtocol *protocol, byte origin_network_id[], byte *msg, size_t msg_length)
+int hpb_protocol_receive_subscribe_msg(HpbProtocol *protocol, HLByte origin_network_id[], HLByte *msg, size_t msg_length)
 {
     if(msg_length != (MESSAGE_TYPE_BYTE_SIZE + SHA1_BLOCK_SIZE))
         return -1; // Invalid lenght for a subscribe message
 
-    byte *service_key = (byte *) malloc(SHA1_BLOCK_SIZE * sizeof(char));
+    HLByte *service_key = (HLByte *) malloc(SHA1_BLOCK_SIZE * sizeof(char));
     memmove(service_key,msg+MESSAGE_TYPE_BYTE_SIZE, SHA1_BLOCK_SIZE);
     hpb_process_subscribe_req(protocol->hpb, service_key, origin_network_id);
     return 0;
 }
 
-int hpb_protocol_receive_unsubscribe_msg(HpbProtocol *protocol, byte origin_network_id[], byte *msg, size_t msg_length)
+int hpb_protocol_receive_unsubscribe_msg(HpbProtocol *protocol, HLByte origin_network_id[], HLByte *msg, size_t msg_length)
 {
     if(msg_length != (MESSAGE_TYPE_BYTE_SIZE + SHA1_BLOCK_SIZE))
         return -1; // Invalid lenght for a unsubscribe message
 
-    byte *service_key = (byte *) malloc(SHA1_BLOCK_SIZE * sizeof(char));
+    HLByte *service_key = (HLByte *) malloc(SHA1_BLOCK_SIZE * sizeof(char));
     memmove(service_key,msg+MESSAGE_TYPE_BYTE_SIZE, SHA1_BLOCK_SIZE);
     hpb_process_unsubscribe_req(protocol->hpb, service_key, origin_network_id);
     return 0;
 }
 
-int hpb_protocol_receive_publish_msg(HpbProtocol *protocol, byte origin_network_id[], byte *msg, size_t msg_length)
+int hpb_protocol_receive_publish_msg(HpbProtocol *protocol, HLByte origin_network_id[], HLByte *msg, size_t msg_length)
 {
     if(msg_length <= (MESSAGE_TYPE_BYTE_SIZE + SHA1_BLOCK_SIZE))
         return -1; // Invalid lenght for a publish message
 
-    byte *service_key = (byte *) malloc(SHA1_BLOCK_SIZE * sizeof(char));
+    HLByte *service_key = (HLByte *) malloc(SHA1_BLOCK_SIZE * sizeof(char));
     memmove(service_key,msg+MESSAGE_TYPE_BYTE_SIZE, SHA1_BLOCK_SIZE);
     size_t msg_content_size = msg_length - MESSAGE_TYPE_BYTE_SIZE - SHA1_BLOCK_SIZE;
     char *msg_content = (char *) malloc(msg_content_size* sizeof(char));
@@ -159,12 +159,12 @@ int hpb_protocol_receive_publish_msg(HpbProtocol *protocol, byte origin_network_
     return 0;
 }
 
-int hpb_protocol_receive_info_msg(HpbProtocol *protocol, byte *msg, size_t msg_length)
+int hpb_protocol_receive_info_msg(HpbProtocol *protocol, HLByte *msg, size_t msg_length)
 {
     if(msg_length <= (MESSAGE_TYPE_BYTE_SIZE + SHA1_BLOCK_SIZE))
         return -1; // Invalid lenght for a info message
 
-    byte *service_key = (byte *) malloc(SHA1_BLOCK_SIZE * sizeof(char));
+    HLByte *service_key = (HLByte *) malloc(SHA1_BLOCK_SIZE * sizeof(char));
     memmove(service_key,msg+MESSAGE_TYPE_BYTE_SIZE, SHA1_BLOCK_SIZE);
     size_t msg_content_size = msg_length - MESSAGE_TYPE_BYTE_SIZE - SHA1_BLOCK_SIZE + 1; // +1 to add \0
     char *msg_content = (char *) malloc(msg_content_size* sizeof(char));
@@ -175,15 +175,15 @@ int hpb_protocol_receive_info_msg(HpbProtocol *protocol, byte *msg, size_t msg_l
     return 0;
 }
 
-MessageType hpb_protocol_get_message_type(byte *msg)
+MessageType hpb_protocol_get_message_type(HLByte *msg)
 {
-    if(msg[0] == (byte) SUBSCRIBE_SERVICE)
+    if(msg[0] == (HLByte) SUBSCRIBE_SERVICE)
         return SUBSCRIBE_SERVICE;
-    else if(msg[0] == (byte) UNSUBSCRIBE_SERVICE)
+    else if(msg[0] == (HLByte) UNSUBSCRIBE_SERVICE)
         return UNSUBSCRIBE_SERVICE;
-    else if(msg[0] == (byte) PUBLISH)
+    else if(msg[0] == (HLByte) PUBLISH)
         return PUBLISH;
-    else if(msg[0] == (byte) INFO)
+    else if(msg[0] == (HLByte) INFO)
         return INFO;
     else
         return INVALID; // This should never happen

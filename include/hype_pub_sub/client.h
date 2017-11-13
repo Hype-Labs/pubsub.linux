@@ -15,8 +15,8 @@
  */
 typedef struct HpbClient_
 {
-    byte id[HPB_ID_BYTE_SIZE]; /**< ID of the Hype client. */
-    byte key[SHA1_BLOCK_SIZE]; /**< Key of the managed service. */
+    HLByte id[HPB_ID_BYTE_SIZE]; /**< ID of the Hype client. */
+    HLByte key[SHA1_BLOCK_SIZE]; /**< Key of the managed service. */
 } HpbClient;
 
 /**
@@ -24,7 +24,7 @@ typedef struct HpbClient_
  * @param id Hype ID of the node.
  * @return Returns a pointer to the created struct or NULL if the space could not be allocated.
  */
-HpbClient *hpb_client_create(byte id[]);
+HpbClient *hpb_client_create(HLByte id[]);
 
 /**
  * @brief Compares 2 client IDs.
@@ -32,7 +32,7 @@ HpbClient *hpb_client_create(byte id[]);
  * @param id2 Second client ID.
  * @return Returns true if the IDs are equal and false otherwise
  */
-bool hpb_client_is_id_equal(byte id1[], byte id2[]);
+bool hpb_client_is_id_equal(HLByte id1[], HLByte id2[]);
 
 /**
  * @brief Deallocates the space previously allocated for the given HpbClient struct.

@@ -15,9 +15,9 @@ typedef LinkedList ListClients;
  */
 ListClients *hpb_list_clients_create();
 
-HpbClient *hpb_list_clients_add(ListClients *list_cl, byte client_id[]);
+HpbClient *hpb_list_clients_add(ListClients *list_cl, HLByte client_id[]);
 
-int hpb_list_clients_remove(ListClients *list_cl, byte client_id[]);
+int hpb_list_clients_remove(ListClients *list_cl, HLByte client_id[]);
 
 /**
  * @brief hype_pub_sub_list_clients_destroy Deallocates the space previously allocated for a linked list of Client elements
@@ -25,7 +25,7 @@ int hpb_list_clients_remove(ListClients *list_cl, byte client_id[]);
  */
 void hpb_list_clients_destroy(ListClients **list_cl);
 
-HpbClient *hpb_list_clients_find(ListClients *list_cl, byte client_id[]);
+HpbClient *hpb_list_clients_find(ListClients *list_cl, HLByte client_id[]);
 
 static bool linked_list_callback_is_client_id(void *client, void *id);
 
