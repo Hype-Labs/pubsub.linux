@@ -10,7 +10,7 @@
 #include "network.h"
 #include "protocol.h"
 
-typedef struct Protocol_ Protocol; // Forward declaration due to circular dependency
+typedef struct HpbProtocol_ HpbProtocol; // Forward declaration due to circular dependency
 
 /**
  * @brief This struct represents a HypePubSub client.
@@ -19,8 +19,8 @@ typedef struct HypePubSub_
 {
     ListSubscriptions *own_subscriptions; /**< List of subscriptions of this HypePubSub client. */
     ListServiceManagers *managed_services; /**< List of services managed by this HypePubSub client. */
-    Network *network; /**< Pointer to the network manager of this HypePubSub client. */
-    Protocol *protocol; /**< Pointer to the protocol manager of this HypePubSub client. */
+    HpbNetwork *network; /**< Pointer to the network manager of this HypePubSub client. */
+    HpbProtocol *protocol; /**< Pointer to the protocol manager of this HypePubSub client. */
 } HypePubSub;
 
 /**

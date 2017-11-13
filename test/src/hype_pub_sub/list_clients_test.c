@@ -8,7 +8,7 @@ void hpb_list_clients_test()
     byte CLIENT_ID4[] = "\x10\x11\x12\x01\x02\x03\x04\x05\x06\x07\x08\x09";
 
     // Test the creation of a client's list
-    Client *aux_cl;
+    HpbClient *aux_cl;
     ListClients *clients = hpb_list_clients_create();
     CU_ASSERT_PTR_NOT_NULL_FATAL(clients);
     CU_ASSERT_PTR_NULL(clients->head);
@@ -22,16 +22,16 @@ void hpb_list_clients_test()
 
     // Validate that the clients are inserted in the right order
     LinkedListIterator *it = linked_list_iterator_create(clients);
-    aux_cl = (Client *) linked_list_iterator_get_element(it);
+    aux_cl = (HpbClient *) linked_list_iterator_get_element(it);
     CU_ASSERT_NSTRING_EQUAL(aux_cl->id, CLIENT_ID3, HPB_ID_BYTE_SIZE);
     linked_list_iterator_advance(it);
-    aux_cl = (Client *) linked_list_iterator_get_element(it);
+    aux_cl = (HpbClient *) linked_list_iterator_get_element(it);
     CU_ASSERT_NSTRING_EQUAL(aux_cl->id, CLIENT_ID2, HPB_ID_BYTE_SIZE);
     linked_list_iterator_advance(it);
-    aux_cl = (Client *) linked_list_iterator_get_element(it);
+    aux_cl = (HpbClient *) linked_list_iterator_get_element(it);
     CU_ASSERT_NSTRING_EQUAL(aux_cl->id, CLIENT_ID4, HPB_ID_BYTE_SIZE);
     linked_list_iterator_advance(it);
-    aux_cl = (Client *) linked_list_iterator_get_element(it);
+    aux_cl = (HpbClient *) linked_list_iterator_get_element(it);
     CU_ASSERT_NSTRING_EQUAL(aux_cl->id, CLIENT_ID1, HPB_ID_BYTE_SIZE);
     CU_ASSERT(clients->size == 4);
 
@@ -39,13 +39,13 @@ void hpb_list_clients_test()
     // that the list is correctly modified
     hpb_list_clients_remove(clients, CLIENT_ID3);
     linked_list_iterator_reset(it);
-    aux_cl = (Client *) linked_list_iterator_get_element(it);
+    aux_cl = (HpbClient *) linked_list_iterator_get_element(it);
     CU_ASSERT_NSTRING_EQUAL(aux_cl->id, CLIENT_ID2, HPB_ID_BYTE_SIZE);
     linked_list_iterator_advance(it);
-    aux_cl = (Client *) linked_list_iterator_get_element(it);
+    aux_cl = (HpbClient *) linked_list_iterator_get_element(it);
     CU_ASSERT_NSTRING_EQUAL(aux_cl->id, CLIENT_ID4, HPB_ID_BYTE_SIZE);
     linked_list_iterator_advance(it);
-    aux_cl = (Client *) linked_list_iterator_get_element(it);
+    aux_cl = (HpbClient *) linked_list_iterator_get_element(it);
     CU_ASSERT_NSTRING_EQUAL(aux_cl->id, CLIENT_ID1, HPB_ID_BYTE_SIZE);
     CU_ASSERT(clients->size == 3);
 
@@ -58,10 +58,10 @@ void hpb_list_clients_test()
     // modified
     hpb_list_clients_remove(clients, CLIENT_ID4);
     linked_list_iterator_reset(it);
-    aux_cl = (Client *) linked_list_iterator_get_element(it);
+    aux_cl = (HpbClient *) linked_list_iterator_get_element(it);
     CU_ASSERT_NSTRING_EQUAL(aux_cl->id, CLIENT_ID2, HPB_ID_BYTE_SIZE);
     linked_list_iterator_advance(it);
-    aux_cl = (Client *) linked_list_iterator_get_element(it);
+    aux_cl = (HpbClient *) linked_list_iterator_get_element(it);
     CU_ASSERT_NSTRING_EQUAL(aux_cl->id, CLIENT_ID1, HPB_ID_BYTE_SIZE);
     CU_ASSERT(clients->size == 2);
 
@@ -69,21 +69,21 @@ void hpb_list_clients_test()
     // modified
     hpb_list_clients_remove(clients, CLIENT_ID1);
     linked_list_iterator_reset(it);
-    aux_cl = (Client *) linked_list_iterator_get_element(it);
+    aux_cl = (HpbClient *) linked_list_iterator_get_element(it);
     CU_ASSERT_NSTRING_EQUAL(aux_cl->id, CLIENT_ID2, HPB_ID_BYTE_SIZE);
     CU_ASSERT(clients->size == 1);
 
     // Remove last client of the list
     hpb_list_clients_remove(clients, CLIENT_ID2);
     linked_list_iterator_reset(it);
-    aux_cl = (Client *) linked_list_iterator_get_element(it);
+    aux_cl = (HpbClient *) linked_list_iterator_get_element(it);
     CU_ASSERT_PTR_NULL(aux_cl);
     CU_ASSERT(clients->size == 0);
 
     // Add a client that was previously removed
     hpb_list_clients_add(clients, CLIENT_ID4);
     linked_list_iterator_reset(it);
-    aux_cl = (Client *) linked_list_iterator_get_element(it);
+    aux_cl = (HpbClient *) linked_list_iterator_get_element(it);
     CU_ASSERT_NSTRING_EQUAL(aux_cl->id, CLIENT_ID4, HPB_ID_BYTE_SIZE);
     CU_ASSERT(clients->size == 1);
 
@@ -96,13 +96,13 @@ void hpb_list_clients_test()
     linked_list_iterator_reset(it);
     CU_ASSERT_NSTRING_EQUAL(aux_cl->id, CLIENT_ID4, HPB_ID_BYTE_SIZE);
     linked_list_iterator_advance(it);
-    aux_cl = (Client *) linked_list_iterator_get_element(it);
+    aux_cl = (HpbClient *) linked_list_iterator_get_element(it);
     CU_ASSERT_NSTRING_EQUAL(aux_cl->id, CLIENT_ID1, HPB_ID_BYTE_SIZE);
     linked_list_iterator_advance(it);
-    aux_cl = (Client *) linked_list_iterator_get_element(it);
+    aux_cl = (HpbClient *) linked_list_iterator_get_element(it);
     CU_ASSERT_NSTRING_EQUAL(aux_cl->id, CLIENT_ID2, HPB_ID_BYTE_SIZE);
     linked_list_iterator_advance(it);
-    aux_cl = (Client *) linked_list_iterator_get_element(it);
+    aux_cl = (HpbClient *) linked_list_iterator_get_element(it);
     CU_ASSERT_NSTRING_EQUAL(aux_cl->id, CLIENT_ID3, HPB_ID_BYTE_SIZE);
     CU_ASSERT(clients->size == 4);
 

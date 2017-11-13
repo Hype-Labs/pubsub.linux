@@ -15,7 +15,7 @@ void hpb_protocol_test_sending_publish();
 void hpb_protocol_test_sending_info();
 void hpb_protocol_test_sending_build_packet();
 
-void hpb_protocol_test_receiving(Protocol *prtcl);
+void hpb_protocol_test_receiving(HpbProtocol *prtcl);
 void hpb_protocol_test_get_message_type();
 
 #endif /* HPB_PROTOCOL_TEST_H_INCLUDED_ */

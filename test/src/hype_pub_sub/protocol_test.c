@@ -5,7 +5,7 @@ void hpb_protocol_test()
     HypePubSub *hpb = hpb_create();
     CU_ASSERT_PTR_NOT_NULL_FATAL(hpb);
 
-    Protocol *prtcl = hpb_protocol_create(hpb);
+    HpbProtocol *prtcl = hpb_protocol_create(hpb);
     CU_ASSERT_PTR_NOT_NULL_FATAL(prtcl);
 
     hpb_protocol_test_sending();
@@ -155,7 +155,7 @@ void hpb_protocol_test_sending_build_packet()
     free(packet);
 }
 
-void hpb_protocol_test_receiving(Protocol *prtcl)
+void hpb_protocol_test_receiving(HpbProtocol *prtcl)
 {
     hpb_protocol_test_get_message_type();
 }

@@ -153,7 +153,7 @@ void hpb_cmd_interface_print_client_list(ListClients *lst_cl)
 
     while(true)
     {
-        Client *client = (Client *) linked_list_iterator_get_element(it);
+        HpbClient *client = (HpbClient *) linked_list_iterator_get_element(it);
         if(client == NULL)
             break;
 

@@ -15,7 +15,7 @@ typedef LinkedList ListClients;
  */
 ListClients *hpb_list_clients_create();
 
-Client *hpb_list_clients_add(ListClients *list_cl, byte client_id[]);
+HpbClient *hpb_list_clients_add(ListClients *list_cl, byte client_id[]);
 
 int hpb_list_clients_remove(ListClients *list_cl, byte client_id[]);
 
@@ -25,7 +25,7 @@ int hpb_list_clients_remove(ListClients *list_cl, byte client_id[]);
  */
 void hpb_list_clients_destroy(ListClients **list_cl);
 
-Client *hpb_list_clients_find(ListClients *list_cl, byte client_id[]);
+HpbClient *hpb_list_clients_find(ListClients *list_cl, byte client_id[]);
 
 static bool linked_list_callback_is_client_id(void *client, void *id);
 

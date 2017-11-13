@@ -7,9 +7,9 @@ void hpb_client_test()
     byte CLIENT2_ID[] = "\x66\xd8\xf2\x20\x6a\x56\xdb\xe9\x91\x23\x3b\xc2";
     byte CLIENT3_ID[] = "\xe7\x79\x34\x6c\x66\x9c\x17\xf4\x34\xc8\xce\x0e";
 
-    Client *cl1 = hpb_client_create(CLIENT1_ID);
-    Client *cl2 = hpb_client_create(CLIENT2_ID);
-    Client *cl3 = hpb_client_create(CLIENT3_ID);
+    HpbClient *cl1 = hpb_client_create(CLIENT1_ID);
+    HpbClient *cl2 = hpb_client_create(CLIENT2_ID);
+    HpbClient *cl3 = hpb_client_create(CLIENT3_ID);
 
     // Test struct creation
     CU_ASSERT_PTR_NOT_NULL_FATAL(cl1);
@@ -25,7 +25,7 @@ void hpb_client_test()
     CU_ASSERT_NSTRING_EQUAL(cl3->key, "\xe4\x9a\xa7\x79\x2c\xf4\xfd\x09\x6c\x10\x3f\x4b\xa4\x63\xe2\x7b\x91\x60\x9e\x6b", SHA1_BLOCK_SIZE);
 
     // Test hpb_client_is_id_equal() method
-    Client *cl4 = hpb_client_create(CLIENT1_ID);
+    HpbClient *cl4 = hpb_client_create(CLIENT1_ID);
     CU_ASSERT_PTR_NOT_NULL_FATAL(cl4);
     CU_ASSERT_FALSE(hpb_client_is_id_equal(cl1->id, cl2->id));
     CU_ASSERT_TRUE(hpb_client_is_id_equal(cl1->id, cl4->id));

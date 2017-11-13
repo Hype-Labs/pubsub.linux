@@ -112,7 +112,7 @@ int hpb_process_publish_req(HypePubSub *hpb, byte service_key[], char *msg, size
     LinkedListIterator *it = linked_list_iterator_create(service->subscribers);
     do
     {
-        Client* client = (Client*) linked_list_iterator_get_element(it);
+        HpbClient* client = (HpbClient*) linked_list_iterator_get_element(it);
         if(client == NULL)
             continue;
 

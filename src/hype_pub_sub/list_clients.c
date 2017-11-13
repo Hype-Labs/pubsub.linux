@@ -6,12 +6,12 @@ ListClients *hpb_list_clients_create()
     return linked_list_create();
 }
 
-Client *hpb_list_clients_add(ListClients *list_cl, byte client_id[])
+HpbClient *hpb_list_clients_add(ListClients *list_cl, byte client_id[])
 {
     if(list_cl == NULL)
         return NULL;
 
-    Client *cl;
+    HpbClient *cl;
     // Avoid to insert repeated Clients
     cl = hpb_list_clients_find(list_cl, client_id);
     if(cl != NULL)
@@ -32,14 +32,14 @@ void hpb_list_clients_destroy(ListClients **list_cl)
     linked_list_destroy(list_cl, linked_list_callback_free_client);
 }
 
-Client *hpb_list_clients_find(ListClients *list_cl, byte client_id[])
+HpbClient *hpb_list_clients_find(ListClients *list_cl, byte client_id[])
 {
     ListClientNode *node = linked_list_find(list_cl, client_id, linked_list_callback_is_client_id);
 
     if(node == NULL)
         return NULL;
 
-    return (Client*) node->element;
+    return (HpbClient*) node->element;
 }
 
 static bool linked_list_callback_is_client_id(void *client, void *id)
@@ -47,10 +47,10 @@ static bool linked_list_callback_is_client_id(void *client, void *id)
     if (client == NULL || id == NULL)
         return false;
 
-    return hpb_client_is_id_equal((((Client *) client)->id), (byte *) id);
+    return hpb_client_is_id_equal((((HpbClient *) client)->id), (byte *) id);
 }
 
 static void linked_list_callback_free_client(void **client)
 {
-    hpb_client_destroy((Client **) client);
+    hpb_client_destroy((HpbClient **) client);
 }

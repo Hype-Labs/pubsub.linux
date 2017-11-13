@@ -1,9 +1,9 @@
 
 #include "hype_pub_sub/network.h"
 
-Network *hpb_network_create()
+HpbNetwork *hpb_network_create()
 {
-    Network *net = (Network*) malloc(sizeof(Network));
+    HpbNetwork *net = (HpbNetwork*) malloc(sizeof(HpbNetwork));
     byte *own_id = hpb_network_get_own_id();
     net->own_client = hpb_client_create(own_id);
     net->network_clients = hpb_list_clients_create();
@@ -11,7 +11,7 @@ Network *hpb_network_create()
     return net;
 }
 
-byte *hpb_network_get_service_manager_id(Network *net, byte service_key[])
+byte *hpb_network_get_service_manager_id(HpbNetwork *net, byte service_key[])
 {
     // Compare the service key with the hash of the Hype clients id and return
     // the id of the closest client. Consider own ID also!!!!
@@ -23,7 +23,7 @@ byte *hpb_network_get_service_manager_id(Network *net, byte service_key[])
     LinkedListIterator *it = linked_list_iterator_create(net->network_clients);
     do
     {
-        Client *client = (Client*) linked_list_iterator_get_element(it);
+        HpbClient *client = (HpbClient*) linked_list_iterator_get_element(it);
 
         if(client == NULL)
             continue;
@@ -46,14 +46,14 @@ byte *hpb_network_get_service_manager_id(Network *net, byte service_key[])
     return manager_id;
 }
 
-int hpb_network_update_clients(Network *net)
+int hpb_network_update_clients(HpbNetwork *net)
 {
     // On instance found -> hype_pub_sub_list_clients_add(net->network_client_ids, --- id ---)
     // On instance lost -> hype_pub_sub_list_clients_remove(net->network_client_ids, --- id ---)
     return 0;
 }
 
-bool hpb_network_is_client_online(Network *net, byte client_id[])
+bool hpb_network_is_client_online(HpbNetwork *net, byte client_id[])
 {
     if(hpb_list_clients_find(net->network_clients, client_id) != NULL)
         return true;
@@ -69,7 +69,7 @@ byte *hpb_network_get_own_id()
     return own_id;
 }
 
-void hpb_network_destroy(Network **net)
+void hpb_network_destroy(HpbNetwork **net)
 {
     if((*net) == NULL)
         return;

@@ -26,7 +26,7 @@ byte SERVICE_KEY2[] = "\x24\x62\xc4\x5a\x65\xd5\x91\x31\x86\xc9\xb3\x10\xa6\x90\
 
 void hpb_network_test()
 {
-    Network *network = hpb_network_create();
+    HpbNetwork *network = hpb_network_create();
     CU_ASSERT_PTR_NOT_NULL_FATAL(network);
 
     hpb_network_test_get_service_manager_id(network);
@@ -36,7 +36,7 @@ void hpb_network_test()
     CU_ASSERT_PTR_NULL(network);
 }
 
-void hpb_network_test_get_service_manager_id(Network *network)
+void hpb_network_test_get_service_manager_id(HpbNetwork *network)
 {
     hpb_list_clients_add(network->network_clients, ID1);
     hpb_list_clients_add(network->network_clients, ID2);
@@ -51,7 +51,7 @@ void hpb_network_test_get_service_manager_id(Network *network)
     CU_ASSERT_NSTRING_EQUAL(hpb_network_get_service_manager_id(network, SERVICE_KEY2), ID1, HPB_ID_BYTE_SIZE);
 }
 
-void hpb_network_test_is_client_online(Network *network)
+void hpb_network_test_is_client_online(HpbNetwork *network)
 {
     byte TEST_ID1[] = "\x6a\x56\xdb\x66\xd8\xf2\x20\xe9\x91\x23\x3b\xc2";
     byte TEST_ID2[] = "\x20\x6a\x56\xdb\xe9\x91\x23\x66\xd8\xf2\x3b\xc2";

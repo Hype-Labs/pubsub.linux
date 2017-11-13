@@ -1,9 +1,9 @@
 
 #include "hype_pub_sub/client.h"
 
-Client *hpb_client_create(byte id[])
+HpbClient *hpb_client_create(byte id[])
 {
-    Client* client = (Client*) malloc(sizeof(Client));
+    HpbClient* client = (HpbClient*) malloc(sizeof(HpbClient));
     memcpy(client->id, id, HPB_ID_BYTE_SIZE);
     sha1_digest(client->id, HPB_ID_BYTE_SIZE, client->key);
     return client;
@@ -16,7 +16,7 @@ bool hpb_client_is_id_equal(byte id1[], byte id2[])
     return false;
 }
 
-void hpb_client_destroy(Client **client)
+void hpb_client_destroy(HpbClient **client)
 {
     free(*client);
     (*client) = NULL;
