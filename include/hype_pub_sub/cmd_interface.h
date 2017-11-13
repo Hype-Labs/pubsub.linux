@@ -35,26 +35,65 @@ static struct option hpb_cmd_interface_long_options[] =
     {HPB_CMD_INTERFACE_QUIT, no_argument, NULL, 'q'}
 };
 
+/**
+ * @brief This method establishes the interface between the user subscribe request and the HypePubSub application.
+ * @param hpb Pointer to the HypePubSub application.
+ * @param service_name Name of the service to be subscribed.
+ */
 void hpb_cmd_interface_subscribe(HypePubSub *hpb, char* service_name);
 
+/**
+ * @brief This method establishes the interface between the user unsubscribe request and the HypePubSub application.
+ * @param hpb Pointer to the HypePubSub application.
+ * @param service_name Name of the service to be unsubscribed.
+ */
 void hpb_cmd_interface_unsubscribe(HypePubSub *hpb, char *service_name);
 
+/**
+ * @brief This method establishes the interface between the user publish request and the HypePubSub application.
+ * @param hpb Pointer to the HypePubSub application.
+ * @param service_name Name of the service in which to publish.
+ */
 void hpb_cmd_interface_publish(HypePubSub *hpb, char* service_name);
 
+/**
+ * @brief Prints the ID and the key of this client.
+ * @param hpb Pointer to the HypePubSub application.
+ */
 void hpb_cmd_interface_print_own_id(HypePubSub *hpb);
 
+/**
+ * @brief Prints the IDs and the keys of the clients found on the network.
+ * @param hpb Pointer to the HypePubSub application.
+ */
 void hpb_cmd_interface_print_hype_devices(HypePubSub *hpb);
 
+/**
+ * @brief Prints the key and the subscribers of each service managed by this client.
+ * @param hpb Pointer to the HypePubSub application.
+ */
 void hpb_cmd_interface_print_managed_services(HypePubSub *hpb);
 
+/**
+ * @brief Prints the name, key and manager ID of each service subscribed by this client.
+ * @param hpb Pointer to the HypePubSub application.
+ */
 void hpb_cmd_interface_print_subscriptions(HypePubSub *hpb);
 
+/**
+ * @brief Prints an helper menu with the possible user interactions with the HypePubSub application.
+ */
 void hpb_cmd_interface_print_helper();
 
-void hpb_cmd_interface_print_invalid_option();
-
+/**
+ * @brief Prints an HypePubSub header.
+ */
 void hpb_cmd_interface_print_header();
 
+/**
+ * @brief hpb_cmd_interface_print_client_list
+ * @param lst_cl
+ */
 void hpb_cmd_interface_print_client_list(ListClients *lst_cl);
 
 int hpb_cmd_interface_arg_split(char *result[], char *str_to_split, const char *delim);

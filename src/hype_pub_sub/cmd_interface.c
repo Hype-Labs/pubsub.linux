@@ -122,11 +122,6 @@ void hpb_cmd_interface_print_helper()
     printf("\n");
 }
 
-void hpb_cmd_interface_print_invalid_option()
-{
-    printf("Invalid option\n");
-}
-
 void hpb_cmd_interface_print_header()
 {
     printf("\n");
