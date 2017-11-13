@@ -6,7 +6,6 @@
 #include <unistd.h>
 #include <getopt.h>
 
-#include "cmd_args.h"
 #include "hype_pub_sub.h"
 
 #define HPB_CMD_INTERFACE_MAX_ARGS 30
