@@ -3,30 +3,23 @@
 
 void hpb_cmd_interface_subscribe(HypePubSub *hpb, char* service_name)
 {
-    HLByte service_key[SHA1_BLOCK_SIZE];
-    sha1_digest((const BYTE *) service_name, strlen(service_name), service_key);
-    hpb_issue_subscribe_req(hpb, service_key);
+    hpb_issue_subscribe_req(hpb, service_name);
 }
 
 void hpb_cmd_interface_unsubscribe(HypePubSub *hpb, char* service_name)
 {
-    HLByte service_key[SHA1_BLOCK_SIZE];
-    sha1_digest((const BYTE *) service_name, strlen(service_name), service_key);
-    hpb_issue_unsubscribe_req(hpb, service_key);
+    hpb_issue_unsubscribe_req(hpb, service_name);
 }
 
 void hpb_cmd_interface_publish(HypePubSub *hpb, char* service_name)
 {
-    HLByte service_key[SHA1_BLOCK_SIZE];
-    sha1_digest((const BYTE *) service_name, strlen(service_name), service_key);
-
     printf("Insert message to be published on the service '%s': ", service_name);
     size_t msg_size = 1000;
     char *msg = (char *)malloc(msg_size * sizeof(char));
     getline(&msg, &msg_size, stdin);
     msg[strcspn(msg, "\n")] = '\0'; // Remove \n read with getline()
 
-    hpb_issue_publish_req(hpb, service_key, msg, strlen(msg));
+    hpb_issue_publish_req(hpb, service_name, msg, strlen(msg));
 }
 
 void hpb_cmd_interface_print_own_id(HypePubSub *hpb)
@@ -61,12 +54,12 @@ void hpb_cmd_interface_print_managed_services(HypePubSub *hpb)
     LinkedListIterator *it = linked_list_iterator_create(hpb->managed_services);
     int srvc_n = 1;
 
-    while(true)
+    do
     {
         HpbServiceManager *srvc = (HpbServiceManager *) linked_list_iterator_get_element(it);
 
         if(srvc == NULL)
-            break;
+            continue;
 
         printf("Managed Service %i Key: ", srvc_n);
         binary_utils_print_hex_array(srvc->service_key, SHA1_BLOCK_SIZE);
@@ -75,8 +68,7 @@ void hpb_cmd_interface_print_managed_services(HypePubSub *hpb)
         printf("\n");
 
         srvc_n++;
-        linked_list_iterator_advance(it);
-    }
+    } while(linked_list_iterator_advance(it) != -1);
 
     linked_list_iterator_destroy(&it);
 }
@@ -94,12 +86,12 @@ void hpb_cmd_interface_print_subscriptions(HypePubSub *hpb)
     LinkedListIterator *it = linked_list_iterator_create(hpb->own_subscriptions);
     int sbscrptn_n = 1;
 
-    while(true)
+    do
     {
         HpbSubscription *sbscrptn = (HpbSubscription *) linked_list_iterator_get_element(it);
 
         if(sbscrptn == NULL)
-            break;
+            continue;
 
         printf("Subscription %i service name: %s\n", sbscrptn_n, sbscrptn->service_name);
         printf("Subscription %i service key: ", sbscrptn_n);
@@ -109,8 +101,7 @@ void hpb_cmd_interface_print_subscriptions(HypePubSub *hpb)
         printf("\n");
 
         sbscrptn_n++;
-        linked_list_iterator_advance(it);
-    }
+    } while(linked_list_iterator_advance(it) != -1);
 
     linked_list_iterator_destroy(&it);
 }
@@ -151,11 +142,11 @@ void hpb_cmd_interface_print_client_list(ListClients *lst_cl)
     LinkedListIterator *it = linked_list_iterator_create(lst_cl);
     int cl_n = 1;
 
-    while(true)
+    do
     {
         HpbClient *client = (HpbClient *) linked_list_iterator_get_element(it);
         if(client == NULL)
-            break;
+            continue;
 
         printf("Device %i ID: ", cl_n);
         binary_utils_print_hex_array(client->id, HPB_ID_BYTE_SIZE);
@@ -164,8 +155,7 @@ void hpb_cmd_interface_print_client_list(ListClients *lst_cl)
         printf("\n");
 
         cl_n++;
-        linked_list_iterator_advance(it);
-    }
+    } while(linked_list_iterator_advance(it) != -1);
 
     linked_list_iterator_destroy(&it);
 }

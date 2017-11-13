@@ -11,12 +11,18 @@ HypePubSub* hpb_create()
     return hpb;
 }
 
-int hpb_issue_subscribe_req(HypePubSub *hpb, HLByte service_key[])
+int hpb_issue_subscribe_req(HypePubSub *hpb, char* service_name)
 {
     if(hpb == NULL)
         return -1;
 
+    HLByte service_key[SHA1_BLOCK_SIZE];
+    sha1_digest((const BYTE *) service_name, strlen(service_name), service_key);
+
     HLByte *manager_id = hpb_network_get_service_manager_id(hpb->network, service_key);
+
+    // Add subscription to the list of own subscriptions
+    hpb_list_subscriptions_add(hpb->own_subscriptions, service_name, strlen(service_name), manager_id);
 
     // if this client is the manager of the service we don't need to send the subscribe message to
     // the protocol manager
@@ -28,12 +34,18 @@ int hpb_issue_subscribe_req(HypePubSub *hpb, HLByte service_key[])
     return 0;
 }
 
-int hpb_issue_unsubscribe_req(HypePubSub *hpb, HLByte service_key[])
+int hpb_issue_unsubscribe_req(HypePubSub *hpb, char *service_name)
 {
     if(hpb == NULL)
         return -1;
 
+    HLByte service_key[SHA1_BLOCK_SIZE];
+    sha1_digest((const BYTE *) service_name, strlen(service_name), service_key);
+
     HLByte *manager_id = hpb_network_get_service_manager_id(hpb->network, service_key);
+
+    // Remove the subscription from the list of own subscriptions
+    hpb_list_subscriptions_remove(hpb->own_subscriptions, service_key);
 
     // if this client is the manager of the service we don't need to send the unsubscribe message
     // to the protocol manager
@@ -45,10 +57,13 @@ int hpb_issue_unsubscribe_req(HypePubSub *hpb, HLByte service_key[])
     return 0;
 }
 
-int hpb_issue_publish_req(HypePubSub *hpb, HLByte service_key[], char *msg, size_t msg_length)
+int hpb_issue_publish_req(HypePubSub *hpb, char *service_name, char *msg, size_t msg_length)
 {
     if(hpb == NULL)
         return -1;
+
+    HLByte service_key[SHA1_BLOCK_SIZE];
+    sha1_digest((const BYTE *) service_name, strlen(service_name), service_key);
 
     HLByte *manager_id = hpb_network_get_service_manager_id(hpb->network, service_key);
 
@@ -134,6 +149,7 @@ int hpb_process_info_msg(HypePubSub *hpb, HLByte service_key[], char *msg, size_
 
     HpbSubscription *subs = hpb_list_subscriptions_find(hpb->own_subscriptions, service_key);
 
+    printf("\n### Message Received! ###\n");
     printf("ServiceName:");
     if(subs != NULL)
         printf(" %s \n", subs->service_name);
@@ -141,7 +157,7 @@ int hpb_process_info_msg(HypePubSub *hpb, HLByte service_key[], char *msg, size_
         printf(" --- \n");
 
     printf("ServiceKey: 0x"); binary_utils_print_hex_array(service_key, SHA1_BLOCK_SIZE);
-    printf("Message: %s", msg);
+    printf("Message: %s\n\n", msg);
     return 0;
 }
 
@@ -184,7 +200,7 @@ static int hpb_update_own_subscriptions(HypePubSub *hpb)
         if(memcmp(subscription->manager_id, new_manager_id, HPB_ID_BYTE_SIZE) != 0)
         {
             memcpy(subscription->manager_id, new_manager_id, HPB_ID_BYTE_SIZE);
-            hpb_issue_subscribe_req(hpb, subscription->service_key); // re-send the subscribe request to the new manager
+            hpb_issue_subscribe_req(hpb, subscription->service_name); // re-send the subscribe request to the new manager
         }
 
     } while(linked_list_iterator_advance(it) != -1);
