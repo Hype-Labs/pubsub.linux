@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 
+#include "cmd_args.h"
 #include "hype_pub_sub.h"
 
 #define HPB_CMD_INTERFACE_SUBSCRIBE "-subs"
@@ -13,11 +14,10 @@
 #define HPB_CMD_INTERFACE_PRINT_HYPE_DEVICES "-hype_devices"
 #define HPB_CMD_INTERFACE_PRINT_MANAGED_SERVICES "-managed_services"
 #define HPB_CMD_INTERFACE_PRINT_SUBSCRIPTIONS "-subscriptions"
-#define HPB_CMD_INTERFACE_PRINT_SERVICE_MANAGER "-service_manager"
 #define HPB_CMD_INTERFACE_HELP "-h"
 #define HPB_CMD_INTERFACE_QUIT "-q"
 
-void hpb_cmd_interface_subscribe(HypePubSub *hpb);
+void hpb_cmd_interface_subscribe(HypePubSub *hpb, char* input);
 
 void hpb_cmd_interface_unsubscribe(HypePubSub *hpb);
 
@@ -31,12 +31,12 @@ void hpb_cmd_interface_print_managed_services(HypePubSub *hpb);
 
 void hpb_cmd_interface_print_subscriptions(HypePubSub *hpb);
 
-void hpb_cmd_interface_print_service_manager(HypePubSub *hpb);
-
 void hpb_cmd_interface_print_helper();
 
 void hpb_cmd_interface_print_invalid_option();
 
 void hpb_cmd_interface_print_header();
+
+void hpb_cmd_interface_print_client_list(ListClients *lst_cl);
 
 #endif /* HPB_CMD_INTERFACE_H_INCLUDED_ */
