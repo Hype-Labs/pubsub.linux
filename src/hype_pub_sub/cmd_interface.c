@@ -20,6 +20,7 @@ void hpb_cmd_interface_publish(HypePubSub *hpb, char* service_name)
     msg[strcspn(msg, "\n")] = '\0'; // Remove \n read with getline()
 
     hpb_issue_publish_req(hpb, service_name, msg, strlen(msg));
+    free(msg);
 }
 
 void hpb_cmd_interface_print_own_id(HypePubSub *hpb)
