@@ -68,7 +68,7 @@ char *binary_utils_get_formatted_binary_str(HLByte *byte_array, size_t byte_arra
     // 2 spaces per byte
     // 1 \0 to terminate string
     size_t formatted_str_size = byte_array_size*8 + byte_array_size*2 + 1;
-    char *formatted_str = (char*) malloc(formatted_str_size * sizeof(char));
+    char *formatted_str = (char*) calloc(formatted_str_size, sizeof(char));
 
     char  *bin_array = binary_utils_to_binary_char_array(byte_array, byte_array_size);
 
