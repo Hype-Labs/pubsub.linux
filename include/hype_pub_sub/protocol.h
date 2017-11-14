@@ -9,8 +9,6 @@
 
 #define MESSAGE_TYPE_BYTE_SIZE 1
 
-typedef struct HypePubSub_ HypePubSub; // Forward declaration due to circular dependency
-
 /**
  * @brief This struct represents the message types of the HpbProtocol packets.
  */
@@ -26,7 +24,7 @@ typedef enum  {SUBSCRIBE_SERVICE, /**< Represents a packet which contains a subs
  */
 typedef struct HpbProtocol_
 {
-    HypePubSub *hpb; /**< Pointer to the HypePubSub application */
+    struct HypePubSub_ *hpb; /**< Pointer to the HypePubSub application */
 } HpbProtocol;
 
 /**
@@ -42,7 +40,7 @@ typedef struct HpbProtocolPacketField_
  * @brief Allocates space for a HpbProtocol struct.
  * @return Returns a pointer to the created struct or NULL if the space could not be allocated.
  */
-HpbProtocol *hpb_protocol_create(HypePubSub *hpb);
+HpbProtocol *hpb_protocol_create(struct HypePubSub_ *hpb);
 
 /**
  * @brief Method to send a subscribe message.

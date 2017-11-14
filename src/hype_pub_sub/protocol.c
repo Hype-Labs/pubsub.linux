@@ -1,7 +1,7 @@
 
 #include "hype_pub_sub/protocol.h"
 
-HpbProtocol *hpb_protocol_create(HypePubSub *hpb)
+HpbProtocol *hpb_protocol_create(struct HypePubSub_ *hpb)
 {
     HpbProtocol *prot = (HpbProtocol *) malloc(sizeof(HpbProtocol));
     prot->hpb = hpb;
