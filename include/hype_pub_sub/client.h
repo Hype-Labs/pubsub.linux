@@ -36,7 +36,7 @@ bool hpb_client_is_id_equal(HLByte id1[], HLByte id2[]);
 
 /**
  * @brief Deallocates the space previously allocated for the given HpbClient struct.
- * @param client Pointer to the HpbClient struct to be deallocated.
+ * @param client Pointer to the pointer of the HpbClient struct to be deallocated.
  */
 void hpb_client_destroy(HpbClient **client);
 

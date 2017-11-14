@@ -122,7 +122,7 @@ int hpb_process_publish_req(HypePubSub *hpb, HLByte service_key[], char *msg, si
     HpbServiceManager *service = hpb_list_service_managers_find(hpb->managed_services, service_key);
 
     if(service == NULL)
-        return -1;
+        return -2;
 
     LinkedListIterator *it = linked_list_iterator_create(service->subscribers);
     do

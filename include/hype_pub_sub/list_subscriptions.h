@@ -12,7 +12,10 @@
 typedef LinkedListNode HpbSubscriptionsListNode;
 typedef LinkedList HpbSubscriptionsList;
 
-
+/**
+ * @brief Allocates space for a linked list of HpbSubscription elements.
+ * @return Returns a pointer to the created linked list or NULL if the space could not be allocated.
+ */
 HpbSubscriptionsList *hpb_list_subscriptions_create();
 
 HpbSubscription *hpb_list_subscriptions_add(HpbSubscriptionsList *list_subscrpt, char *serv_name, size_t serv_name_len, HLByte man_id[HPB_ID_BYTE_SIZE]);

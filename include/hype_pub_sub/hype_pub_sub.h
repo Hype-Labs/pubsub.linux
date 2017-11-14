@@ -17,10 +17,10 @@ typedef struct HpbProtocol_ HpbProtocol; // Forward declaration due to circular 
  */
 typedef struct HypePubSub_
 {
-    HpbSubscriptionsList *own_subscriptions; /**< List of subscriptions of this HypePubSub client. */
-    HpbServiceManagersList *managed_services; /**< List of services managed by this HypePubSub client. */
-    HpbNetwork *network; /**< Pointer to the network manager of this HypePubSub client. */
-    HpbProtocol *protocol; /**< Pointer to the protocol manager of this HypePubSub client. */
+    HpbSubscriptionsList *own_subscriptions; /**< List of subscriptions of this HypePubSub application. */
+    HpbServiceManagersList *managed_services; /**< List of services managed by this HypePubSub application. */
+    HpbNetwork *network; /**< Pointer to the network manager of this HypePubSub application. */
+    HpbProtocol *protocol; /**< Pointer to the protocol manager of this HypePubSub application. */
 } HypePubSub;
 
 /**
@@ -33,7 +33,7 @@ HypePubSub *hpb_create();
  * @brief Obtains the Hype client responsible for a given service through the network manager
  *        and it uses the protocol manager to send a subscribe request to that Hype client.
  * @param hpb Pointer to the HypePubSub application.
- * @param service_key Key of the service to be subscribed.
+ * @param service_name Name of the service to be subscribed.
  * @return Return 0 in case of success and -1 otherwise.
  */
 int hpb_issue_subscribe_req(HypePubSub *hpb, char *service_name);
@@ -42,7 +42,7 @@ int hpb_issue_subscribe_req(HypePubSub *hpb, char *service_name);
  * @brief Obtains the Hype client responsible for a given service through the network manager
  *        and it uses the protocol manager to send a unsubscribe request to that Hype client.
  * @param hpb Pointer to the HypePubSub application.
- * @param service_key Key of the service to be unsubscribed.
+ * @param service_name Name of the service to be unsubscribed.
  * @return Return 0 in case of success and -1 otherwise.
  */
 int hpb_issue_unsubscribe_req(HypePubSub *hpb, char *service_name);
@@ -51,7 +51,7 @@ int hpb_issue_unsubscribe_req(HypePubSub *hpb, char *service_name);
  * @brief Obtains the Hype client responsible for a given service through the network manager
  *        and it uses the protocol manager to send a publish request to that Hype client.
  * @param hpb Pointer to the HypePubSub application.
- * @param service_key Key of the service in which to publish.
+ * @param service_name Name of the service in which to publish.
  * @param msg Pointer to the message to be published.
  * @param msg_length Lenght of the message to be published
  * @return Return 0 in case of success and -1 otherwise.
@@ -63,7 +63,7 @@ int hpb_issue_publish_req(HypePubSub *hpb, char *service_name, char *msg, size_t
  *        request to the list of the subscribers of the specified service. If the service does not exist in
  *        the list of managed services, it is added.
  * @param hpb Pointer to the HypePubSub application.
- * @param service_key Key of the service to subscribe.
+ * @param service_key Key of the service to be subscribed.
  * @param requester_client_id Hype ID of the client that sent the subscribe message.
  * @return Returns 0 in case of success and < 0 otherwise.
  */
@@ -74,7 +74,7 @@ int hpb_process_subscribe_req(HypePubSub *hpb, HLByte service_key[], HLByte requ
  *        the request from the list of the subscribers of the specified service. If the service does not exist
  *        in the list of managed services, nothing is done.
  * @param hpb Pointer to the HypePubSub application.
- * @param service_key Key of the service to unsubscribe.
+ * @param service_key Key of the service to be unsubscribed.
  * @param requester_client_id Hype ID of the client that sent the unsubscribe message.
  * @return Returns 0 in case of success and < 0 otherwise.
  */
@@ -82,7 +82,7 @@ int hpb_process_unsubscribe_req(HypePubSub *hpb, HLByte service_key[], HLByte re
 
 /**
  * @brief Processes a publish request to a given service. It sends the message to all the subscribers of the
- *        specified service. If the service is not in the list of managed services nothing is done.
+ *        specified service. If the service does not exist in the list of managed services nothing is done.
  * @param hpb Pointer to the HypePubSub application.
  * @param service_key Key of the service in which to publish.
  * @param msg Message to be sent.
@@ -91,15 +91,29 @@ int hpb_process_unsubscribe_req(HypePubSub *hpb, HLByte service_key[], HLByte re
  */
 int hpb_process_publish_req(HypePubSub *hpb, HLByte service_key[], char *msg, size_t msg_length);
 
+/**
+ * @brief Process an info message received.
+ * @param hpb Pointer to the HypePubSub application.
+ * @param service_key Key of the service to which the message belongs.
+ * @param msg Message received.
+ * @param msg_length Length of the received message.
+ * @return Returns 0 in case of success and < 0 otherwise.
+ */
 int hpb_process_info_msg(HypePubSub *hpb, HLByte service_key[], char *msg, size_t msg_length);
 
 static int hpb_update_managed_services(HypePubSub *hpb);
 
+/**
+ * @brief When a new Hype instance is found or lost we have to review the list of subscriptions to analyze if
+ *        the service will be managed by a new Hype client.
+ * @param hpb Pointer to the HypePubSub application.
+ * @return Returns -1 if the HypePubSub application is NULL and 0 otherwise.
+ */
 static int hpb_update_own_subscriptions(HypePubSub *hpb);
 
 /**
- * @brief Deallocates the space previously allocated for a HypePubSub struct
- * @param hpb Pointer to the HypePubSub struct to be deallocated.
+ * @brief Deallocates the space previously allocated for the HypePubSub struct
+ * @param hpb Pointer to the pointer of the HypePubSub struct to be deallocated.
  */
 void hpb_destroy(HypePubSub **hpb);
 

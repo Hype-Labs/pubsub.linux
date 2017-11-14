@@ -10,7 +10,10 @@
 typedef LinkedListNode HpbServiceManagersListNode;
 typedef LinkedList HpbServiceManagersList;
 
-
+/**
+ * @brief Allocates space for a linked list of HpbServiceManager elements.
+ * @return Returns a pointer to the created linked list or NULL if the space could not be allocated.
+ */
 HpbServiceManagersList *hpb_list_service_managers_create();
 
 HpbServiceManager *hpb_list_service_managers_add(HpbServiceManagersList *list_serv_man, HLByte service_key[SHA1_BLOCK_SIZE]);
