@@ -44,6 +44,12 @@ int hpb_issue_unsubscribe_req(HypePubSub *hpb, char *service_name)
 
     HLByte *manager_id = hpb_network_get_service_manager_id(hpb->network, service_key);
 
+    if(hpb_list_subscriptions_find(hpb->own_subscriptions, service_key) == NULL)
+    {
+        printf("Trying to unsubscribe a service that was not previously subscribed.\n");
+        return -2;
+    }
+
     // Remove the subscription from the list of own subscriptions
     hpb_list_subscriptions_remove(hpb->own_subscriptions, service_key);
 
