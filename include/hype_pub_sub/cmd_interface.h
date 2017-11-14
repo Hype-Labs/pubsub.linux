@@ -94,7 +94,7 @@ void hpb_cmd_interface_print_header();
  * @brief Print the IDs and keys of a list o clients
  * @param lst_cl List of clients to be printed
  */
-void hpb_cmd_interface_print_client_list(ListClients *lst_cl);
+void hpb_cmd_interface_print_client_list(HpbClientsList *lst_cl);
 
 /**
  * @brief Splits a string in an array of arguments

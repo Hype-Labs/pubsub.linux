@@ -9,7 +9,7 @@ void hpb_list_clients_test()
 
     // Test the creation of a client's list
     HpbClient *aux_cl;
-    ListClients *clients = hpb_list_clients_create();
+    HpbClientsList *clients = hpb_list_clients_create();
     CU_ASSERT_PTR_NOT_NULL_FATAL(clients);
     CU_ASSERT_PTR_NULL(clients->head);
     CU_ASSERT(clients->size == 0);

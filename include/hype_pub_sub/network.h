@@ -14,7 +14,7 @@
 typedef struct HpbNetwork_
 {
     HpbClient *own_client;
-    ListClients *network_clients;
+    HpbClientsList *network_clients;
 } HpbNetwork;
 
 HpbNetwork *hpb_network_create();

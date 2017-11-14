@@ -13,12 +13,12 @@
 typedef struct HpbProtocol_ HpbProtocol; // Forward declaration due to circular dependency
 
 /**
- * @brief This struct represents a HypePubSub client.
+ * @brief This struct represents a HypePubSub application.
  */
 typedef struct HypePubSub_
 {
-    ListSubscriptions *own_subscriptions; /**< List of subscriptions of this HypePubSub client. */
-    ListServiceManagers *managed_services; /**< List of services managed by this HypePubSub client. */
+    HpbSubscriptionsList *own_subscriptions; /**< List of subscriptions of this HypePubSub client. */
+    HpbServiceManagersList *managed_services; /**< List of services managed by this HypePubSub client. */
     HpbNetwork *network; /**< Pointer to the network manager of this HypePubSub client. */
     HpbProtocol *protocol; /**< Pointer to the protocol manager of this HypePubSub client. */
 } HypePubSub;

@@ -1,12 +1,12 @@
 
 #include "hype_pub_sub/list_subscriptions.h"
 
-ListSubscriptions *hpb_list_subscriptions_create()
+HpbSubscriptionsList *hpb_list_subscriptions_create()
 {
     return linked_list_create();
 }
 
-HpbSubscription *hpb_list_subscriptions_add(ListSubscriptions *list_subscrpt, char *serv_name, size_t serv_name_len, HLByte man_id[HPB_ID_BYTE_SIZE])
+HpbSubscription *hpb_list_subscriptions_add(HpbSubscriptionsList *list_subscrpt, char *serv_name, size_t serv_name_len, HLByte man_id[HPB_ID_BYTE_SIZE])
 {
     if(list_subscrpt == NULL)
         return NULL;
@@ -28,17 +28,17 @@ HpbSubscription *hpb_list_subscriptions_add(ListSubscriptions *list_subscrpt, ch
     return subscrpt;
 }
 
-int hpb_list_subscriptions_remove(ListSubscriptions *list_subscrpt, HLByte service_key[])
+int hpb_list_subscriptions_remove(HpbSubscriptionsList *list_subscrpt, HLByte service_key[])
 {
     return linked_list_remove(list_subscrpt, service_key, linked_list_callback_is_subscription_service_key, linked_list_callback_free_subscription);
 }
 
-void hpb_list_subscriptions_destroy(ListSubscriptions **list_subscrpt)
+void hpb_list_subscriptions_destroy(HpbSubscriptionsList **list_subscrpt)
 {
     linked_list_destroy(list_subscrpt, linked_list_callback_free_subscription);
 }
 
-HpbSubscription *hpb_list_subscriptions_find(ListSubscriptions *list_subscrpt, HLByte service_key[])
+HpbSubscription *hpb_list_subscriptions_find(HpbSubscriptionsList *list_subscrpt, HLByte service_key[])
 {
     LinkedListNode *node = linked_list_find(list_subscrpt, service_key, linked_list_callback_is_subscription_service_key);
 

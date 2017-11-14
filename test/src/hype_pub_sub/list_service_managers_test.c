@@ -8,7 +8,7 @@ void hpb_list_service_managers_test()
 
     // Test the creation of the service managers list
     HpbServiceManager *aux_ser_manv;
-    ListServiceManagers *serv_managers = hpb_list_service_managers_create();
+    HpbServiceManagersList *serv_managers = hpb_list_service_managers_create();
     CU_ASSERT_PTR_NOT_NULL_FATAL(serv_managers);
     CU_ASSERT_PTR_NULL(serv_managers->head);
     CU_ASSERT(serv_managers->size == 0);

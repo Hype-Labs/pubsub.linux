@@ -17,7 +17,7 @@ void hpb_list_subscriptions_test()
 
     // Test the creation of the subscriptions list
     HpbSubscription *aux_subscr;
-    ListSubscriptions *subscriptions = hpb_list_subscriptions_create();
+    HpbSubscriptionsList *subscriptions = hpb_list_subscriptions_create();
     CU_ASSERT_PTR_NOT_NULL_FATAL(subscriptions);
     CU_ASSERT_PTR_NULL(subscriptions->head);
     CU_ASSERT(subscriptions->size == 0);

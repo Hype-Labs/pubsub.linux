@@ -131,7 +131,7 @@ void hpb_cmd_interface_print_header()
     printf("\n");
 }
 
-void hpb_cmd_interface_print_client_list(ListClients *lst_cl)
+void hpb_cmd_interface_print_client_list(HpbClientsList *lst_cl)
 {
     printf("\n");
     LinkedListIterator *it = linked_list_iterator_create(lst_cl);

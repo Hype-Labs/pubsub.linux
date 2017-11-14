@@ -16,7 +16,7 @@
 typedef struct HpbServiceManager_
 {
     HLByte service_key[SHA1_BLOCK_SIZE]; /**< Key of the managed service. */
-    ListClients *subscribers; /**< Linked list with the subscribers of the service. */
+    HpbClientsList *subscribers; /**< Linked list with the subscribers of the service. */
 } HpbServiceManager;
 
 HpbServiceManager *hpb_service_manager_create(HLByte service_key[SHA1_BLOCK_SIZE]);
