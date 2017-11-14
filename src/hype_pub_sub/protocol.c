@@ -73,8 +73,9 @@ HLByte *hpb_protocol_build_packet(int n_fields, ...)
     va_start(p_fields, n_fields);
 
     // Get full packet size
-    for (int i = 0; i < n_fields; i++)
+    for (int i = 0; i < n_fields; i++){
         p_size += va_arg(p_fields, HpbProtocolPacketField*)->size;
+    }
 
     HLByte *packet = (HLByte*) malloc(p_size * sizeof(HLByte));
 
