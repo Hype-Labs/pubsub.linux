@@ -17,45 +17,45 @@ HpbClientsList *hpb_list_clients_create();
 
 /**
  * @brief Adds an HpbClient to a HpbClientsList.
- * @param list_cl List in which the client should be added.
- * @param client_id ID of the client to be added.
- * @return Returns a pointer to the added client.
+ * @param list_cl List in which the HpbClient should be added.
+ * @param client_id ID of the HpbClient to be added.
+ * @return Returns a pointer to the added HpbClient.
  */
 HpbClient *hpb_list_clients_add(HpbClientsList *list_cl, HLByte client_id[]);
 
 /**
  * @brief Removes an HpbClient from a HpbClientsList.
- * @param list_cl List from which the client should be removed.
- * @param client_id ID of the client to be removed.
- * @return Returns >=0 if the client was removed and <0 otherwise.
+ * @param list_cl List from which the HpbClient should be removed.
+ * @param client_id ID of the HpbClient to be removed.
+ * @return Returns >=0 if the HpbClient was removed and <0 otherwise.
  */
 int hpb_list_clients_remove(HpbClientsList *list_cl, HLByte client_id[]);
 
 /**
- * @brief Deallocates the space previously allocated for a linked list of Client elements
- * @param list_cl Pointer to the pointer of the Client linked list to be deallocated.
+ * @brief Deallocates the space previously allocated for a linked list of HpbClient elements
+ * @param list_cl Pointer to the pointer of the HpbClient linked list to be deallocated.
  */
 void hpb_list_clients_destroy(HpbClientsList **list_cl);
 
 /**
  * @brief Finds a given client in a linked list.
- * @param list_cl List in which the client should be searched.
- * @param client_id ID of the client to be searched.
- * @return Returns a pointer to the client if the search is successful or NULL otherwise.
+ * @param list_cl List in which the HpbClient should be searched.
+ * @param client_id ID of the HpbClient to be searched.
+ * @return Returns a pointer to the HpbClient if the search is successful or NULL otherwise.
  */
 HpbClient *hpb_list_clients_find(HpbClientsList *list_cl, HLByte client_id[]);
 
 /**
- * @brief Callback to identify a client in the linked list.
- * @param client Client to
- * @param id ID
- * @return Returns true if the specified ID corresponds to the ID of the specified client.
+ * @brief Callback to identify a HpbClient in the linked list.
+ * @param client HpbClient to be analyzed.
+ * @param id ID to which the HpbClient should be compared.
+ * @return Returns true if the specified ID corresponds to the ID of the specified HpbClient.
  */
 static bool linked_list_callback_is_client_id(void *client, void *id);
 
 /**
- * @brief Callback to deallocate the space reserved for a client of the linked list.
- * @param client Pointer to the pointer of the client to be deallocated
+ * @brief Callback to deallocate the space reserved for a HpbClient of the linked list.
+ * @param client Pointer to the pointer of the HpbClient to be deallocated.
  */
 static void linked_list_callback_free_client(void **client);
 

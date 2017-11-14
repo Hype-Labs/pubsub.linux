@@ -46,11 +46,11 @@ HLByte *hpb_network_get_service_manager_id(HpbNetwork *net, HLByte service_key[]
     return manager_id;
 }
 
-int hpb_network_update_clients(HpbNetwork *net)
+void hpb_network_update_clients(HpbNetwork *net)
 {
     // On instance found -> hype_pub_sub_list_clients_add(net->network_client_ids, --- id ---)
     // On instance lost -> hype_pub_sub_list_clients_remove(net->network_client_ids, --- id ---)
-    return 0;
+    return;
 }
 
 bool hpb_network_is_client_online(HpbNetwork *net, HLByte client_id[])

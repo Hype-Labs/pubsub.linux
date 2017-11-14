@@ -11,8 +11,8 @@ HpbProtocol *hpb_protocol_create(HypePubSub *hpb)
 HLByte *hpb_protocol_send_subscribe_msg(HLByte service_key[], HLByte dest_network_id[])
 {
     HLByte type = (HLByte) SUBSCRIBE_SERVICE;
-    PacketField msg_type_field = {&type, MESSAGE_TYPE_BYTE_SIZE };
-    PacketField ser_key_field = {service_key, SHA1_BLOCK_SIZE };
+    HpbProtocolPacketField msg_type_field = {&type, MESSAGE_TYPE_BYTE_SIZE };
+    HpbProtocolPacketField ser_key_field = {service_key, SHA1_BLOCK_SIZE };
     size_t n_fields = 2;
 
     HLByte *packet = hpb_protocol_build_packet(n_fields, &msg_type_field, &ser_key_field) ;
@@ -24,8 +24,8 @@ HLByte *hpb_protocol_send_subscribe_msg(HLByte service_key[], HLByte dest_networ
 HLByte *hpb_protocol_send_unsubscribe_msg(HLByte service_key[], HLByte dest_network_id[])
 {
     HLByte type = (HLByte) UNSUBSCRIBE_SERVICE;
-    PacketField msg_type_field = {&type, MESSAGE_TYPE_BYTE_SIZE };
-    PacketField ser_key_field = {service_key, SHA1_BLOCK_SIZE };
+    HpbProtocolPacketField msg_type_field = {&type, MESSAGE_TYPE_BYTE_SIZE };
+    HpbProtocolPacketField ser_key_field = {service_key, SHA1_BLOCK_SIZE };
     size_t n_fields = 2;
 
     HLByte *packet = hpb_protocol_build_packet(n_fields, &msg_type_field, &ser_key_field) ;
@@ -37,9 +37,9 @@ HLByte *hpb_protocol_send_unsubscribe_msg(HLByte service_key[], HLByte dest_netw
 HLByte *hpb_protocol_send_publish_msg(HLByte service_key[], HLByte dest_network_id[], char *msg, size_t msg_length)
 {
     HLByte type = (HLByte) PUBLISH;
-    PacketField msg_type_field = {&type, MESSAGE_TYPE_BYTE_SIZE };
-    PacketField ser_key_field = {service_key, SHA1_BLOCK_SIZE };
-    PacketField msg_field = {(HLByte *) msg, msg_length };
+    HpbProtocolPacketField msg_type_field = {&type, MESSAGE_TYPE_BYTE_SIZE };
+    HpbProtocolPacketField ser_key_field = {service_key, SHA1_BLOCK_SIZE };
+    HpbProtocolPacketField msg_field = {(HLByte *) msg, msg_length };
     size_t n_fields = 3;
 
     HLByte *packet = hpb_protocol_build_packet(n_fields, &msg_type_field, &ser_key_field, &msg_field) ;
@@ -51,9 +51,9 @@ HLByte *hpb_protocol_send_publish_msg(HLByte service_key[], HLByte dest_network_
 HLByte *hpb_protocol_send_info_msg(HLByte service_key[], HLByte dest_network_id[], char *msg, size_t msg_length)
 {
     HLByte type = (HLByte) INFO;
-    PacketField msg_type_field = {&type, MESSAGE_TYPE_BYTE_SIZE };
-    PacketField ser_key_field = {service_key, SHA1_BLOCK_SIZE };
-    PacketField msg_field = {(HLByte *) msg, msg_length };
+    HpbProtocolPacketField msg_type_field = {&type, MESSAGE_TYPE_BYTE_SIZE };
+    HpbProtocolPacketField ser_key_field = {service_key, SHA1_BLOCK_SIZE };
+    HpbProtocolPacketField msg_field = {(HLByte *) msg, msg_length };
     size_t n_fields = 3;
 
     HLByte *packet = hpb_protocol_build_packet(n_fields, &msg_type_field, &ser_key_field, &msg_field) ;
@@ -74,7 +74,7 @@ HLByte *hpb_protocol_build_packet(int n_fields, ...)
 
     // Get full packet size
     for (int i = 0; i < n_fields; i++)
-        p_size += va_arg(p_fields, PacketField*)->size;
+        p_size += va_arg(p_fields, HpbProtocolPacketField*)->size;
 
     HLByte *packet = (HLByte*) malloc(p_size * sizeof(HLByte));
 
@@ -85,7 +85,7 @@ HLByte *hpb_protocol_build_packet(int n_fields, ...)
 
     for (int i = 0; i < n_fields; i++)
     {
-        PacketField *field = va_arg(p_fields, PacketField*);
+        HpbProtocolPacketField *field = va_arg(p_fields, HpbProtocolPacketField*);
         memmove(packet+bytes_written, field->data, field->size);
         bytes_written += field->size;
     }

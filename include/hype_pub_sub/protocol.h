@@ -25,11 +25,11 @@ typedef struct HpbProtocol_
     HypePubSub *hpb;
 } HpbProtocol;
 
-typedef struct PacketField_
+typedef struct HpbProtocolPacketField_
 {
     HLByte *data;
     size_t size;
-} PacketField;
+} HpbProtocolPacketField;
 
 HpbProtocol *hpb_protocol_create(HypePubSub *hpb);
 

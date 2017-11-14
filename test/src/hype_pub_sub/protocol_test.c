@@ -127,19 +127,19 @@ void hpb_protocol_test_sending_build_packet()
 {
     HLByte FIELD1_DATA[] = "field1-hello";
     size_t FIELD1_SIZE = 12;
-    PacketField field1 = {FIELD1_DATA, FIELD1_SIZE };
+    HpbProtocolPacketField field1 = {FIELD1_DATA, FIELD1_SIZE };
 
     HLByte FIELD2_DATA[] = "field2-test";
     size_t FIELD2_SIZE = 11;
-    PacketField field2 = {FIELD2_DATA, FIELD2_SIZE };
+    HpbProtocolPacketField field2 = {FIELD2_DATA, FIELD2_SIZE };
 
     HLByte FIELD3_DATA[] = "field3";
     size_t FIELD3_SIZE = 6;
-    PacketField field3 = {FIELD3_DATA, FIELD3_SIZE };
+    HpbProtocolPacketField field3 = {FIELD3_DATA, FIELD3_SIZE };
 
     HLByte FIELD4_DATA[] = "hypef4-";
     size_t FIELD4_SIZE = 7;
-    PacketField field4 = {FIELD4_DATA, FIELD4_SIZE };
+    HpbProtocolPacketField field4 = {FIELD4_DATA, FIELD4_SIZE };
 
     HLByte *packet = hpb_protocol_build_packet(4, &field1, &field2, &field3, &field4);
     int offset = 0;
@@ -186,7 +186,7 @@ void hpb_protocol_test_get_message_type()
 
     HLByte FIELD_DATA[] = "field1-hello";
     size_t FIELD_SIZE = 12;
-    PacketField field = {FIELD_DATA, FIELD_SIZE };
+    HpbProtocolPacketField field = {FIELD_DATA, FIELD_SIZE };
     packet = hpb_protocol_build_packet(1, &field);
     CU_ASSERT(hpb_protocol_get_message_type(packet) == INVALID);
     free(packet);
