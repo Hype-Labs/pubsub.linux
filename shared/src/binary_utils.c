@@ -86,7 +86,6 @@ char *binary_utils_get_formatted_binary_str(HLByte *byte_array, size_t byte_arra
     return formatted_str;
 }
 
-
 void binary_utils_print_hex_array(HLByte *array, size_t len)
 {
     printf("0x");

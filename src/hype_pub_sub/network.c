@@ -18,7 +18,6 @@ HLByte *hpb_network_get_service_manager_id(HpbNetwork *net, HLByte service_key[]
 
     HLByte *manager_id = net->own_client->id;
     HLByte *lowest_dist = binary_utils_xor(service_key, net->own_client->key, SHA1_BLOCK_SIZE);
-    HLByte *dist = NULL;
 
     LinkedListIterator *it = linked_list_iterator_create(net->network_clients);
     do
