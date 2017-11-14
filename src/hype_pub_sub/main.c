@@ -45,19 +45,16 @@ bool parse_user_arguments(int n_args, char *args[], HypePubSub *hpb)
 {
     int long_index =0;
     int opt = 0;
-    optreset = 1;
-    optind = 1;
+    optind = 0;
 
     while((opt = getopt_long_only(n_args, args,"", hpb_cmd_interface_long_options, &long_index)) != -1)
     {
         switch (opt)
         {
             case 's' :
-                printf("Subscribe %s\n", optarg);
                 hpb_cmd_interface_subscribe(hpb, optarg);
                 break;
             case 'u' :
-                printf("Unsubscribe %s\n", optarg);
                 hpb_cmd_interface_unsubscribe(hpb, optarg);
                 break;
             case 'p' :
