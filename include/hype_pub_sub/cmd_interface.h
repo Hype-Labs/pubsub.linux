@@ -91,11 +91,18 @@ void hpb_cmd_interface_print_helper();
 void hpb_cmd_interface_print_header();
 
 /**
- * @brief hpb_cmd_interface_print_client_list
- * @param lst_cl
+ * @brief Print the IDs and keys of a list o clients
+ * @param lst_cl List of clients to be printed
  */
 void hpb_cmd_interface_print_client_list(ListClients *lst_cl);
 
+/**
+ * @brief Splits a string in an array of arguments
+ * @param result Pointer to the array of arguments
+ * @param str_to_split String to be splitted
+ * @param delim Delimiter used to separate the arguments
+ * @return Returns the number of arguments found
+ */
 int hpb_cmd_interface_arg_split(char *result[], char *str_to_split, const char *delim);
 
 #endif /* HPB_CMD_INTERFACE_H_INCLUDED_ */
