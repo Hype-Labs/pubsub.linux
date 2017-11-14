@@ -46,7 +46,7 @@ int hpb_issue_unsubscribe_req(HypePubSub *hpb, char *service_name)
 
     if(hpb_list_subscriptions_find(hpb->own_subscriptions, service_key) == NULL)
     {
-        printf("Trying to unsubscribe a service that was not previously subscribed.\n");
+        printf("Trying to unsubscribe a service that was not previously subscribed: %s.\n", service_name);
         return -2;
     }
 
