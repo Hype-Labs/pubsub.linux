@@ -16,8 +16,8 @@ int main()
     {
         printf("> ");
         size_t user_input_size = 1000;
-        char *user_input = (char *)malloc(user_input_size * sizeof(char));
-        getline(&user_input, &user_input_size, stdin);
+        char user_input[user_input_size];
+        fgets(user_input, user_input_size, stdin);
 
         // Remove \n read with getline()
         user_input[strcspn(user_input, "\n")] = '\0';
@@ -32,7 +32,6 @@ int main()
 
         bool is_to_quit = parse_user_arguments(n_args, args, hpb);
 
-        free(user_input);
         if(is_to_quit)
             break;
     }

@@ -15,12 +15,11 @@ void hpb_cmd_interface_publish(HypePubSub *hpb, char* service_name)
 {
     printf("Insert message to be published on the service '%s': ", service_name);
     size_t msg_size = 1000;
-    char *msg = (char *)malloc(msg_size * sizeof(char));
-    getline(&msg, &msg_size, stdin);
+    char msg[msg_size];
+    fgets(msg, msg_size, stdin);
     msg[strcspn(msg, "\n")] = '\0'; // Remove \n read with getline()
 
     hpb_issue_publish_req(hpb, service_name, msg, strlen(msg));
-    free(msg);
 }
 
 void hpb_cmd_interface_print_own_id(HypePubSub *hpb)
