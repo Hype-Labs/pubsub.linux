@@ -19,7 +19,7 @@ int main()
         char user_input[user_input_size];
         fgets(user_input, user_input_size, stdin);
 
-        // Remove \n read with getline()
+        // Remove \n read by fgets()
         user_input[strcspn(user_input, "\n")] = '\0';
 
         // Simulate original 'argv' array which contains the name of the program to be executed in the first index.

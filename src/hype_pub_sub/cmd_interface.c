@@ -17,7 +17,7 @@ void hpb_cmd_interface_publish(HypePubSub *hpb, char* service_name)
     size_t msg_size = 1000;
     char msg[msg_size];
     fgets(msg, msg_size, stdin);
-    msg[strcspn(msg, "\n")] = '\0'; // Remove \n read with getline()
+    msg[strcspn(msg, "\n")] = '\0'; // Remove \n read by fgets()
 
     hpb_issue_publish_req(hpb, service_name, msg, strlen(msg));
 }
