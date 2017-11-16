@@ -118,7 +118,6 @@ int hpb_protocol_receive_msg(HpbProtocol *protocol, HLByte origin_network_id[], 
             break;
         case INVALID:
             return -1; // Message type not recognized. Discard
-            break;
     }
 
     return 0;
