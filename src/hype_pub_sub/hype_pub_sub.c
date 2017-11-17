@@ -155,12 +155,13 @@ int hpb_process_info_msg(HypePubSub *hpb, HLByte service_key[], char *msg, size_
 
     HpbSubscription *subs = hpb_list_subscriptions_find(hpb->own_subscriptions, service_key);
 
+    if(subs == NULL){
+        printf("Received message from an unsubscribed service: %s\n\n", msg);
+        return -1;
+    }
+
     printf("\n### Message Received! ###\n");
-    printf("ServiceName:");
-    if(subs != NULL)
-        printf(" %s \n", subs->service_name);
-    else
-        printf(" --- \n");
+    printf("ServiceName: %s \n", subs->service_name);
 
     printf("ServiceKey: 0x"); binary_utils_print_hex_array(service_key, SHA1_BLOCK_SIZE);
     printf("Message: %s\n\n", msg);
