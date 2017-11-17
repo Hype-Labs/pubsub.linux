@@ -32,7 +32,7 @@ void hpb_list_service_managers_test()
     CU_ASSERT(serv_managers->size == 3);
 
     // Test find against existent and non-existent service keys
-    HLByte NON_EXISTENT_KEY[] = "\x86\xc9\xb3\x10\\x77\x24\x62\xc4xa6\x90\x91\x64\xf5\x5e\xf6\x5a\x65\xd5\x91\x31";
+    HLByte NON_EXISTENT_KEY[] = "\x86\xc9\xb3\x10\x77\x24\x62\xc4\xa6\x90\x91\x64\xf5\x5e\xf6\x5a\x65\xd5\x91\x31";
     CU_ASSERT_PTR_NOT_NULL(hpb_list_service_managers_find(serv_managers, SERVICE_KEY1));
     CU_ASSERT_PTR_NOT_NULL(hpb_list_service_managers_find(serv_managers, SERVICE_KEY2));
     CU_ASSERT_PTR_NOT_NULL(hpb_list_service_managers_find(serv_managers, SERVICE_KEY3));
