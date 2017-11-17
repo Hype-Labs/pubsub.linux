@@ -17,7 +17,7 @@ typedef unsigned char HLByte;
 HLByte *binary_utils_xor(HLByte *byte_array1, HLByte *byte_array2, size_t byte_array_size);
 
 /**
- * @brief Compares 2 binary arrays and calculates which one contains the higher integer value.
+ * @brief Compares 2 binary arrays and calculates which one contains the higher integer value. The byte arrays are interpreted as BigEndian!
  * @param byte_array1 1st byte array.
  * @param byte_array2 2nd byte array.
  * @param byte_array_size Size of the byte arrays.
