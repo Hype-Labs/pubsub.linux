@@ -5,7 +5,7 @@ void binary_utils_test()
 {
     binary_utils_test_xor();
     binary_utils_test_binary_conversions();
-    binary_utils_test_higher_binary_string();
+    binary_utils_test_higher_byte_array();
 }
 
 void binary_utils_test_xor()
@@ -47,8 +47,7 @@ void binary_utils_test_binary_conversions()
     free(bin_str);
 }
 
-
-void binary_utils_test_higher_binary_string()
+void binary_utils_test_higher_byte_array()
 {
     size_t length = 20;
     HLByte val1[] = "\xd1\x21\x21\x58\x0d\x5a\x6a\xf0\x2a\xdf\x4e\xe4\x09\x55\xe7\x20\x30\x56\x5a\xa4"; // 1101000100100001001000010101100000001101010110100110101011110000001010101101111101001110111001000000100101010101111001110010000000110000010101100101101010100100
@@ -56,12 +55,12 @@ void binary_utils_test_higher_binary_string()
     HLByte val3[] = "\x1d\x02\x8b\xb7\xc4\x90\x7f\xcb\xab\x6f\x9e\x9c\x8b\x26\x2c\x87\x7e\xe3\x84\xe4"; // 0001110100000010100010111011011111000100100100000111111111001011101010110110111110011110100111001000101100100110001011001000011101111110111000111000010011100100
     HLByte val4[] = "\xa0\x81\x89\xe8\xca\x01\x37\x19\x07\xab\x9d\xb8\x0f\x0e\xb0\x62\x12\x42\x72\x22"; // 1010000010000001100010011110100011001010000000010011011100011001000001111010101110011101101110000000111100001110101100000110001000010010010000100111001000100010
 
-    CU_ASSERT(binary_utils_get_higher_binary_string(val1, val1, length) == 0);
-    CU_ASSERT(binary_utils_get_higher_binary_string(val1, val2, length) == 1);
-    CU_ASSERT(binary_utils_get_higher_binary_string(val2, val1, length) == 2);
-    CU_ASSERT(binary_utils_get_higher_binary_string(val2, val3, length) == 1);
-    CU_ASSERT(binary_utils_get_higher_binary_string(val4, val2, length) == 1);
-    CU_ASSERT(binary_utils_get_higher_binary_string(val4, val1, length) == 2);
+    CU_ASSERT(binary_utils_get_higher_byte_array(val1, val1, length) == 0);
+    CU_ASSERT(binary_utils_get_higher_byte_array(val1, val2, length) == 1);
+    CU_ASSERT(binary_utils_get_higher_byte_array(val2, val1, length) == 2);
+    CU_ASSERT(binary_utils_get_higher_byte_array(val2, val3, length) == 1);
+    CU_ASSERT(binary_utils_get_higher_byte_array(val4, val2, length) == 1);
+    CU_ASSERT(binary_utils_get_higher_byte_array(val4, val1, length) == 2);
 }
 
 

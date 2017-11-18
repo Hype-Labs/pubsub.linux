@@ -10,32 +10,24 @@ HLByte *binary_utils_xor(HLByte *byte_array1, HLByte *byte_array2, size_t byte_a
     return str_xor;
 }
 
-int binary_utils_get_higher_binary_string(HLByte *byte_array1, HLByte *byte_array2, size_t byte_array_size)
+int binary_utils_get_higher_byte_array(HLByte *byte_array1, HLByte *byte_array2, size_t byte_array_size)
 {
-    char *bin_str1 = binary_utils_to_binary_char_array(byte_array1, byte_array_size);
-    char *bin_str2 = binary_utils_to_binary_char_array(byte_array2, byte_array_size);
-
     for(int i=0; i<byte_array_size; i++)
     {
-        char digit_str1 = bin_str1[i];
-        char digit_str2 = bin_str2[i];
+        unsigned int byte1 = byte_array1[i];
+        unsigned int byte2 = byte_array2[i];
 
-        if(digit_str1 == digit_str2) // Search for the first difference in the binary digits
+        if(byte1 == byte2) // Search for the first difference
             continue;
 
-        free(bin_str1);
-        free(bin_str2);
-
-        // When facing a bit difference the binary string
-        // which has the bit '1' is the higher one
-        if(digit_str1 == '1')
-            return 1; // The first string has a higher value
+        // When facing a difference the array with the highest
+        // byte it's the higher one -> Considering Big Endianness
+        if(byte1 > byte2)
+            return 1;
         else
-            return 2; // The second string has a higher value
+            return 2;
     }
 
-    free(bin_str1);
-    free(bin_str2);
     return 0;
 }
 

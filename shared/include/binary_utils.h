@@ -23,7 +23,7 @@ HLByte *binary_utils_xor(HLByte *byte_array1, HLByte *byte_array2, size_t byte_a
  * @param byte_array_size Size of the byte arrays.
  * @return Returns 1 if the first array is higher, 2 if the second array is higher and 0 if the arrays are equal.
  */
-int binary_utils_get_higher_binary_string(HLByte *byte_array1, HLByte *byte_array2, size_t byte_array_size);
+int binary_utils_get_higher_byte_array(HLByte *byte_array1, HLByte *byte_array2, size_t byte_array_size);
 
 /**
  * @brief Converts a byte array to its char array binary representation.

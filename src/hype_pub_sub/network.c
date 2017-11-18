@@ -29,7 +29,7 @@ HLByte *hpb_network_get_service_manager_id(HpbNetwork *net, HLByte service_key[]
 
         HLByte *dist = binary_utils_xor(service_key, client->key, SHA1_BLOCK_SIZE);
 
-        if(binary_utils_get_higher_binary_string(lowest_dist, dist, SHA1_BLOCK_SIZE) == 1)
+        if(binary_utils_get_higher_byte_array(lowest_dist, dist, SHA1_BLOCK_SIZE) == 1)
         {
             memcpy(lowest_dist, dist, SHA1_BLOCK_SIZE);
             manager_id = client->id;
