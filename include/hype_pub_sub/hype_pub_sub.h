@@ -5,10 +5,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "list_service_managers.h"
-#include "list_subscriptions.h"
-#include "network.h"
-#include "protocol.h"
+#include "hpb_service_managers_list.h"
+#include "hpb_subscriptions_list.h"
+#include "hpb_network.h"
+#include "hpb_protocol.h"
 
 /**
  * @brief This struct represents a HypePubSub application.

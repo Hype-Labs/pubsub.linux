@@ -67,7 +67,7 @@ if(HYPE_PUB_SUB_COMPILE_TESTS) # Compile for testing
     include_directories( ${SHARED_TEST_INC_DIR})
 
     enable_testing()
-    list(REMOVE_ITEM MY_C_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/hype_pub_sub/main.c")
+    list(REMOVE_ITEM MY_C_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/hype_pub_sub/hpb_main.c")
     add_executable(TestHypePubSub ${MY_C_SOURCES}
                                     ${MY_C_INCLUDES}
                                     ${MY_SHARED_C_SOURCES}
