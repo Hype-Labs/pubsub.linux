@@ -34,14 +34,14 @@ int main()
        (CU_add_test(pSuite, "Test BinaryUtils module", binary_utils_test) == NULL) ||
        (CU_add_test(pSuite, "Test StringUtils module", string_utils_test) == NULL) ||
        (CU_add_test(pSuite, "Test HypePubSub module", hpb_test) == NULL) ||
-       (CU_add_test(pSuite, "Test HypePubSub/Client module", hpb_client_test) == NULL) ||
-       (CU_add_test(pSuite, "Test HypePubSub/ServiceManager module", hpb_service_manager_test) == NULL) ||
-       (CU_add_test(pSuite, "Test HypePubSub/Subscription module", hpb_subscription_test) == NULL) ||
-       (CU_add_test(pSuite, "Test HypePubSub/Network module", hpb_network_test) == NULL) ||
-       (CU_add_test(pSuite, "Test HypePubSub/Protocol module", hpb_protocol_test) == NULL) ||
-       (CU_add_test(pSuite, "Test HypePubSub/ListClients module", hpb_list_clients_test) == NULL) ||
-       (CU_add_test(pSuite, "Test HypePubSub/ListServiceManagers module", hpb_list_service_managers_test) == NULL) ||
-       (CU_add_test(pSuite, "Test HypePubSub/ListSubscriptions module", hpb_list_subscriptions_test) == NULL))
+       (CU_add_test(pSuite, "Test HpbClient module", hpb_client_test) == NULL) ||
+       (CU_add_test(pSuite, "Test HpbServiceManager module", hpb_service_manager_test) == NULL) ||
+       (CU_add_test(pSuite, "Test HpbSubscription module", hpb_subscription_test) == NULL) ||
+       (CU_add_test(pSuite, "Test HpbNetwork module", hpb_network_test) == NULL) ||
+       (CU_add_test(pSuite, "Test HpbProtocol module", hpb_protocol_test) == NULL) ||
+       (CU_add_test(pSuite, "Test HpbClientsList module", hpb_list_clients_test) == NULL) ||
+       (CU_add_test(pSuite, "Test HpbServiceManagersList module", hpb_list_service_managers_test) == NULL) ||
+       (CU_add_test(pSuite, "Test HpbSubscriptionsList module", hpb_list_subscriptions_test) == NULL))
    {
       CU_cleanup_registry();
       return CU_get_error();
