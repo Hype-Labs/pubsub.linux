@@ -3,6 +3,7 @@
 
 #include "linked_list_test.h"
 #include "binary_utils_test.h"
+#include "string_utils_test.h"
 #include "hype_pub_sub_test.h"
 #include "hpb_client_test.h"
 #include "hpb_service_manager_test.h"
@@ -31,6 +32,7 @@ int main()
 
    if ((CU_add_test(pSuite, "Test LinkedList module", linked_list_test) == NULL) ||
        (CU_add_test(pSuite, "Test BinaryUtils module", binary_utils_test) == NULL) ||
+       (CU_add_test(pSuite, "Test StringUtils module", string_utils_test) == NULL) ||
        (CU_add_test(pSuite, "Test HypePubSub module", hpb_test) == NULL) ||
        (CU_add_test(pSuite, "Test HypePubSub/Client module", hpb_client_test) == NULL) ||
        (CU_add_test(pSuite, "Test HypePubSub/ServiceManager module", hpb_service_manager_test) == NULL) ||

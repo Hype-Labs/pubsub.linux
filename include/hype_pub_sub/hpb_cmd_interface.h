@@ -7,6 +7,7 @@
 #include <getopt.h>
 
 #include "hype_pub_sub.h"
+#include "string_utils.h"
 
 #define HPB_CMD_INTERFACE_MAX_ARGS 30
 #define HPB_CMD_INTERFACE_ARG_DELIM " "

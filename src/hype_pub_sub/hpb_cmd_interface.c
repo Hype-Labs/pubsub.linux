@@ -3,16 +3,19 @@
 
 void hpb_cmd_interface_subscribe(HypePubSub *hpb, char* service_name)
 {
+    string_utils_to_lower_case(service_name);
     hpb_issue_subscribe_req(hpb, service_name);
 }
 
 void hpb_cmd_interface_unsubscribe(HypePubSub *hpb, char* service_name)
 {
+    string_utils_to_lower_case(service_name);
     hpb_issue_unsubscribe_req(hpb, service_name);
 }
 
 void hpb_cmd_interface_publish(HypePubSub *hpb, char* service_name)
 {
+    string_utils_to_lower_case(service_name);
     printf("Insert message to be published on the service '%s': ", service_name);
     size_t msg_size = 1000;
     char msg[msg_size];
