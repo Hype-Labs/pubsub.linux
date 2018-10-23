@@ -13,9 +13,9 @@
 #define HPB_CMD_INTERFACE_ARG_DELIM " "
 #define HPB_CMD_INTERFACE_INIT_ARG "HypePubSub "
 
-#define HPB_CMD_INTERFACE_SUBSCRIBE "subscribe"
-#define HPB_CMD_INTERFACE_UNSUBSCRIBE "unsubscribe"
-#define HPB_CMD_INTERFACE_PUBLISH "publish"
+#define HPB_CMD_INTERFACE_SUBSCRIBE "subscribe {SERVICE-NAME}"
+#define HPB_CMD_INTERFACE_UNSUBSCRIBE "unsubscribe {SERVICE-NAME}"
+#define HPB_CMD_INTERFACE_PUBLISH "publish {SERVICE-NAME}"
 #define HPB_CMD_INTERFACE_PRINT_OWN_ID "print-own-id"
 #define HPB_CMD_INTERFACE_PRINT_HYPE_DEVICES "print-hype-devices"
 #define HPB_CMD_INTERFACE_PRINT_MANAGED_SERVICES "print-managed-services"
