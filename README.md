@@ -11,7 +11,7 @@ You can [start using Hype](http://hypelabs.io/?r=10) today.
 
 This project is a decentralized peer-to-peer publisher-subscriber system powered by the HypeSDK, for the Linux platform. Due to its decentralized nature this system is more robust than traditional publisher-subscriber systems that usually requires a centralized broker to serve as intermediary between publishers and subscribers. You can find out a detailed description of the system in this [article](https://medium.com/@hypelabs.io). You can also see a demonstration video of the system [here](https://www.youtube.com/watch?v=2fMwe3q1NYc&t=2s).
 
-# Compilation
+## Compilation
 
 The project can be compiled using the provided CMakeLists file. You can compile the project using the following commands:
 
@@ -25,7 +25,7 @@ If you also want to compile the unit tests you can use the following commands (T
 
 ```bash
 mkdir -p build && cd build
-cmake -G "Unix Makefiles" -DHYPE_PUB_SUB_COMPILE_TESTS ../
+cmake -G "Unix Makefiles" -DHYPE_PUB_SUB_COMPILE_TESTS=ON ../
 make
 ```
 
