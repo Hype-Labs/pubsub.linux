@@ -11,12 +11,21 @@
 
 #include <hype_pub_sub/hpb_hype_interface.h>
 #include <hype_pub_sub/hpb_constants.h>
+#include <hype_pub_sub/hpb_clients_list.h>
+#include <hype_pub_sub/hype_pub_sub.h>
 #include <stdio.h>
 
 //Hype callbacks definition
 static void hpb_hype_on_start()
 {
     printf("Hype started!\n");
+
+    //Signal the start of hype service
+    if (pthread_cond_signal(&cond) != 0) {
+        perror("pthread_cond_signal() error");
+        exit(4);
+    }
+
     fflush(stdout);
 
 }
@@ -86,7 +95,7 @@ static void hpb_hype_on_ready()
     fflush(stdout);
 }
 
-static char * hpb_hype_on_request_access_token(uint32_t user_identifier)
+static const char * hpb_hype_on_request_access_token(uint32_t user_identifier)
 {
     printf("Hype request access token to user identifier: %d\n", (int)user_identifier);
 
@@ -199,7 +208,7 @@ static void hpb_hype_on_message_sent(HypeMessageInfo * message_info,HypeInstance
 
 static void hpb_hype_on_message_delivered(HypeMessageInfo * message_info, HypeInstance * instance, float progress, bool done)
 {
-    printf("Hype delivered a message: %d | %f (%s)",message_info->identifier, progress, done ? "done" : "ongoing");
+
 
     // A message being delivered indicates that the destination device has
     // acknowledge reception. If the "done" argument is true, then the message
@@ -248,11 +257,11 @@ void hpb_hype_interface_request_to_start()
     // under the Apps section and click "Create New App". The resulting app should
     // display a realm number. Copy and paste that here.
     //Hype.hype_set_app_identifier("{{app_identifier}}");
-    hype_set_app_identifier("8a17be0f");
+    hype_set_app_identifier(HPB_HYPE_APP_IDENTIFIER);
 
     hype_set_transport_type(HYPE_TRANSPORT_TYPE_WIFI_INFRA);
 
-    hype_set_user_identifier(1);
+    hype_set_user_identifier(HPB_HYPE_USER_IDENTIFIER);
 
     // Requesting Hype to start is equivalent to requesting the device to publish
     // itself on the network and start browsing for other devices in proximity. If
@@ -264,11 +273,16 @@ void hpb_hype_interface_request_to_start()
 
 void hpb_hype_interface_request_to_stop()
 {
-
+    printf("Stop the Hype services");
+    hype_stop();
 }
 
 void hpb_hype_interface_instance_resolved_add(HypeInstance * instance)
 {
+    HypePubSub * hpb = hpb_get();
+
+   //hpb->network->network_clients
+   hpb_list_clients_add(hpb->network->network_clients, instance);
 
 }
 

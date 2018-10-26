@@ -11,21 +11,21 @@ HpbServiceManager *hpb_service_manager_create(HLByte service_key[SHA1_BLOCK_SIZE
     return servMan;
 }
 
-int hpb_service_manager_add_subscriber(HpbServiceManager *serv_man, HLByte client_id[])
+int hpb_service_manager_add_subscriber(HpbServiceManager *serv_man, HypeInstance * instance)
 {
     if(serv_man == NULL)
         return -1;
 
-    hpb_list_clients_add(serv_man->subscribers, client_id);
+    hpb_list_clients_add(serv_man->subscribers, instance);
     return 0;
 }
 
-int hpb_service_manager_remove_subscriber(HpbServiceManager *serv_man, HLByte client_id[])
+int hpb_service_manager_remove_subscriber(HpbServiceManager *serv_man, HypeInstance * instance)
 {
     if(serv_man == NULL)
         return -1;
 
-    hpb_list_clients_remove(serv_man->subscribers, client_id);
+    hpb_list_clients_remove(serv_man->subscribers, instance);
     return 0;
 }
 

@@ -26,7 +26,7 @@ HpbSubscriptionsList *hpb_list_subscriptions_create();
  * @param man_id ID of the manager HpbClient of the HpbSubscription to be added.
  * @return Returns a pointer to the added HpbSubscription.
  */
-HpbSubscription *hpb_list_subscriptions_add(HpbSubscriptionsList *list_subscrpt, char *serv_name, size_t serv_name_len, HLByte man_id[HPB_ID_BYTE_SIZE]);
+HpbSubscription *hpb_list_subscriptions_add(HpbSubscriptionsList *list_subscrpt, char *serv_name, size_t serv_name_len, HypeInstance * instance);
 
 /**
  * @brief Removes an HpbSubscription from a HpbSubscriptionsList.

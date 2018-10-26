@@ -22,28 +22,26 @@ typedef struct HypePubSub_
 } HypePubSub;
 
 /**
- * @brief Allocates space for a HypePubSub struct.
+ * @brief Allocates space for a HypePubSub singleton.
  * @return Returns a pointer to the created struct or NULL if the space could not be allocated.
  */
-HypePubSub *hpb_create();
+HypePubSub *hpb_get();
 
 /**
  * @brief Obtains the Hype client responsible for a given service through the network manager
  *        and it uses the protocol manager to send a subscribe request to that Hype client.
- * @param hpb Pointer to the HypePubSub application.
  * @param service_name Name of the service to be subscribed.
  * @return Return 0 in case of success and -1 otherwise.
  */
-int hpb_issue_subscribe_req(HypePubSub *hpb, char *service_name);
+int hpb_issue_subscribe_req(char *service_name);
 
 /**
  * @brief Obtains the Hype client responsible for a given service through the network manager
  *        and it uses the protocol manager to send a unsubscribe request to that Hype client.
- * @param hpb Pointer to the HypePubSub application.
  * @param service_name Name of the service to be unsubscribed.
  * @return Return 0 in case of success and -1 otherwise.
  */
-int hpb_issue_unsubscribe_req(HypePubSub *hpb, char *service_name);
+int hpb_issue_unsubscribe_req(char *service_name);
 
 /**
  * @brief Obtains the Hype client responsible for a given service through the network manager
@@ -54,7 +52,7 @@ int hpb_issue_unsubscribe_req(HypePubSub *hpb, char *service_name);
  * @param msg_length Lenght of the message to be published
  * @return Return 0 in case of success and -1 otherwise.
  */
-int hpb_issue_publish_req(HypePubSub *hpb, char *service_name, char *msg, size_t msg_length);
+int hpb_issue_publish_req(char *service_name, char *msg, size_t msg_length);
 
 /**
  * @brief Processes a subscribe request to a given service. It adds the ID of the Hype client that sent the
@@ -65,7 +63,7 @@ int hpb_issue_publish_req(HypePubSub *hpb, char *service_name, char *msg, size_t
  * @param requester_client_id Hype ID of the client that sent the subscribe message.
  * @return Returns 0 in case of success and < 0 otherwise.
  */
-int hpb_process_subscribe_req(HypePubSub *hpb, HLByte service_key[], HLByte requester_client_id[]);
+int hpb_process_subscribe_req(HLByte service_key[], HypeInstance * instance);
 
 /**
  * @brief Processes an unsubscribe request to a given service. It removes the ID of the Hype client that sent
@@ -76,7 +74,7 @@ int hpb_process_subscribe_req(HypePubSub *hpb, HLByte service_key[], HLByte requ
  * @param requester_client_id Hype ID of the client that sent the unsubscribe message.
  * @return Returns 0 in case of success and < 0 otherwise.
  */
-int hpb_process_unsubscribe_req(HypePubSub *hpb, HLByte service_key[], HLByte requester_client_id[]);
+int hpb_process_unsubscribe_req(HLByte service_key[], HypeInstance * instance);
 
 /**
  * @brief Processes a publish request to a given service. It sends the message to all the subscribers of the
@@ -87,7 +85,7 @@ int hpb_process_unsubscribe_req(HypePubSub *hpb, HLByte service_key[], HLByte re
  * @param msg_length Length of the message to be sent.
  * @return Returns 0 in case of success and < 0 otherwise.
  */
-int hpb_process_publish_req(HypePubSub *hpb, HLByte service_key[], char *msg, size_t msg_length);
+int hpb_process_publish_req(HLByte service_key[], char *msg, size_t msg_length);
 
 /**
  * @brief Process an info message received.
@@ -97,9 +95,9 @@ int hpb_process_publish_req(HypePubSub *hpb, HLByte service_key[], char *msg, si
  * @param msg_length Length of the received message.
  * @return Returns 0 in case of success and < 0 otherwise.
  */
-int hpb_process_info_msg(HypePubSub *hpb, HLByte service_key[], char *msg, size_t msg_length);
+int hpb_process_info_msg(HLByte service_key[], char *msg, size_t msg_length);
 
-static int hpb_update_managed_services(HypePubSub *hpb);
+int hpb_update_managed_services();
 
 /**
  * @brief When a new Hype instance is found or lost we have to review the list of subscriptions to analyze if
@@ -107,7 +105,7 @@ static int hpb_update_managed_services(HypePubSub *hpb);
  * @param hpb Pointer to the HypePubSub application.
  * @return Returns -1 if the HypePubSub application is NULL and 0 otherwise.
  */
-static int hpb_update_own_subscriptions(HypePubSub *hpb);
+int hpb_update_own_subscriptions();
 
 /**
  * @brief Deallocates the space previously allocated for the HypePubSub struct

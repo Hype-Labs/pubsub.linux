@@ -13,6 +13,13 @@
 #define HPB_HYPE_INTERFACE_H_INCLUDED_
 
 #include <hype/hype.h>
+#include <pthread.h>
+#include <stdio.h>
+#include <time.h>
+#include <unistd.h>
+
+pthread_cond_t cond;
+pthread_mutex_t mutex;
 
 //Request the Hype services to start
 void hpb_hype_interface_request_to_start();

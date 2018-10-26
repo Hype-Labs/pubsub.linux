@@ -2,7 +2,7 @@
 
 void hpb_protocol_test()
 {
-    HypePubSub *hpb = hpb_create();
+    HypePubSub *hpb = hpb_get();
     CU_ASSERT_PTR_NOT_NULL_FATAL(hpb);
 
     HpbProtocol *prtcl = hpb_protocol_create(hpb);

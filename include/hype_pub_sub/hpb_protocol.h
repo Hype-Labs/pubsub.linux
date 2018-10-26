@@ -48,7 +48,7 @@ HpbProtocol *hpb_protocol_create(struct HypePubSub_ *hpb);
  * @param dest_network_id ID of the Hype device for which the message is destined.
  * @return
  */
-HLByte *hpb_protocol_send_subscribe_msg(HLByte service_key[SHA1_BLOCK_SIZE], HLByte dest_network_id[HPB_ID_BYTE_SIZE]);
+HLByte *hpb_protocol_send_subscribe_msg(HLByte service_key[SHA1_BLOCK_SIZE], HypeInstance * instance_dest);
 
 /**
  * @brief Method to send an unsubscribe message.
@@ -56,7 +56,7 @@ HLByte *hpb_protocol_send_subscribe_msg(HLByte service_key[SHA1_BLOCK_SIZE], HLB
  * @param dest_network_id ID of the Hype device for which the message is destined.
  * @return
  */
-HLByte *hpb_protocol_send_unsubscribe_msg(HLByte service_key[SHA1_BLOCK_SIZE], HLByte dest_network_id[HPB_ID_BYTE_SIZE]);
+HLByte *hpb_protocol_send_unsubscribe_msg(HLByte service_key[SHA1_BLOCK_SIZE], HypeInstance * instance_dest);
 
 /**
  * @brief Method to send a publish message.
@@ -66,7 +66,7 @@ HLByte *hpb_protocol_send_unsubscribe_msg(HLByte service_key[SHA1_BLOCK_SIZE], H
  * @param msg_length Length of the message to be published.
  * @return
  */
-HLByte *hpb_protocol_send_publish_msg(HLByte service_key[SHA1_BLOCK_SIZE], HLByte dest_network_id[HPB_ID_BYTE_SIZE], char *msg, size_t msg_length);
+HLByte *hpb_protocol_send_publish_msg(HLByte service_key[SHA1_BLOCK_SIZE], HypeInstance * instance_dest, char *msg, size_t msg_length);
 
 /**
  * @brief Method to send an info message.
@@ -76,14 +76,14 @@ HLByte *hpb_protocol_send_publish_msg(HLByte service_key[SHA1_BLOCK_SIZE], HLByt
  * @param msg_length Length of the message to be sent.
  * @return
  */
-HLByte *hpb_protocol_send_info_msg(HLByte service_key[SHA1_BLOCK_SIZE], HLByte dest_network_id[HPB_ID_BYTE_SIZE], char *msg, size_t msg_length);
+HLByte *hpb_protocol_send_info_msg(HLByte service_key[SHA1_BLOCK_SIZE], HypeInstance * instance_dest, char *msg, size_t msg_length);
 
 /**
  * @brief Method to build a packet to be sent through the network.
  * @param n_fields Number of parameters supplied to the function. We have to supply a number of HpbProtocolPacketField parameters equal to n_fields.
  * @return Returns a pointer to the created packet.
  */
-HLByte *hpb_protocol_build_packet(int n_fields, ...);
+size_t hpb_protocol_build_packet(HLByte **packet,int n_fields, ...);
 
 /**
  * @brief Method called when a message is received.
@@ -93,7 +93,7 @@ HLByte *hpb_protocol_build_packet(int n_fields, ...);
  * @param msg_length Size of the received message.
  * @return Return 0 in case of success and -1 otherwise.
  */
-int hpb_protocol_receive_msg(HpbProtocol *protocol, HLByte origin_network_id[], HLByte *msg, size_t msg_length);
+int hpb_protocol_receive_msg(HpbProtocol *protocol, HypeInstance * instance_origin, HLByte *msg, size_t msg_length);
 
 /**
  * @brief Method that processes a subscribe message.
@@ -103,7 +103,7 @@ int hpb_protocol_receive_msg(HpbProtocol *protocol, HLByte origin_network_id[], 
  * @param msg_length Size of the received subscribe message.
  * @return Return 0 in case of success and -1 otherwise.
  */
-int hpb_protocol_receive_subscribe_msg(HpbProtocol *protocol, HLByte origin_network_id[], HLByte *msg, size_t msg_length);
+int hpb_protocol_receive_subscribe_msg(HpbProtocol *protocol, HypeInstance * instance_origin, HLByte *msg, size_t msg_length);
 
 /**
  * @brief Method that processes an unsubscribe message.
@@ -113,7 +113,7 @@ int hpb_protocol_receive_subscribe_msg(HpbProtocol *protocol, HLByte origin_netw
  * @param msg_length Size of the received unsubscribe message.
  * @return Return 0 in case of success and -1 otherwise.
  */
-int hpb_protocol_receive_unsubscribe_msg(HpbProtocol *protocol, HLByte origin_network_id[], HLByte *msg, size_t msg_length);
+int hpb_protocol_receive_unsubscribe_msg(HpbProtocol *protocol, HypeInstance * instance_origin, HLByte *msg, size_t msg_length);
 
 /**
  * @brief Method that processes a publish message.
@@ -123,7 +123,7 @@ int hpb_protocol_receive_unsubscribe_msg(HpbProtocol *protocol, HLByte origin_ne
  * @param msg_length Size of the received publish message.
  * @return Return 0 in case of success and -1 otherwise.
  */
-int hpb_protocol_receive_publish_msg(HpbProtocol *protocol, HLByte origin_network_id[], HLByte *msg, size_t msg_length);
+int hpb_protocol_receive_publish_msg(HpbProtocol *protocol, HypeInstance * instance_origin, HLByte *msg, size_t msg_length);
 
 /**
  * @brief Method that processes an info message.

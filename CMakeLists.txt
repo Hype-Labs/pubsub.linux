@@ -12,7 +12,7 @@ file(GLOB_RECURSE SHA1_C_SOURCES "${SHA1_SRC_DIR}/*.c")
 file(GLOB_RECURSE SHA1_C_INCLUDES "${SHA1_INC_DIR}/*.h")
 add_library(${SHA1_LIB} ${SHA1_C_SOURCES} ${SHA1_C_INCLUDES})
 
-# Define the directory of the source code and of the headers 
+# Define the directory of the source code and of the headers
 set(SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src")
 set(INC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/include")
 file(GLOB_RECURSE MY_C_SOURCES "${SRC_DIR}/*.c")
@@ -24,19 +24,29 @@ set(SHARED_INC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/shared/include")
 file(GLOB_RECURSE MY_SHARED_C_SOURCES "${SHARED_SRC_DIR}/*.c")
 file(GLOB_RECURSE MY_SHARED_C_INCLUDES "${SHARED_INC_DIR}/*.h")
 
+set(HYPE_INC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/hype/amd64/include)
+file(GLOB_RECURSE HYPE_C_INCLUDES "${HYPE_INC_DIR}/*.h")
+
 include_directories( ${INC_DIR})
 include_directories( ${SHARED_INC_DIR})
 include_directories( ${SHA1_INC_DIR})
+include_directories( ${HYPE_INC_DIR})
+
+set(HYPE_LINUX_LIB ${CMAKE_CURRENT_SOURCE_DIR}/lib/hype/amd64/lib/libhype.a)
 
 add_executable(${PROJECT_NAME} ${MY_C_SOURCES}
                                 ${MY_C_INCLUDES}
                                 ${MY_SHARED_C_SOURCES}
                                 ${MY_SHARED_C_INCLUDES}
                                 ${SHA1_C_SOURCES}
-                                ${SHA1_C_INCLUDES})
+                                ${SHA1_C_INCLUDES}
+                                ${HYPE_C_INCLUDES})
 
 target_link_libraries(${PROJECT_NAME}
-                        ${SHA1_LIB})
+                        ${SHA1_LIB}
+                        ${HYPE_LINUX_LIB})
+
+
 
 if(HYPE_PUB_SUB_COMPILE_TESTS) # Compile for testing
 
@@ -77,14 +87,52 @@ if(HYPE_PUB_SUB_COMPILE_TESTS) # Compile for testing
                                     ${MY_SHARED_TEST_C_SOURCES}
                                     ${MY_SHARED_TEST_C_INCLUDES}
                                     ${MY_TEST_C_SOURCES}
-                                    ${MY_TEST_C_INCLUDES})
-
+                                    ${MY_TEST_C_INCLUDES}
+                                    ${HYPE_C_INCLUDES})
 
     add_test(TestHypePubSub ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/TestHypePubSub)
-    target_link_libraries(TestHypePubSub ${C_UNIT})
+    target_link_libraries(TestHypePubSub ${C_UNIT} ${HYPE_LINUX_LIB} ";m;bluetooth;dl;avahi-client;pthread")
+endif()
 
+#Hype Framework configuration
+
+#include_directories(${CMAKE_CURRENT_SOURCE_DIR}/lib/hype/amd64/include)
+#add_executable(${PROJECT_NAME} ${MY_C_SOURCES})
+
+SET(CMAKE_BUILD_TYPE Debug)
+
+find_path(AVAHI_INCLUDE_DIR avahi-client)
+find_path(AVAHI_COMMON_INCLUDE_DIR avahi-common)
+
+find_library(PTHREAD_LIBRARIES pthread)
+
+if(NOT PTHREAD_LIBRARIES)
+  message(FATAL_ERROR "pthread not found")
+endif()
+
+find_library(AVAHI_CLIENT_LIBRARIES avahi-client)
+if(NOT AVAHI_CLIENT_LIBRARIES)
+  message(FATAL_ERROR "avahi-client not found")
 endif()
 
 
+find_library(AVAHI_COMMON_LIBRARIES avahi-common)
+if(NOT AVAHI_COMMON_LIBRARIES)
+  message(FATAL_ERROR "avahi-common not found")
+endif()
+
+#include_directories(${AVAHI_COMMON_INCLUDE_DIR})
 
 
+set(AVAHI_LIBRARIES ${AVAHI_CLIENT_LIBRARIES} ${AVAHI_COMMON_LIBRARIES})
+set(LIBS_TO_LINK ${LIBS_TO_LINK} ${AVAHI_LIBRARIES})
+set(LIBS_TO_LINK ${LIBS_TO_LINK} ${PTHREAD_LIBRARIES})
+
+find_path(AVAHI_INCLUDE_DIR avahi-client/client.h)
+if(NOT AVAHI_INCLUDE_DIR)
+  message(FATAL_ERROR "avahi-client/client.h not found")
+endif()
+
+
+target_link_libraries(${PROJECT_NAME} "${HYPE_LINUX_LIB};m;bluetooth;dl")
+target_link_libraries(${PROJECT_NAME} "${LIBS_TO_LINK};pthread;avahi-client")

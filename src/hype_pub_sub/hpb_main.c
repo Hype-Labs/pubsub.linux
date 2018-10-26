@@ -3,15 +3,37 @@
 
 #include "hype_pub_sub/hype_pub_sub.h"
 #include "hype_pub_sub/hpb_cmd_interface.h"
+#include <hype_pub_sub/hpb_hype_interface.h>
 
 bool parse_user_arguments(int n_args, char *args[], HypePubSub *hpb);
 
 int main()
 {
-    HypePubSub *hpb = hpb_create();
-    // TODO: Hype Start
+
+
+    //Start Hype Services
+    hpb_hype_interface_request_to_start();
+
+    if (pthread_mutex_init(&mutex, NULL) != 0) {
+        perror("pthread_mutex_init() error");
+        exit(1);
+    }
+
+    if (pthread_cond_init(&cond, NULL) != 0) {
+        perror("pthread_cond_init() error");
+        exit(2);
+    }
+
+    if (pthread_cond_wait(&cond, &mutex) != 0) {
+        perror("pthread_cond_timedwait() error");
+        exit(7);
+    }
+
+    //The Hype Services
+    HypePubSub *hpb = hpb_get();
 
     hpb_cmd_interface_print_header();
+
     while(true)
     {
         printf("> ");

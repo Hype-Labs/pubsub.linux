@@ -32,7 +32,7 @@ HpbServiceManager *hpb_service_manager_create(HLByte service_key[SHA1_BLOCK_SIZE
  * @param client_id ID of the subscriber.
  * @return Returns 0 in case of success and -1 otherwise.
  */
-int hpb_service_manager_add_subscriber(HpbServiceManager *serv_man, HLByte client_id[]);
+int hpb_service_manager_add_subscriber(HpbServiceManager *serv_man, HypeInstance * instance);
 
 /**
  * @brief Removes a subscriber from a given HpbServiceManager.
@@ -40,7 +40,7 @@ int hpb_service_manager_add_subscriber(HpbServiceManager *serv_man, HLByte clien
  * @param client_id ID of the subscriber.
  * @return Returns 0 in case of success and -1 otherwise.
  */
-int hpb_service_manager_remove_subscriber(HpbServiceManager *serv_man, HLByte client_id[]);
+int hpb_service_manager_remove_subscriber(HpbServiceManager *serv_man, HypeInstance * instance);
 
 /**
  * @brief Deallocates the space previously allocated for the given HpbServiceManager struct.

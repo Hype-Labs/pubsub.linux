@@ -33,7 +33,7 @@ HpbNetwork *hpb_network_create();
  * @param service_key Key of the service to be analyzed.
  * @return Returns a byte array containing the ID of the hype device responsible for the service.
  */
-HLByte *hpb_network_get_service_manager_id(HpbNetwork *net, HLByte service_key[SHA1_BLOCK_SIZE]);
+HypeInstance *hpb_network_get_service_manager_id(HpbNetwork *net, HLByte service_key[SHA1_BLOCK_SIZE]);
 
 /**
  * @brief Updates the list of known hype devices according to the InstanceFound and InstanceLost.
@@ -48,7 +48,7 @@ void hpb_network_update_clients(HpbNetwork *net);
  * @param client_id ID of the HpbClient to be searched.
  * @return Return true if the HpbClient is online and false otherwise.
  */
-bool hpb_network_is_client_online(HpbNetwork *net, HLByte client_id[HPB_ID_BYTE_SIZE]);
+bool hpb_network_is_client_online(HpbNetwork *net, HpbClient * client);
 
 /**
  * @brief Get the ID of this HpbClient.

@@ -21,7 +21,7 @@ HpbClientsList *hpb_list_clients_create();
  * @param client_id ID of the HpbClient to be added.
  * @return Returns a pointer to the added HpbClient.
  */
-HpbClient *hpb_list_clients_add(HpbClientsList *list_cl, HLByte client_id[]);
+HpbClient *hpb_list_clients_add(HpbClientsList *list_cl, HypeInstance * instance);
 
 /**
  * @brief Removes an HpbClient from a HpbClientsList.
@@ -29,7 +29,7 @@ HpbClient *hpb_list_clients_add(HpbClientsList *list_cl, HLByte client_id[]);
  * @param client_id ID of the HpbClient to be removed.
  * @return Returns >=0 if the HpbClient was removed and <0 otherwise.
  */
-int hpb_list_clients_remove(HpbClientsList *list_cl, HLByte client_id[]);
+int hpb_list_clients_remove(HpbClientsList *list_cl, HypeInstance * instance);
 
 /**
  * @brief Deallocates the space previously allocated for a linked list of HpbClient elements
@@ -43,7 +43,7 @@ void hpb_list_clients_destroy(HpbClientsList **list_cl);
  * @param client_id ID of the HpbClient to be searched.
  * @return Returns a pointer to the HpbClient if the search is successful or NULL otherwise.
  */
-HpbClient *hpb_list_clients_find(HpbClientsList *list_cl, HLByte client_id[]);
+HpbClient *hpb_list_clients_find(HpbClientsList *list_cl, HypeInstance * instance);
 
 /**
  * @brief Callback to identify a HpbClient in the linked list.

@@ -17,7 +17,7 @@ HLByte HPB_TEST_SERVICE2[] = "\xf2\x95\xa7\x85\x27\x72\xfd\x6c\x88\xb5\x14\x37\x
 
 void hpb_test()
 {
-    HypePubSub *hpb = hpb_create();
+    HypePubSub *hpb = hpb_get();
     CU_ASSERT_PTR_NOT_NULL_FATAL(hpb);
     CU_ASSERT_PTR_NOT_NULL_FATAL(hpb->own_subscriptions);
     CU_ASSERT_PTR_NOT_NULL_FATAL(hpb->managed_services);
@@ -55,16 +55,16 @@ void hpb_test_process_subscribe_and_unsubscribe(HypePubSub *hpb)
 {
     CU_ASSERT(hpb->managed_services->size == 0);
 
-    CU_ASSERT(hpb_process_subscribe_req(NULL, HPB_TEST_SERVICE1, HPB_TEST_CLIENT1) == -1);
-    CU_ASSERT(hpb_process_unsubscribe_req(NULL, HPB_TEST_SERVICE1, HPB_TEST_CLIENT1) == -1);
-    CU_ASSERT(hpb_process_unsubscribe_req(hpb, HPB_TEST_SERVICE1, HPB_TEST_CLIENT1) == -2);
+    CU_ASSERT(hpb_process_subscribe_req(HPB_TEST_SERVICE1, HPB_TEST_CLIENT1) == -1);
+    CU_ASSERT(hpb_process_unsubscribe_req(HPB_TEST_SERVICE1, HPB_TEST_CLIENT1) == -1);
+    CU_ASSERT(hpb_process_unsubscribe_req(HPB_TEST_SERVICE1, HPB_TEST_CLIENT1) == -2);
 
     // Basic test with 2 services with 3 clients
-    hpb_process_subscribe_req(hpb, HPB_TEST_SERVICE1, HPB_TEST_CLIENT1);
+    hpb_process_subscribe_req(HPB_TEST_SERVICE1, HPB_TEST_CLIENT1);
     CU_ASSERT(hpb->managed_services->size == 1);
-    hpb_process_subscribe_req(hpb, HPB_TEST_SERVICE2, HPB_TEST_CLIENT2);
+    hpb_process_subscribe_req(HPB_TEST_SERVICE2, HPB_TEST_CLIENT2);
     CU_ASSERT(hpb->managed_services->size == 2);
-    hpb_process_subscribe_req(hpb, HPB_TEST_SERVICE1, HPB_TEST_CLIENT3);
+    hpb_process_subscribe_req(HPB_TEST_SERVICE1, HPB_TEST_CLIENT3);
     CU_ASSERT(hpb->managed_services->size == 2);
 
     HpbServiceManager *service1 = hpb_list_service_managers_find(hpb->managed_services, HPB_TEST_SERVICE1);
@@ -82,24 +82,24 @@ void hpb_test_process_subscribe_and_unsubscribe(HypePubSub *hpb)
     CU_ASSERT_PTR_NULL(hpb_list_clients_find(service2->subscribers, HPB_TEST_CLIENT3));
 
     // Test unsubscriptions on the 1st managed service
-    hpb_process_unsubscribe_req(hpb, HPB_TEST_SERVICE1, HPB_TEST_CLIENT1);
+    hpb_process_unsubscribe_req(HPB_TEST_SERVICE1, HPB_TEST_CLIENT1);
     CU_ASSERT(service1->subscribers->size == 1);
-    hpb_process_unsubscribe_req(hpb, HPB_TEST_SERVICE1, HPB_TEST_CLIENT2);
+    hpb_process_unsubscribe_req(HPB_TEST_SERVICE1, HPB_TEST_CLIENT2);
     CU_ASSERT(service1->subscribers->size == 1);
-    hpb_process_unsubscribe_req(hpb, HPB_TEST_SERVICE1, HPB_TEST_CLIENT3);
+    hpb_process_unsubscribe_req(HPB_TEST_SERVICE1, HPB_TEST_CLIENT3);
     CU_ASSERT(hpb->managed_services->size == 1);
 
     // Test subscriptions on the 2nd managed service
-    hpb_process_subscribe_req(hpb, HPB_TEST_SERVICE2, HPB_TEST_CLIENT1);
-    hpb_process_subscribe_req(hpb, HPB_TEST_SERVICE2, HPB_TEST_CLIENT2);
-    hpb_process_subscribe_req(hpb, HPB_TEST_SERVICE2, HPB_TEST_CLIENT3);
-    hpb_process_subscribe_req(hpb, HPB_TEST_SERVICE2, HPB_TEST_CLIENT4);
-    hpb_process_subscribe_req(hpb, HPB_TEST_SERVICE2, HPB_TEST_CLIENT5);
-    hpb_process_subscribe_req(hpb, HPB_TEST_SERVICE2, HPB_TEST_CLIENT6);
-    hpb_process_subscribe_req(hpb, HPB_TEST_SERVICE2, HPB_TEST_CLIENT7);
-    hpb_process_subscribe_req(hpb, HPB_TEST_SERVICE2, HPB_TEST_CLIENT8);
-    hpb_process_subscribe_req(hpb, HPB_TEST_SERVICE2, HPB_TEST_CLIENT9);
-    hpb_process_subscribe_req(hpb, HPB_TEST_SERVICE2, HPB_TEST_CLIENT10);
+    hpb_process_subscribe_req(HPB_TEST_SERVICE2, HPB_TEST_CLIENT1);
+    hpb_process_subscribe_req(HPB_TEST_SERVICE2, HPB_TEST_CLIENT2);
+    hpb_process_subscribe_req(HPB_TEST_SERVICE2, HPB_TEST_CLIENT3);
+    hpb_process_subscribe_req(HPB_TEST_SERVICE2, HPB_TEST_CLIENT4);
+    hpb_process_subscribe_req(HPB_TEST_SERVICE2, HPB_TEST_CLIENT5);
+    hpb_process_subscribe_req(HPB_TEST_SERVICE2, HPB_TEST_CLIENT6);
+    hpb_process_subscribe_req(HPB_TEST_SERVICE2, HPB_TEST_CLIENT7);
+    hpb_process_subscribe_req(HPB_TEST_SERVICE2, HPB_TEST_CLIENT8);
+    hpb_process_subscribe_req(HPB_TEST_SERVICE2, HPB_TEST_CLIENT9);
+    hpb_process_subscribe_req(HPB_TEST_SERVICE2, HPB_TEST_CLIENT10);
     CU_ASSERT(service2->subscribers->size == 10);
     CU_ASSERT_PTR_NOT_NULL(hpb_list_clients_find(service2->subscribers, HPB_TEST_CLIENT1));
     CU_ASSERT_PTR_NOT_NULL(hpb_list_clients_find(service2->subscribers, HPB_TEST_CLIENT2));
@@ -113,9 +113,9 @@ void hpb_test_process_subscribe_and_unsubscribe(HypePubSub *hpb)
     CU_ASSERT_PTR_NOT_NULL(hpb_list_clients_find(service2->subscribers, HPB_TEST_CLIENT10));
 
     // Test unsubscriptions on the 2nd managed service
-    hpb_process_unsubscribe_req(hpb, HPB_TEST_SERVICE2, HPB_TEST_CLIENT3);
-    hpb_process_unsubscribe_req(hpb, HPB_TEST_SERVICE2, HPB_TEST_CLIENT7);
-    hpb_process_unsubscribe_req(hpb, HPB_TEST_SERVICE2, HPB_TEST_CLIENT9);
+    hpb_process_unsubscribe_req(HPB_TEST_SERVICE2, HPB_TEST_CLIENT3);
+    hpb_process_unsubscribe_req(HPB_TEST_SERVICE2, HPB_TEST_CLIENT7);
+    hpb_process_unsubscribe_req(HPB_TEST_SERVICE2, HPB_TEST_CLIENT9);
     CU_ASSERT(service2->subscribers->size == 7);
     CU_ASSERT_PTR_NULL(hpb_list_clients_find(service2->subscribers, HPB_TEST_CLIENT3));
     CU_ASSERT_PTR_NULL(hpb_list_clients_find(service2->subscribers, HPB_TEST_CLIENT7));

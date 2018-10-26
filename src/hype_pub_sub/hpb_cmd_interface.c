@@ -4,13 +4,13 @@
 void hpb_cmd_interface_subscribe(HypePubSub *hpb, char* service_name)
 {
     string_utils_to_lower_case(service_name);
-    hpb_issue_subscribe_req(hpb, service_name);
+    hpb_issue_subscribe_req(service_name);
 }
 
 void hpb_cmd_interface_unsubscribe(HypePubSub *hpb, char* service_name)
 {
     string_utils_to_lower_case(service_name);
-    hpb_issue_unsubscribe_req(hpb, service_name);
+    hpb_issue_unsubscribe_req(service_name);
 }
 
 void hpb_cmd_interface_publish(HypePubSub *hpb, char* service_name)
@@ -22,14 +22,14 @@ void hpb_cmd_interface_publish(HypePubSub *hpb, char* service_name)
     fgets(msg, msg_size, stdin);
     msg[strcspn(msg, "\n")] = '\0'; // Remove \n read by fgets()
 
-    hpb_issue_publish_req(hpb, service_name, msg, strlen(msg));
+    hpb_issue_publish_req(service_name, msg, strlen(msg));
 }
 
 void hpb_cmd_interface_print_own_id(HypePubSub *hpb)
 {
     printf("\n");
     printf("Own Device ID: ");
-    binary_utils_print_hex_array(hpb->network->own_client->id, HPB_ID_BYTE_SIZE);
+    binary_utils_print_hex_array(hpb->network->own_client->hype_instance->identifier->data, hpb->network->own_client->hype_instance->identifier->size);
     printf("Own Device Key: ");
     binary_utils_print_hex_array(hpb->network->own_client->key, SHA1_BLOCK_SIZE);
     printf("\n");
@@ -100,7 +100,7 @@ void hpb_cmd_interface_print_subscriptions(HypePubSub *hpb)
         printf("Subscription %i service key: ", sbscrptn_n);
         binary_utils_print_hex_array(sbscrptn->service_key, SHA1_BLOCK_SIZE);
         printf("Subscription %i manager ID: ", sbscrptn_n);
-        binary_utils_print_hex_array(sbscrptn->manager_id, HPB_ID_BYTE_SIZE);
+        binary_utils_print_hex_array(sbscrptn->manager_instance->identifier->data, sbscrptn->manager_instance->identifier->size);
         printf("\n");
 
         sbscrptn_n++;
@@ -113,15 +113,15 @@ void hpb_cmd_interface_print_helper()
 {
     printf("\n");
     printf("The followings options are available:\n");
-    printf(" --%-35s : Allows to subscribe a service.\n" ,HPB_CMD_INTERFACE_SUBSCRIBE);
-    printf(" --%-35s : Allows to unsubscribe a service.\n" ,HPB_CMD_INTERFACE_UNSUBSCRIBE);
-    printf(" --%-35s : Allows to publish a message in a service.\n" ,HPB_CMD_INTERFACE_PUBLISH);
-    printf(" --%-35s : Prints the Hype ID and the key of this device.\n" ,HPB_CMD_INTERFACE_PRINT_OWN_ID);
-    printf(" --%-35s : Prints the Hype ID and the key of the known network devices.\n" ,HPB_CMD_INTERFACE_PRINT_HYPE_DEVICES);
-    printf(" --%-35s : Prints the services which are responsibility of this device.\n" ,HPB_CMD_INTERFACE_PRINT_MANAGED_SERVICES);
-    printf(" --%-35s : Prints the services subscribed by this device.\n" ,HPB_CMD_INTERFACE_PRINT_SUBSCRIPTIONS);
-    printf(" --%-35s : Prints the helper menu of this application.\n" ,HPB_CMD_INTERFACE_HELP);
-    printf(" --%-35s : Terminates the application.\n" ,HPB_CMD_INTERFACE_QUIT);
+    printf(" --%-25s : Allows to subscribe a service.\n" ,HPB_CMD_INTERFACE_SUBSCRIBE);
+    printf(" --%-25s : Allows to unsubscribe a service.\n" ,HPB_CMD_INTERFACE_UNSUBSCRIBE);
+    printf(" --%-25s : Allows to publish a message in a service.\n" ,HPB_CMD_INTERFACE_PUBLISH);
+    printf(" --%-25s : Prints the Hype ID and the key of this device.\n" ,HPB_CMD_INTERFACE_PRINT_OWN_ID);
+    printf(" --%-25s : Prints the Hype ID and the key of the known network devices.\n" ,HPB_CMD_INTERFACE_PRINT_HYPE_DEVICES);
+    printf(" --%-25s : Prints the services which are responsibility of this device.\n" ,HPB_CMD_INTERFACE_PRINT_MANAGED_SERVICES);
+    printf(" --%-25s : Prints the services subscribed by this device.\n" ,HPB_CMD_INTERFACE_PRINT_SUBSCRIPTIONS);
+    printf(" --%-25s : Prints the helper menu of this application.\n" ,HPB_CMD_INTERFACE_HELP);
+    printf(" --%-25s : Terminates the application.\n" ,HPB_CMD_INTERFACE_QUIT);
     printf("\n");
 }
 
@@ -147,7 +147,7 @@ void hpb_cmd_interface_print_client_list(HpbClientsList *lst_cl)
             continue;
 
         printf("Device %i ID: ", cl_n);
-        binary_utils_print_hex_array(client->id, HPB_ID_BYTE_SIZE);
+        binary_utils_print_hex_array(client->hype_instance->identifier->data, client->hype_instance->identifier->size);
         printf("Device %i Key: ", cl_n);
         binary_utils_print_hex_array(client->key, SHA1_BLOCK_SIZE);
         printf("\n");

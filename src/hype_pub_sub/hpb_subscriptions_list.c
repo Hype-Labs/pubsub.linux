@@ -6,7 +6,7 @@ HpbSubscriptionsList *hpb_list_subscriptions_create()
     return linked_list_create();
 }
 
-HpbSubscription *hpb_list_subscriptions_add(HpbSubscriptionsList *list_subscrpt, char *serv_name, size_t serv_name_len, HLByte man_id[HPB_ID_BYTE_SIZE])
+HpbSubscription *hpb_list_subscriptions_add(HpbSubscriptionsList *list_subscrpt, char *serv_name, size_t serv_name_len, HypeInstance * instance)
 {
     if(list_subscrpt == NULL)
         return NULL;
@@ -22,13 +22,13 @@ HpbSubscription *hpb_list_subscriptions_add(HpbSubscriptionsList *list_subscrpt,
     if(subscrpt != NULL)
         return subscrpt;
 
-    subscrpt = hpb_subscription_create(serv_name, serv_name_len, man_id);
+    subscrpt = hpb_subscription_create(serv_name, serv_name_len, instance);
 
     linked_list_add(list_subscrpt, subscrpt);
     return subscrpt;
 }
 
-int hpb_list_subscriptions_remove(HpbSubscriptionsList *list_subscrpt, HLByte service_key[])
+int hpb_list_subscriptions_remove(HpbSubscriptionsList *list_subscrpt,HLByte service_key[])
 {
     return linked_list_remove(list_subscrpt, service_key, linked_list_callback_is_subscription_service_key, linked_list_callback_free_subscription);
 }
