@@ -113,6 +113,8 @@ int hpb_update_own_subscriptions();
  */
 void hpb_destroy(HypePubSub **hpb);
 
+void hpb_remove_subscriptions_from_lost_instance(HypeInstance * instance);
+
 
 
 // TODO: Review this later. Currently it seems that these methods are replaced by the hpb_update_subscriptions() and hpb_update_managed_services() methods

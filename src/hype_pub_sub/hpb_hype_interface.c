@@ -15,6 +15,7 @@
 #include <hype_pub_sub/hype_pub_sub.h>
 #include <stdio.h>
 
+
 //Hype callbacks definition
 static void hpb_hype_on_start()
 {
@@ -62,6 +63,8 @@ static void hpb_hype_on_start_failed(HypeError * err)
     // The framework couldn't start for some reason. Common causes include the Bluetooth
     // adapter being turned off. The error parameter always indicates the
     // cause for the failure, it's never null.
+
+    exit(1);
 
     fflush(stdout);
 }
@@ -137,6 +140,12 @@ static void hpb_hype_on_instance_lost(HypeInstance * instance, HypeError * err)
     // also stops with an error.
     printf("Hype lost instance: %s [%s]\n", instance->string_identifier, err->description);
 
+    HypePubSub * hpb_get();
+
+    hpb_list_clients_remove(hpb_get()->network->network_clients, instance);
+    hpb_update_own_subscriptions();
+    hpb_remove_subscriptions_from_lost_instance(instance);
+
     fflush(stdout);
 }
 
@@ -144,15 +153,9 @@ static void hpb_hype_on_instance_resolved(HypeInstance * instance)
 {
     printf("Hype resolve instance: %s\n", instance->string_identifier);
 
-    // An instance being resolved means that it's ready for communicating. In this
-    // case, the implementation sends an "Hello World" string encoded in UTF-8 format.
-    // Although this is showing a simple scenario, application level protocols can be
-    // as complex as necessary.
-
-    const char * msg = "Hello World";
-    size_t size = strlen(msg)+1;
-
-    hype_send((void *)msg, size, instance, true);
+    hpb_list_clients_add(hpb_get()->network->network_clients, instance);
+    hpb_update_managed_services();
+    hpb_update_own_subscriptions();
 
     fflush(stdout);
 }
@@ -176,6 +179,8 @@ static void hpb_hype_on_message_received(HypeMessage * message, HypeInstance * i
     // A message has arrived from another device. In this case, the message is expected
     // to be text encoded in UTF-8 format, the same protocol that was used when sending
     // a message.
+
+    hpb_protocol_receive_msg(hpb_get()->protocol, instance,message->buffer->data,message->buffer->size);
 
     fflush(stdout);
 }
