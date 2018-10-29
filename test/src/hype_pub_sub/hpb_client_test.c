@@ -15,9 +15,12 @@ static void hpb_client_test_dummy_hype_instance_release(HypeInstance *instance);
 
 void hpb_client_test()
 {
-    HypeInstance *instance1 = hpb_client_test_dummy_hype_instance_create(CLIENT1_HYPE_ID, CLIENT_HYPE_ID_SIZE);
-    HypeInstance *instance2 = hpb_client_test_dummy_hype_instance_create(CLIENT2_HYPE_ID, CLIENT_HYPE_ID_SIZE);
-    HypeInstance *instance3 = hpb_client_test_dummy_hype_instance_create(CLIENT3_HYPE_ID, CLIENT_HYPE_ID_SIZE);
+    HypeBuffer *client1_buffer_id = hype_buffer_create_from(CLIENT1_HYPE_ID, CLIENT_HYPE_ID_SIZE);
+    HypeBuffer *client2_buffer_id = hype_buffer_create_from(CLIENT2_HYPE_ID, CLIENT_HYPE_ID_SIZE);
+    HypeBuffer *client3_buffer_id = hype_buffer_create_from(CLIENT3_HYPE_ID, CLIENT_HYPE_ID_SIZE);
+    HypeInstance *instance1 = hype_instance_create(client1_buffer_id, NULL, false);
+    HypeInstance *instance2 = hype_instance_create(client2_buffer_id, NULL, false);
+    HypeInstance *instance3 = hype_instance_create(client3_buffer_id, NULL, false);
     HpbClient *cl1 = hpb_client_create(instance1);
     HpbClient *cl2 = hpb_client_create(instance2);
     HpbClient *cl3 = hpb_client_create(instance3);
@@ -51,21 +54,7 @@ void hpb_client_test()
     CU_ASSERT_PTR_NULL(cl3);
     CU_ASSERT_PTR_NULL(cl4);
 
-    hpb_client_test_dummy_hype_instance_release(instance1);
-    hpb_client_test_dummy_hype_instance_release(instance2);
-    hpb_client_test_dummy_hype_instance_release(instance3);
-}
-
-static HypeInstance * hpb_client_test_dummy_hype_instance_create(HLByte *id, size_t id_size)
-{
-    HypeInstance * instance = (HypeInstance *) malloc(sizeof(HypeInstance));
-    instance->identifier = hype_buffer_create_from(id, id_size);
-    instance->announcement = NULL;
-    return instance;
-}
-
-static void hpb_client_test_dummy_hype_instance_release(HypeInstance *instance)
-{
-    hype_buffer_release(instance->identifier);
-    free(instance);
+    hype_buffer_release(client1_buffer_id);
+    hype_buffer_release(client2_buffer_id);
+    hype_buffer_release(client3_buffer_id);
 }
