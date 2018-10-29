@@ -120,6 +120,8 @@ if(HYPE_PUB_SUB_COMPILE_TESTS) # Compile for testing
 
     add_test(TestHypePubSub ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/TestHypePubSub)
 
+    target_compile_definitions(TestHypePubSub PRIVATE UNIT_TESTING=1)
+
     target_link_libraries(TestHypePubSub
                             ${SHA1_LIB}
                             ${HYPE_LIB})
