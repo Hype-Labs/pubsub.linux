@@ -233,6 +233,22 @@ int hpb_update_own_subscriptions()
     return 0;
 }
 
+void hpb_remove_subscriptions_from_lost_instance(HypeInstance * instance)
+{
+    HypePubSub *hpb = hpb_get();
+
+    LinkedListIterator * it = linked_list_iterator_create(hpb->managed_services);
+
+    do
+    {
+        HpbServiceManager * service_manager = (HpbServiceManager*) linked_list_iterator_get_element(it);
+        hpb_process_unsubscribe_req(service_manager->service_key,instance);
+
+    } while(linked_list_iterator_advance(it) != -1);
+
+    linked_list_iterator_destroy(&it);
+}
+
 void hpb_destroy(HypePubSub **hpb)
 {
     if((*hpb) == NULL) {
