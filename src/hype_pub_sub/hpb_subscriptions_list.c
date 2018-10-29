@@ -1,6 +1,14 @@
 
 #include "hype_pub_sub/hpb_subscriptions_list.h"
 
+
+// Static functions declaration
+
+static bool linked_list_callback_is_subscription_service_key(void *subscription, void *service_key);
+static void linked_list_callback_free_subscription(void **subscription);
+
+// Header functions implementation
+
 HpbSubscriptionsList *hpb_list_subscriptions_create()
 {
     return linked_list_create();
@@ -47,6 +55,8 @@ HpbSubscription *hpb_list_subscriptions_find(HpbSubscriptionsList *list_subscrpt
 
     return (HpbSubscription*) node->element;
 }
+
+// Static functions implementation
 
 static bool linked_list_callback_is_subscription_service_key(void *subscription, void *service_key)
 {

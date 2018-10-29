@@ -1,6 +1,13 @@
 
 #include "hype_pub_sub/hpb_service_managers_list.h"
 
+// Static functions declaration
+
+static bool linked_list_callback_is_service_manager_key(void *service_manager, void *key);
+static void linked_list_callback_free_service_manager(void **service_manager);
+
+// Header functions implementation
+
 HpbServiceManagersList *hpb_list_service_managers_create()
 {
     return linked_list_create();
@@ -41,6 +48,8 @@ HpbServiceManager *hpb_list_service_managers_find(HpbServiceManagersList *list_s
 
     return (HpbServiceManager*) node->element;
 }
+
+// Static functions implementation
 
 static bool linked_list_callback_is_service_manager_key(void *service_manager, void *key)
 {

@@ -50,18 +50,5 @@ void hpb_list_subscriptions_destroy(HpbSubscriptionsList **list_subscrpt);
  */
 HpbSubscription *hpb_list_subscriptions_find(HpbSubscriptionsList *list_subscrpt, HLByte service_key[]);
 
-/**
- * @brief Callback to identify a HpbSubscription in the linked list.
- * @param subscription HpbSubscription to be analyzed.
- * @param service_key Service key to which the HpbSubscription should be compared.
- * @return Returns true if the specified key corresponds to the key of the specified HpbSubscription.
- */
-static bool linked_list_callback_is_subscription_service_key(void *subscription, void *service_key);
-
-/**
- * @brief Callback to deallocate the space reserved for a HpbSubscription of the linked list.
- * @param subscription Pointer to the pointer of the HpbSubscription to be deallocated.
- */
-static void linked_list_callback_free_subscription(void **subscription);
 
 #endif /* HYPE_PUB_SUB_LIST_SUBSCRIPTIONS_H_INCLUDED_ */
