@@ -1,18 +1,19 @@
 #include "hpb_network_test.h"
 
 // ID1 KEY:     0000010111101011011000110111110010111101001111110011001101101001000111010111010000111100001010100011100110101111111011101101101001011110110010010100010110101101
-HLByte ID1[] = "\x85\xa9\xd4\xc4\xde\xd2\x87\x75\x0f\xc0\xed\x32";
+static HLByte CLIENT1_HYPE_ID[] = "\x85\xa9\xd4\xc4\xde\xd2\x87\x75\x0f\xc0\xed\x32";
 // ID2 KEY:     1110010010011010101001110111100100101100111101001111110100001001011011000001000000111111010010111010010001100011111000100111101110010001011000001001111001101011
-HLByte ID2[] = "\xe7\x79\x34\x6c\x66\x9c\x17\xf4\x34\xc8\xce\x0e";
+static HLByte CLIENT2_HYPE_ID[] = "\xe7\x79\x34\x6c\x66\x9c\x17\xf4\x34\xc8\xce\x0e";
 // ID3 KEY:     0100010000100000000000011111100101100100110110011111111000110100100110100101111100110000100010101011000101000001000101010000111000000101010110111110010101000110
-HLByte ID3[] = "\x10\x11\x12\x01\x02\x03\x04\x05\x06\x07\x08\x09";
+static HLByte CLIENT3_HYPE_ID[] = "\x10\x11\x12\x01\x02\x03\x04\x05\x06\x07\x08\x09";
 // ID4 KEY:     1111011011001011011011011001110110110000100110001001000110011011001011010011100101010101000100010100000111000101110010111110011101100111101101010000011011010110
-HLByte ID4[] = "\x66\xd8\xf2\x20\x6a\x56\xdb\xe9\x91\x23\x3b\xc2";
+static HLByte CLIENT4_HYPE_ID[] = "\x66\xd8\xf2\x20\x6a\x56\xdb\xe9\x91\x23\x3b\xc2";
+static HLByte CLIENT_HYPE_ID_SIZE = 12;
 
 // SV1 KEY:     1111111010110101110001101010111010001010101110010111101011011111010100111111100010111100100100101110010101010001011010011000001010110110001000000000111010100100
-HLByte SERVICE_KEY1[] = "\xfe\xb5\xc6\xae\x8a\xb9\x7a\xdf\x53\xf8\xbc\x92\xe5\x51\x69\x82\xb6\x20\x0e\xa4";
+static HLByte SERVICE_KEY1[] = "\xfe\xb5\xc6\xae\x8a\xb9\x7a\xdf\x53\xf8\xbc\x92\xe5\x51\x69\x82\xb6\x20\x0e\xa4";
 // SV2 KEY:     0010010001100010110001000101101001100101110101011001000100110001100001101100100110110011000100001010011010010000100100010110010011110101010111101111011001110111
-HLByte SERVICE_KEY2[] = "\x24\x62\xc4\x5a\x65\xd5\x91\x31\x86\xc9\xb3\x10\xa6\x90\x91\x64\xf5\x5e\xf6\x77";
+static HLByte SERVICE_KEY2[] = "\x24\x62\xc4\x5a\x65\xd5\x91\x31\x86\xc9\xb3\x10\xa6\x90\x91\x64\xf5\x5e\xf6\x77";
 
 // XOR SV1/ID1: 1111101101011110101001011101001000110111100001100100100110110110010011101000110010000000101110001101110011111110100001110101100011101000111010010100101100001001
 // XOR SV1/ID2: 0001101000101111011000011101011110100110010011011000011111010110001111111110100010000011110110010100000100110010100010111111100100100111010000001001000011001111
@@ -26,40 +27,40 @@ HLByte SERVICE_KEY2[] = "\x24\x62\xc4\x5a\x65\xd5\x91\x31\x86\xc9\xb3\x10\xa6\x9
 
 void hpb_network_test()
 {
-    HpbNetwork *network = hpb_network_create();
+    HypeBuffer *client1_buffer_id = hype_buffer_create_from(CLIENT1_HYPE_ID, CLIENT_HYPE_ID_SIZE);
+    HypeBuffer *client2_buffer_id = hype_buffer_create_from(CLIENT2_HYPE_ID, CLIENT_HYPE_ID_SIZE);
+    HypeBuffer *client3_buffer_id = hype_buffer_create_from(CLIENT3_HYPE_ID, CLIENT_HYPE_ID_SIZE);
+    HypeBuffer *client4_buffer_id = hype_buffer_create_from(CLIENT4_HYPE_ID, CLIENT_HYPE_ID_SIZE);
+    HypeInstance *instance1 = hype_instance_create(client1_buffer_id, NULL, false);
+    HypeInstance *instance2 = hype_instance_create(client2_buffer_id, NULL, false);
+    HypeInstance *instance3 = hype_instance_create(client3_buffer_id, NULL, false);
+    HypeInstance *instance4 = hype_instance_create(client4_buffer_id, NULL, false);
+
+    HpbNetwork *network = hpb_network_create(instance1);
     CU_ASSERT_PTR_NOT_NULL_FATAL(network);
 
-    hpb_network_test_get_service_manager_id(network);
-    hpb_network_test_is_client_online(network);
+    hpb_list_clients_add(network->network_clients, instance1);
+    hpb_list_clients_add(network->network_clients, instance2);
+    hpb_list_clients_add(network->network_clients, instance3);
+    hpb_list_clients_add(network->network_clients, instance4);
+
+    // Reset own client id
+    network->own_client = hpb_client_create(instance1);
+    sha1_digest(network->own_client->hype_instance->identifier->data, CLIENT_HYPE_ID_SIZE, network->own_client->key);
+
+    CU_ASSERT_NSTRING_EQUAL(hpb_network_get_service_manager_id(network, SERVICE_KEY1)->identifier->data, CLIENT4_HYPE_ID, CLIENT_HYPE_ID_SIZE);
+    CU_ASSERT_NSTRING_EQUAL(hpb_network_get_service_manager_id(network, SERVICE_KEY2)->identifier->data, CLIENT1_HYPE_ID, CLIENT_HYPE_ID_SIZE);
+
+    hype_instance_release(instance1);
+    hype_instance_release(instance2);
+    hype_instance_release(instance3);
+    hype_instance_release(instance4);
+    hype_buffer_release(client1_buffer_id);
+    hype_buffer_release(client2_buffer_id);
+    hype_buffer_release(client3_buffer_id);
+    hype_buffer_release(client4_buffer_id);
 
     hpb_network_destroy(&network);
     CU_ASSERT_PTR_NULL(network);
 }
 
-void hpb_network_test_get_service_manager_id(HpbNetwork *network)
-{
-    hpb_list_clients_add(network->network_clients, ID1);
-    hpb_list_clients_add(network->network_clients, ID2);
-    hpb_list_clients_add(network->network_clients, ID3);
-    hpb_list_clients_add(network->network_clients, ID4);
-
-    // Reset own client id
-    memcpy(network->own_client->id, ID1, HPB_ID_BYTE_SIZE);
-    sha1_digest(network->own_client->id, HPB_ID_BYTE_SIZE, network->own_client->key);
-
-    CU_ASSERT_NSTRING_EQUAL(hpb_network_get_service_manager_id(network, SERVICE_KEY1), ID4, HPB_ID_BYTE_SIZE);
-    CU_ASSERT_NSTRING_EQUAL(hpb_network_get_service_manager_id(network, SERVICE_KEY2), ID1, HPB_ID_BYTE_SIZE);
-}
-
-void hpb_network_test_is_client_online(HpbNetwork *network)
-{
-    HLByte TEST_ID1[] = "\x6a\x56\xdb\x66\xd8\xf2\x20\xe9\x91\x23\x3b\xc2";
-    HLByte TEST_ID2[] = "\x20\x6a\x56\xdb\xe9\x91\x23\x66\xd8\xf2\x3b\xc2";
-
-    CU_ASSERT_TRUE(hpb_network_is_client_online(network, ID1));
-    CU_ASSERT_TRUE(hpb_network_is_client_online(network, ID2));
-    CU_ASSERT_TRUE(hpb_network_is_client_online(network, ID3));
-    CU_ASSERT_TRUE(hpb_network_is_client_online(network, ID4));
-    CU_ASSERT_FALSE(hpb_network_is_client_online(network, TEST_ID1));
-    CU_ASSERT_FALSE(hpb_network_is_client_online(network, TEST_ID2));
-}

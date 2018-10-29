@@ -1,10 +1,9 @@
 
 #include "hype_pub_sub/hpb_network.h"
 
-HpbNetwork *hpb_network_create()
+HpbNetwork *hpb_network_create(HypeInstance *own_instance)
 {
     HpbNetwork *net = (HpbNetwork*) malloc(sizeof(HpbNetwork));
-    HypeInstance *own_instance = hype_get_host_instance();
     net->own_client = hpb_client_create(own_instance);
     net->network_clients = hpb_list_clients_create();
     return net;
@@ -50,14 +49,6 @@ void hpb_network_update_clients(HpbNetwork *net)
     // On instance found -> hype_pub_sub_list_clients_add(net->network_client_ids, --- id ---)
     // On instance lost -> hype_pub_sub_list_clients_remove(net->network_client_ids, --- id ---)
     return;
-}
-
-bool hpb_network_is_client_online(HpbNetwork *net, HpbClient * client)
-{
-    if(hpb_list_clients_find(net->network_clients, client->hype_instance) != NULL) {
-        return true;
-    }
-    return false;
 }
 
 void hpb_network_destroy(HpbNetwork **net)

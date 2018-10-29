@@ -22,9 +22,10 @@ typedef struct HpbNetwork_
 
 /**
  * @brief Allocates space for a HpbNetwork struct.
+ * @param own_instance Instance of this HpbClient.
  * @return Returns a pointer to the created struct or NULL if the space could not be allocated.
  */
-HpbNetwork *hpb_network_create();
+HpbNetwork *hpb_network_create(HypeInstance *own_instance);
 
 /**
  * @brief Returns the ID of the hype device which is responsible for a given service. The hype device with the key closest to
@@ -41,14 +42,6 @@ HypeInstance *hpb_network_get_service_manager_id(HpbNetwork *net, HLByte service
  * @return
  */
 void hpb_network_update_clients(HpbNetwork *net);
-
-/**
- * @brief Checks if a given HpbClient is online.
- * @param net Pointer to the HpbNetwork.
- * @param client_id ID of the HpbClient to be searched.
- * @return Return true if the HpbClient is online and false otherwise.
- */
-bool hpb_network_is_client_online(HpbNetwork *net, HpbClient * client);
 
 /**
  * @brief Get the ID of this HpbClient.

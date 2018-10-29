@@ -57,6 +57,24 @@ target_link_libraries(${PROJECT_NAME}
                         ${SHA1_LIB}
                         ${HYPE_LIB})
 
+# Find avahi-client
+find_path(AVAHI_INCLUDE_DIR avahi-client)
+find_library(AVAHI_CLIENT_LIBRARIES avahi-client)
+if(NOT AVAHI_CLIENT_LIBRARIES)
+  message(FATAL_ERROR "avahi-client not found")
+endif()
+
+# Find avahi-common
+find_path(AVAHI_COMMON_INCLUDE_DIR avahi-common)
+find_library(AVAHI_COMMON_LIBRARIES avahi-common)
+if(NOT AVAHI_COMMON_LIBRARIES)
+  message(FATAL_ERROR "avahi-common not found")
+endif()
+
+find_path(AVAHI_INCLUDE_DIR avahi-client/client.h)
+if(NOT AVAHI_INCLUDE_DIR)
+  message(FATAL_ERROR "avahi-client/client.h not found")
+endif()
 
 if(HYPE_PUB_SUB_COMPILE_TESTS) # Compile for testing
 
@@ -101,26 +119,11 @@ if(HYPE_PUB_SUB_COMPILE_TESTS) # Compile for testing
                                     ${HYPE_C_INCLUDES})
 
     add_test(TestHypePubSub ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/TestHypePubSub)
-    target_link_libraries(TestHypePubSub ${C_UNIT} ${HYPE_LIB} ";m;bluetooth;dl;avahi-client;pthread")
-endif()
 
-# Find avahi-client
-find_path(AVAHI_INCLUDE_DIR avahi-client)
-find_library(AVAHI_CLIENT_LIBRARIES avahi-client)
-if(NOT AVAHI_CLIENT_LIBRARIES)
-  message(FATAL_ERROR "avahi-client not found")
-endif()
-
-# Find avahi-common
-find_path(AVAHI_COMMON_INCLUDE_DIR avahi-common)
-find_library(AVAHI_COMMON_LIBRARIES avahi-common)
-if(NOT AVAHI_COMMON_LIBRARIES)
-  message(FATAL_ERROR "avahi-common not found")
-endif()
-
-find_path(AVAHI_INCLUDE_DIR avahi-client/client.h)
-if(NOT AVAHI_INCLUDE_DIR)
-  message(FATAL_ERROR "avahi-client/client.h not found")
+    target_link_libraries(TestHypePubSub
+                            ${SHA1_LIB}
+                            ${HYPE_LIB})
+    target_link_libraries(TestHypePubSub "${C_UNIT};${AVAHI_CLIENT_LIBRARIES};${AVAHI_COMMON_LIBRARIES};${HYPE_LIB};m;bluetooth;dl;pthread;avahi-client")
 endif()
 
 target_link_libraries(${PROJECT_NAME} "${AVAHI_CLIENT_LIBRARIES};${AVAHI_COMMON_LIBRARIES};${HYPE_LIB};m;bluetooth;dl;pthread;avahi-client")
