@@ -12,11 +12,12 @@
 /**
  * @brief This struct represents the message types of the HpbProtocol packets.
  */
-typedef enum  {SUBSCRIBE_SERVICE, /**< Represents a packet which contains a subscribe message */
-               UNSUBSCRIBE_SERVICE, /**< Represents a packet which contains a unsubscribe message */
-               PUBLISH, /**< Represents a packet which contains a publish message */
-               INFO, /**< Represents a packet which contains a info message */
-               INVALID /**< Represents a invalid packet */
+typedef enum {
+    SUBSCRIBE_SERVICE, /**< Represents a packet which contains a subscribe message */
+    UNSUBSCRIBE_SERVICE, /**< Represents a packet which contains a unsubscribe message */
+    PUBLISH, /**< Represents a packet which contains a publish message */
+    INFO, /**< Represents a packet which contains a info message */
+    INVALID /**< Represents a invalid packet */
 } MessageType;
 
 /**
