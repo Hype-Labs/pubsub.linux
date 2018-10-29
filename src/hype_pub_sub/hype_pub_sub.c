@@ -10,7 +10,7 @@ HypePubSub* hpb_get()
         hpb = (HypePubSub*) malloc(sizeof(HypePubSub));
         hpb->own_subscriptions = hpb_list_subscriptions_create();
         hpb->managed_services = hpb_list_service_managers_create();
-        hpb->network = hpb_network_create();
+        hpb->network = hpb_network_create(hype_get_host_instance());
         hpb->protocol = hpb_protocol_create(hpb);
     }
 
