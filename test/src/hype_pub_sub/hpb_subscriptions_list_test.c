@@ -93,4 +93,12 @@ void hpb_list_subscriptions_test()
     linked_list_iterator_destroy(&it);
     hpb_list_subscriptions_destroy(&subscriptions);
     CU_ASSERT_PTR_NULL(subscriptions);
+
+    // clear heap memory
+    hype_instance_release(instance1);
+    hype_instance_release(instance2);
+    hype_instance_release(instance3);
+    hype_buffer_release(client1_buffer_id);
+    hype_buffer_release(client2_buffer_id);
+    hype_buffer_release(client3_buffer_id);
 }
