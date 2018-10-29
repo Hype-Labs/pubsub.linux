@@ -11,7 +11,6 @@ HypePubSub* hpb_get()
         hpb->own_subscriptions = hpb_list_subscriptions_create();
         hpb->managed_services = hpb_list_service_managers_create();
         hpb->network = hpb_network_create(hype_get_host_instance());
-        hpb->protocol = hpb_protocol_create(hpb);
     }
 
     return hpb;
@@ -35,7 +34,11 @@ int hpb_issue_subscribe_req(char* service_name)
         hpb_process_subscribe_req(service_key, hpb->network->own_client->hype_instance);
     }
     else {
-        hpb_protocol_send_subscribe_msg(service_key, manager_instance);
+        HLByte *packet;
+        size_t packet_size = hpb_protocol_build_subscribe_msg(service_key, &packet);
+        HypeMessage *hype_msg = hype_send(packet, packet_size, manager_instance, false);
+        free(packet);
+        hype_message_release(hype_msg);
     }
 
     return 0;
@@ -65,7 +68,11 @@ int hpb_issue_unsubscribe_req(char *service_name)
         hpb_process_unsubscribe_req(service_key, hpb->network->own_client->hype_instance);
     }
     else {
-        hpb_protocol_send_unsubscribe_msg(service_key, manager_instance);
+        HLByte *packet;
+        size_t packet_size = hpb_protocol_build_unsubscribe_msg(service_key, &packet);
+        HypeMessage *hype_msg = hype_send(packet, packet_size, manager_instance, false);
+        free(packet);
+        hype_message_release(hype_msg);
     }
 
     return 0;
@@ -86,7 +93,11 @@ int hpb_issue_publish_req(char *service_name, char *msg, size_t msg_length)
         hpb_process_publish_req(service_key, msg, msg_length);
     }
     else {
-        hpb_protocol_send_publish_msg(service_key, manager_instance, msg, msg_length);
+        HLByte *packet;
+        size_t packet_size = hpb_protocol_build_publish_msg(service_key, msg, msg_length, &packet);
+        HypeMessage *hype_msg = hype_send(packet, packet_size, manager_instance, false);
+        free(packet);
+        hype_message_release(hype_msg);
     }
 
     return 0;
@@ -152,7 +163,11 @@ int hpb_process_publish_req(HLByte service_key[], char *msg, size_t msg_length)
             hpb_process_info_msg(service_key, msg, msg_length);
         }
         else {
-            hpb_protocol_send_info_msg(service_key, client->hype_instance, msg, msg_length);
+            HLByte *packet;
+            size_t packet_size = hpb_protocol_build_info_msg(service_key, msg, msg_length, &packet);
+            HypeMessage *hype_msg = hype_send(packet, packet_size, client->hype_instance, false);
+            free(packet);
+            hype_message_release(hype_msg);
         }
 
     } while(linked_list_iterator_advance(it) != -1);
@@ -258,7 +273,6 @@ void hpb_destroy(HypePubSub **hpb)
     hpb_list_subscriptions_destroy(&((*hpb)->own_subscriptions));
     hpb_list_service_managers_destroy(&((*hpb)->managed_services));
     hpb_network_destroy(&((*hpb)->network));
-    hpb_protocol_destroy(&((*hpb)->protocol));
     free(*hpb);
     *hpb = NULL;
 }
