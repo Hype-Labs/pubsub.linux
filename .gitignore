@@ -1,3 +1,4 @@
 build/*
 *.sh
 hype/*
+libhype.a
