@@ -13,28 +13,30 @@
 
 
 /**
- * @brief This struct represents an Hype client.
+ * @brief This struct represents a publisher-subscriber client.
  */
 typedef struct HpbClient_
 {
-    HypeInstance * hype_instance;/**< Hype instance of the client. */
+    HypeInstance *hype_instance;/**< Hype instance of the client. */
     HLByte key[SHA1_BLOCK_SIZE]; /**< Key of the managed service. */
 } HpbClient;
 
 /**
- * @brief Allocates space for a HpbClient struct, and initializes its ID and key.
- * @param id Hype ID of the node.
- * @return Returns a pointer to the created struct or NULL if the space could not be allocated.
+ * @brief Allocates space for a HpbClient struct, and initializes its instance and key.
+ *        It allocates spaces for a new Hype instance struct which is initialized
+ *        with the content of the instance given as parameter.
+ * @param instance Hype instance of the client.
+ * @return Returns a pointer to the created struct.
  */
-HpbClient *hpb_client_create(HypeInstance * instance);
+HpbClient * hpb_client_create(HypeInstance *instance);
 
 /**
- * @brief Compares 2 HypeInstances.
- * @param id1 First HypeInstance .
- * @param id2 Second HypeInstance.
- * @return Returns true if the IDs are equal and false otherwise
+ * @brief Compares the instance of the given HpbClient with the instance given as parameter.
+ * @param client HpbClient to be analyzed.
+ * @param instance Hype instance to which the HpbClient should be compared to.
+ * @return Returns true if the given instance is equal to the instance of the HpbClient and false otherwise.
  */
-bool hpb_client_is_id_equal(HypeInstance * instance1, HypeInstance * instance2);
+bool hpb_client_is_instance_equal(HpbClient *client, HypeInstance *instance);
 
 /**
  * @brief Deallocates the space previously allocated for the given HpbClient struct.

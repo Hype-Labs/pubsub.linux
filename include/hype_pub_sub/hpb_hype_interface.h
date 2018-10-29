@@ -31,7 +31,7 @@ void hpb_hype_interface_request_to_stop();
 void hpb_hype_interface_instance_resolved_add(HypeInstance * instance);
 
 //Remove lost intances
-void hpb_hype_interface_intance_remove(HypeInstance * intance);
+void hpb_hype_interface_instance_remove(HypeInstance * instance);
 
 
 #endif /* HPB_HYPE_INTERFACE_H_INCLUDED_ */

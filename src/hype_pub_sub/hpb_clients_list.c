@@ -1,6 +1,13 @@
 
 #include "hype_pub_sub/hpb_clients_list.h"
 
+// Static functions declaration
+
+static bool linked_list_callback_is_client_instance(void *client, void *id);
+static void linked_list_callback_free_client(void **client);
+
+// Header functions implementation
+
 HpbClientsList *hpb_list_clients_create()
 {
     return linked_list_create();
@@ -24,7 +31,7 @@ HpbClient *hpb_list_clients_add(HpbClientsList *list_cl, HypeInstance * instance
 
 int hpb_list_clients_remove(HpbClientsList *list_cl, HypeInstance * instance)
 {
-    return linked_list_remove(list_cl, instance, linked_list_callback_is_client_id, linked_list_callback_free_client);
+    return linked_list_remove(list_cl, instance, linked_list_callback_is_client_instance, linked_list_callback_free_client);
 }
 
 void hpb_list_clients_destroy(HpbClientsList **list_cl)
@@ -34,7 +41,7 @@ void hpb_list_clients_destroy(HpbClientsList **list_cl)
 
 HpbClient *hpb_list_clients_find(HpbClientsList *list_cl, HypeInstance * instance)
 {
-    HpbClientsListNode *node = linked_list_find(list_cl, instance, linked_list_callback_is_client_id);
+    HpbClientsListNode *node = linked_list_find(list_cl, instance, linked_list_callback_is_client_instance);
 
     if(node == NULL)
         return NULL;
@@ -42,12 +49,14 @@ HpbClient *hpb_list_clients_find(HpbClientsList *list_cl, HypeInstance * instanc
     return (HpbClient*) node->element;
 }
 
-static bool linked_list_callback_is_client_id(void *client, void *id)
+// Static functions implementation
+
+static bool linked_list_callback_is_client_instance(void *client, void *id)
 {
     if (client == NULL || id == NULL)
         return false;
 
-    return hpb_client_is_id_equal((((HpbClient *) client)->hype_instance), (HypeInstance *) id);
+    return hpb_client_is_instance_equal((((HpbClient *) client)), (HypeInstance *) id);
 }
 
 static void linked_list_callback_free_client(void **client)

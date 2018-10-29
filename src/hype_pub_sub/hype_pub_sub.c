@@ -31,7 +31,7 @@ int hpb_issue_subscribe_req(char* service_name)
 
     // if this client is the manager of the service we don't need to send the subscribe message to
     // the protocol manager
-    if(hpb_client_is_id_equal(hpb->network->own_client->hype_instance, manager_instance))
+    if(hpb_client_is_instance_equal(hpb->network->own_client, manager_instance))
         hpb_process_subscribe_req(service_key, hpb->network->own_client->hype_instance);
     else
         hpb_protocol_send_subscribe_msg(service_key, manager_instance);
@@ -59,7 +59,7 @@ int hpb_issue_unsubscribe_req(char *service_name)
 
     // if this client is the manager of the service we don't need to send the unsubscribe message
     // to the protocol manager
-    if(hpb_client_is_id_equal(hpb->network->own_client->hype_instance, manager_instance))
+    if(hpb_client_is_instance_equal(hpb->network->own_client, manager_instance))
         hpb_process_unsubscribe_req(service_key, hpb->network->own_client->hype_instance);
     else
         hpb_protocol_send_unsubscribe_msg(service_key, manager_instance);
@@ -78,7 +78,7 @@ int hpb_issue_publish_req(char *service_name, char *msg, size_t msg_length)
 
     // if this client is the manager of the service we don't need to send the publish message
     // to the protocol manager
-    if(hpb_client_is_id_equal(hpb->network->own_client->hype_instance, manager_instance))
+    if(hpb_client_is_instance_equal(hpb->network->own_client, manager_instance))
         hpb_process_publish_req(service_key, msg, msg_length);
     else
         hpb_protocol_send_publish_msg(service_key, manager_instance, msg, msg_length);
@@ -137,7 +137,7 @@ int hpb_process_publish_req(HLByte service_key[], char *msg, size_t msg_length)
         if(client == NULL)
             continue;
 
-        if(hpb_client_is_id_equal(hpb->network->own_client->hype_instance, client->hype_instance))
+        if(hpb_client_is_instance_equal(hpb->network->own_client, client->hype_instance))
             hpb_process_info_msg(service_key, msg, msg_length);
         else
             hpb_protocol_send_info_msg(service_key, client->hype_instance, msg, msg_length);

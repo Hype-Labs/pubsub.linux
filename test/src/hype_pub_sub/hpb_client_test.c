@@ -27,8 +27,8 @@ void hpb_client_test()
     // Test hpb_client_is_id_equal() method
     HpbClient *cl4 = hpb_client_create(CLIENT1_ID);
     CU_ASSERT_PTR_NOT_NULL_FATAL(cl4);
-    CU_ASSERT_FALSE(hpb_client_is_id_equal(cl1->id, cl2->id));
-    CU_ASSERT_TRUE(hpb_client_is_id_equal(cl1->id, cl4->id));
+    CU_ASSERT_FALSE(hpb_client_is_instance_equal(cl1, cl2->id));
+    CU_ASSERT_TRUE(hpb_client_is_instance_equal(cl1, cl4->id));
 
     // Test struct destruction
     hpb_client_destroy(&cl1);

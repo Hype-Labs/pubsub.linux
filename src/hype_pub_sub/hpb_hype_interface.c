@@ -286,7 +286,7 @@ void hpb_hype_interface_instance_resolved_add(HypeInstance * instance)
 
 }
 
-void hpb_hype_interface_intance_remove(HypeInstance * intance)
+void hpb_hype_interface_instance_remove(HypeInstance * instance)
 {
 
 }
