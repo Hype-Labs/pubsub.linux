@@ -1,5 +1,10 @@
 #include "hpb_subscriptions_list_test.h"
 
+static HLByte MANAGER_ID1[] = "\x01\x02\x03\x04\x05\x06\x07\x08\x09\x10\x11\x12";
+static HLByte MANAGER_ID2[] = "\x12\x01\x02\x03\x04\x05\x06\x07\x08\x09\x10\x11";
+static HLByte MANAGER_ID3[] = "\x11\x12\x01\x02\x03\x04\x05\x06\x07\x08\x09\x10";
+static HLByte CLIENT_HYPE_ID_SIZE = 12;
+
 void hpb_list_subscriptions_test()
 {
     char SERVICE1_NAME[] = "HypeCoffe";
@@ -11,9 +16,6 @@ void hpb_list_subscriptions_test()
     HLByte SERVICE1_KEY[] = "\x8b\xa1\x04\x94\xc2\x9d\x24\x76\x04\xb1\x5c\xd2\x40\x01\x32\x33\x58\xa8\x9b\xf5";
     HLByte SERVICE2_KEY[] = "\xf2\x95\xa7\x85\x27\x72\xfd\x6c\x88\xb5\x14\x37\xf3\x5e\x5e\x73\x08\x9f\xad\x3e";
     HLByte SERVICE3_KEY[] = "\xfb\x42\x14\x7b\xab\x42\xa4\xee\x5d\xa9\xde\x58\xa0\xa5\x07\x80\xdf\x94\x48\x88";
-    HLByte MANAGER_ID1[] = "\x01\x02\x03\x04\x05\x06\x07\x08\x09\x10\x11\x12";
-    HLByte MANAGER_ID2[] = "\x12\x01\x02\x03\x04\x05\x06\x07\x08\x09\x10\x11";
-    HLByte MANAGER_ID3[] = "\x11\x12\x01\x02\x03\x04\x05\x06\x07\x08\x09\x10";
 
     // Test the creation of the subscriptions list
     HpbSubscription *aux_subscr;
@@ -23,22 +25,28 @@ void hpb_list_subscriptions_test()
     CU_ASSERT(subscriptions->size == 0);
 
     // Add 3 subscriptions to the list
-    hpb_list_subscriptions_add(subscriptions, SERVICE3_NAME, SERVICE3_SIZE, MANAGER_ID3);
-    hpb_list_subscriptions_add(subscriptions, SERVICE1_NAME, SERVICE1_SIZE, MANAGER_ID1);
-    hpb_list_subscriptions_add(subscriptions, SERVICE2_NAME, SERVICE2_SIZE, MANAGER_ID2);
+    HypeBuffer *client1_buffer_id = hype_buffer_create_from(MANAGER_ID1, CLIENT_HYPE_ID_SIZE);
+    HypeBuffer *client2_buffer_id = hype_buffer_create_from(MANAGER_ID2, CLIENT_HYPE_ID_SIZE);
+    HypeBuffer *client3_buffer_id = hype_buffer_create_from(MANAGER_ID3, CLIENT_HYPE_ID_SIZE);
+    HypeInstance *instance1 = hype_instance_create(client1_buffer_id, NULL, false);
+    HypeInstance *instance2 = hype_instance_create(client2_buffer_id, NULL, false);
+    HypeInstance *instance3 = hype_instance_create(client3_buffer_id, NULL, false);
+    hpb_list_subscriptions_add(subscriptions, SERVICE3_NAME, SERVICE3_SIZE, instance3);
+    hpb_list_subscriptions_add(subscriptions, SERVICE1_NAME, SERVICE1_SIZE, instance1);
+    hpb_list_subscriptions_add(subscriptions, SERVICE2_NAME, SERVICE2_SIZE, instance2);
 
     // Validate that the subscriptions are inserted in the right order
     LinkedListIterator *it = linked_list_iterator_create(subscriptions);
     aux_subscr = (HpbSubscription *) linked_list_iterator_get_element(it);
-    CU_ASSERT_NSTRING_EQUAL(aux_subscr->manager_id, MANAGER_ID3, HPB_ID_BYTE_SIZE);
+    CU_ASSERT_NSTRING_EQUAL(aux_subscr->manager_instance->identifier->data, MANAGER_ID3, CLIENT_HYPE_ID_SIZE);
     CU_ASSERT_NSTRING_EQUAL(aux_subscr->service_name, SERVICE3_NAME, SERVICE3_SIZE);
     linked_list_iterator_advance(it);
     aux_subscr = (HpbSubscription *) linked_list_iterator_get_element(it);
-    CU_ASSERT_NSTRING_EQUAL(aux_subscr->manager_id, MANAGER_ID1, HPB_ID_BYTE_SIZE);
+    CU_ASSERT_NSTRING_EQUAL(aux_subscr->manager_instance->identifier->data, MANAGER_ID1, CLIENT_HYPE_ID_SIZE);
     CU_ASSERT_NSTRING_EQUAL(aux_subscr->service_name, SERVICE1_NAME, SERVICE1_SIZE);
     linked_list_iterator_advance(it);
     aux_subscr = (HpbSubscription *) linked_list_iterator_get_element(it);
-    CU_ASSERT_NSTRING_EQUAL(aux_subscr->manager_id, MANAGER_ID2, HPB_ID_BYTE_SIZE);
+    CU_ASSERT_NSTRING_EQUAL(aux_subscr->manager_instance->identifier->data, MANAGER_ID2, CLIENT_HYPE_ID_SIZE);
     CU_ASSERT_NSTRING_EQUAL(aux_subscr->service_name, SERVICE2_NAME, SERVICE2_SIZE);
     CU_ASSERT(subscriptions->size == 3);
 
@@ -53,11 +61,11 @@ void hpb_list_subscriptions_test()
     hpb_list_subscriptions_remove(subscriptions, SERVICE3_KEY);
     linked_list_iterator_reset(it);
     aux_subscr = (HpbSubscription *) linked_list_iterator_get_element(it);
-    CU_ASSERT_NSTRING_EQUAL(aux_subscr->manager_id, MANAGER_ID1, HPB_ID_BYTE_SIZE);
+    CU_ASSERT_NSTRING_EQUAL(aux_subscr->manager_instance->identifier->data, MANAGER_ID1, CLIENT_HYPE_ID_SIZE);
     CU_ASSERT_NSTRING_EQUAL(aux_subscr->service_name, SERVICE1_NAME, SERVICE1_SIZE);
     linked_list_iterator_advance(it);
     aux_subscr = (HpbSubscription *) linked_list_iterator_get_element(it);
-    CU_ASSERT_NSTRING_EQUAL(aux_subscr->manager_id, MANAGER_ID2, HPB_ID_BYTE_SIZE);
+    CU_ASSERT_NSTRING_EQUAL(aux_subscr->manager_instance->identifier->data, MANAGER_ID2, CLIENT_HYPE_ID_SIZE);
     CU_ASSERT_NSTRING_EQUAL(aux_subscr->service_name, SERVICE2_NAME, SERVICE2_SIZE);
     CU_ASSERT(subscriptions->size == 2);
 
@@ -69,7 +77,7 @@ void hpb_list_subscriptions_test()
     hpb_list_subscriptions_remove(subscriptions, SERVICE2_KEY);
     linked_list_iterator_reset(it);
     aux_subscr = (HpbSubscription *) linked_list_iterator_get_element(it);
-    CU_ASSERT_NSTRING_EQUAL(aux_subscr->manager_id, MANAGER_ID1, HPB_ID_BYTE_SIZE);
+    CU_ASSERT_NSTRING_EQUAL(aux_subscr->manager_instance->identifier->data, MANAGER_ID1, CLIENT_HYPE_ID_SIZE);
     CU_ASSERT_NSTRING_EQUAL(aux_subscr->service_name, SERVICE1_NAME, SERVICE1_SIZE);
     CU_ASSERT(subscriptions->size == 1);
 
@@ -85,5 +93,4 @@ void hpb_list_subscriptions_test()
     linked_list_iterator_destroy(&it);
     hpb_list_subscriptions_destroy(&subscriptions);
     CU_ASSERT_PTR_NULL(subscriptions);
-
 }
