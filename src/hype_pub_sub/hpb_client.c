@@ -13,8 +13,9 @@ bool hpb_client_is_instance_equal(HpbClient *client, HypeInstance *instance)
 {
     if(client->hype_instance->identifier->size == instance->identifier->size)
     {
-        if(memcmp(client->hype_instance->identifier->data, instance->identifier->data, instance->identifier->size) == 0)
+        if(memcmp(client->hype_instance->identifier->data, instance->identifier->data, instance->identifier->size) == 0) {
             return true;
+        }
     }
 
     return false;

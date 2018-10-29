@@ -1,6 +1,21 @@
 
 #include "hype_pub_sub/hpb_protocol.h"
 
+//
+// Static functions declaration
+//
+
+static size_t hpb_protocol_build_packet(HLByte ** packet,int n_fields, ...);
+static int hpb_protocol_receive_subscribe_msg(HpbProtocol *protocol, HypeInstance * instance_origin, HLByte *msg, size_t msg_length);
+static int hpb_protocol_receive_unsubscribe_msg(HpbProtocol *protocol, HypeInstance * instance_origin, HLByte *msg, size_t msg_length);
+static int hpb_protocol_receive_publish_msg(HpbProtocol *protocol, HypeInstance * instance_origin, HLByte *msg, size_t msg_length);
+static int hpb_protocol_receive_info_msg(HpbProtocol *protocol, HLByte *msg, size_t msg_length);
+static MessageType hpb_protocol_get_message_type(HLByte *msg);
+
+//
+// Header functions implementation
+//
+
 HpbProtocol *hpb_protocol_create(struct HypePubSub_ *hpb)
 {
     HpbProtocol *prot = (HpbProtocol *) malloc(sizeof(HpbProtocol));
@@ -76,7 +91,46 @@ HLByte *hpb_protocol_send_info_msg(HLByte service_key[], HypeInstance * instance
     return packet;
 }
 
-size_t hpb_protocol_build_packet(HLByte ** packet,int n_fields, ...)
+int hpb_protocol_receive_msg(HpbProtocol *protocol, HypeInstance * instance_origin, HLByte *msg, size_t msg_length)
+{
+    if(msg_length <= 0) {
+        return -1;
+    }
+
+    int m_type = hpb_protocol_get_message_type(msg);
+
+    switch (m_type)
+    {
+        case SUBSCRIBE_SERVICE:
+            hpb_protocol_receive_subscribe_msg(protocol, instance_origin, msg, msg_length);
+            break;
+        case UNSUBSCRIBE_SERVICE:
+            hpb_protocol_receive_unsubscribe_msg(protocol, instance_origin, msg, msg_length);
+            break;
+        case PUBLISH:
+            hpb_protocol_receive_publish_msg(protocol, instance_origin, msg, msg_length);
+            break;
+        case INFO:
+            hpb_protocol_receive_info_msg(protocol, msg, msg_length);
+            break;
+        case INVALID:
+            return -1; // Message type not recognized. Discard
+    }
+
+    return 0;
+}
+
+void hpb_protocol_destroy(HpbProtocol **protocol)
+{
+    free(*protocol);
+    (*protocol) = NULL;
+}
+
+//
+// Static functions implementation
+//
+
+static size_t hpb_protocol_build_packet(HLByte ** packet,int n_fields, ...)
 {
     if(n_fields <=0) {
         return 0;
@@ -110,36 +164,21 @@ size_t hpb_protocol_build_packet(HLByte ** packet,int n_fields, ...)
     return p_size;
 }
 
-int hpb_protocol_receive_msg(HpbProtocol *protocol, HypeInstance * instance_origin, HLByte *msg, size_t msg_length)
+static MessageType hpb_protocol_get_message_type(HLByte *msg)
 {
-    if(msg_length <= 0) {
-        return -1;
-    }
-
-    int m_type = hpb_protocol_get_message_type(msg);
-
-    switch (m_type)
-    {
-        case SUBSCRIBE_SERVICE:
-            hpb_protocol_receive_subscribe_msg(protocol, instance_origin, msg, msg_length);
-            break;
-        case UNSUBSCRIBE_SERVICE:
-            hpb_protocol_receive_unsubscribe_msg(protocol, instance_origin, msg, msg_length);
-            break;
-        case PUBLISH:
-            hpb_protocol_receive_publish_msg(protocol, instance_origin, msg, msg_length);
-            break;
-        case INFO:
-            hpb_protocol_receive_info_msg(protocol, msg, msg_length);
-            break;
-        case INVALID:
-            return -1; // Message type not recognized. Discard
-    }
-
-    return 0;
+    if(msg[0] == (HLByte) SUBSCRIBE_SERVICE)
+        return SUBSCRIBE_SERVICE;
+    else if(msg[0] == (HLByte) UNSUBSCRIBE_SERVICE)
+        return UNSUBSCRIBE_SERVICE;
+    else if(msg[0] == (HLByte) PUBLISH)
+        return PUBLISH;
+    else if(msg[0] == (HLByte) INFO)
+        return INFO;
+    else
+        return INVALID; // This should never happen
 }
 
-int hpb_protocol_receive_subscribe_msg(HpbProtocol *protocol, HypeInstance * instance_origin, HLByte *msg, size_t msg_length)
+static int hpb_protocol_receive_subscribe_msg(HpbProtocol *protocol, HypeInstance * instance_origin, HLByte *msg, size_t msg_length)
 {
     if(msg_length != (MESSAGE_TYPE_BYTE_SIZE + SHA1_BLOCK_SIZE)) {
         return -1; // Invalid lenght for a subscribe message
@@ -151,7 +190,7 @@ int hpb_protocol_receive_subscribe_msg(HpbProtocol *protocol, HypeInstance * ins
     return 0;
 }
 
-int hpb_protocol_receive_unsubscribe_msg(HpbProtocol *protocol, HypeInstance * instance_origin, HLByte *msg, size_t msg_length)
+static int hpb_protocol_receive_unsubscribe_msg(HpbProtocol *protocol, HypeInstance * instance_origin, HLByte *msg, size_t msg_length)
 {
     if(msg_length != (MESSAGE_TYPE_BYTE_SIZE + SHA1_BLOCK_SIZE)) {
         return -1; // Invalid lenght for a unsubscribe message
@@ -163,7 +202,7 @@ int hpb_protocol_receive_unsubscribe_msg(HpbProtocol *protocol, HypeInstance * i
     return 0;
 }
 
-int hpb_protocol_receive_publish_msg(HpbProtocol *protocol, HypeInstance * instance_origin, HLByte *msg, size_t msg_length)
+static int hpb_protocol_receive_publish_msg(HpbProtocol *protocol, HypeInstance * instance_origin, HLByte *msg, size_t msg_length)
 {
     if(msg_length <= (MESSAGE_TYPE_BYTE_SIZE + SHA1_BLOCK_SIZE)) {
         return -1; // Invalid lenght for a publish message
@@ -178,7 +217,7 @@ int hpb_protocol_receive_publish_msg(HpbProtocol *protocol, HypeInstance * insta
     return 0;
 }
 
-int hpb_protocol_receive_info_msg(HpbProtocol *protocol, HLByte *msg, size_t msg_length)
+static int hpb_protocol_receive_info_msg(HpbProtocol *protocol, HLByte *msg, size_t msg_length)
 {
     if(msg_length <= (MESSAGE_TYPE_BYTE_SIZE + SHA1_BLOCK_SIZE))
         return -1; // Invalid lenght for a info message
@@ -192,24 +231,4 @@ int hpb_protocol_receive_info_msg(HpbProtocol *protocol, HLByte *msg, size_t msg
     hpb_process_info_msg(service_key, msg_content, msg_content_size);
 
     return 0;
-}
-
-MessageType hpb_protocol_get_message_type(HLByte *msg)
-{
-    if(msg[0] == (HLByte) SUBSCRIBE_SERVICE)
-        return SUBSCRIBE_SERVICE;
-    else if(msg[0] == (HLByte) UNSUBSCRIBE_SERVICE)
-        return UNSUBSCRIBE_SERVICE;
-    else if(msg[0] == (HLByte) PUBLISH)
-        return PUBLISH;
-    else if(msg[0] == (HLByte) INFO)
-        return INFO;
-    else
-        return INVALID; // This should never happen
-}
-
-void hpb_protocol_destroy(HpbProtocol **protocol)
-{
-    free(*protocol);
-    (*protocol) = NULL;
 }

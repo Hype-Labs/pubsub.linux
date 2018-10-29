@@ -7,7 +7,6 @@ HpbNetwork *hpb_network_create()
     HypeInstance *own_instance = hype_get_host_instance();
     net->own_client = hpb_client_create(own_instance);
     net->network_clients = hpb_list_clients_create();
-
     return net;
 }
 

@@ -27,6 +27,8 @@ int main()
         exit(7);
     }
 
+    // TODO: Exit if Hype fails starting
+
     //The Hype Services
     HypePubSub *hpb = hpb_get();
 

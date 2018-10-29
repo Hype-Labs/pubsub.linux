@@ -79,13 +79,6 @@ HLByte *hpb_protocol_send_publish_msg(HLByte service_key[SHA1_BLOCK_SIZE], HypeI
 HLByte *hpb_protocol_send_info_msg(HLByte service_key[SHA1_BLOCK_SIZE], HypeInstance * instance_dest, char *msg, size_t msg_length);
 
 /**
- * @brief Method to build a packet to be sent through the network.
- * @param n_fields Number of parameters supplied to the function. We have to supply a number of HpbProtocolPacketField parameters equal to n_fields.
- * @return Returns a pointer to the created packet.
- */
-size_t hpb_protocol_build_packet(HLByte **packet,int n_fields, ...);
-
-/**
  * @brief Method called when a message is received.
  * @param protocol Pointer to the HpbProtocol.
  * @param origin_network_id ID of the Hype device which sent the message.
@@ -94,53 +87,6 @@ size_t hpb_protocol_build_packet(HLByte **packet,int n_fields, ...);
  * @return Return 0 in case of success and -1 otherwise.
  */
 int hpb_protocol_receive_msg(HpbProtocol *protocol, HypeInstance * instance_origin, HLByte *msg, size_t msg_length);
-
-/**
- * @brief Method that processes a subscribe message.
- * @param protocol Pointer to the HpbProtocol.
- * @param origin_network_id ID of the Hype device which sent the message.
- * @param msg Received subscribe message.
- * @param msg_length Size of the received subscribe message.
- * @return Return 0 in case of success and -1 otherwise.
- */
-int hpb_protocol_receive_subscribe_msg(HpbProtocol *protocol, HypeInstance * instance_origin, HLByte *msg, size_t msg_length);
-
-/**
- * @brief Method that processes an unsubscribe message.
- * @param protocol Pointer to the HpbProtocol.
- * @param origin_network_id ID of the Hype device which sent the message.
- * @param msg Received unsubscribe message.
- * @param msg_length Size of the received unsubscribe message.
- * @return Return 0 in case of success and -1 otherwise.
- */
-int hpb_protocol_receive_unsubscribe_msg(HpbProtocol *protocol, HypeInstance * instance_origin, HLByte *msg, size_t msg_length);
-
-/**
- * @brief Method that processes a publish message.
- * @param protocol Pointer to the HpbProtocol.
- * @param origin_network_id ID of the Hype device which sent the message.
- * @param msg Received publish message.
- * @param msg_length Size of the received publish message.
- * @return Return 0 in case of success and -1 otherwise.
- */
-int hpb_protocol_receive_publish_msg(HpbProtocol *protocol, HypeInstance * instance_origin, HLByte *msg, size_t msg_length);
-
-/**
- * @brief Method that processes an info message.
- * @param protocol Pointer to the HpbProtocol.
- * @param origin_network_id ID of the Hype device which sent the message.
- * @param msg Received info message.
- * @param msg_length Size of the received info message.
- * @return Return 0 in case of success and -1 otherwise.
- */
-int hpb_protocol_receive_info_msg(HpbProtocol *protocol, HLByte *msg, size_t msg_length);
-
-/**
- * @brief Analyzes a message and determines its type.
- * @param msg Message to be analyzed.
- * @return Returns the type of the message according to the MessageType enum. If message is invalid it return MessageType.INVALID.
- */
-MessageType hpb_protocol_get_message_type(HLByte *msg);
 
 /**
  * @brief Deallocates the space previously allocated for the given HpbProtocol struct.
