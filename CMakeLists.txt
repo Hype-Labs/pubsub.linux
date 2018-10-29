@@ -1,12 +1,17 @@
 project(HypePubSub)
 cmake_minimum_required(VERSION 2.8)
-set(CMAKE_C_FLAGS "-std=c99")
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/bin")
-
-if (not defined ABI)
-    message(fatal "ABI must be defined (amd64, armhf, armel, i686")
+# Check required configurations
+if (NOT DEFINED ABI)
+    message(FATAL_ERROR "ABI variable is not defined. Set it to one of the following values: amd64, armhf, armel, i686")
+elseif(NOT "${ABI}" STREQUAL "amd64" AND
+       NOT "${ABI}" STREQUAL "armhf" AND
+       NOT "${ABI}" STREQUAL "armel" AND
+       NOT "${ABI}" STREQUAL "i686")
+    message(FATAL_ERROR "ABI variable value is invalid. Set it to one of the following values: amd64, armhf, armel, i686")
 endif()
+
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/build")
 
 # Define the directory for the SHA
 set(SHA1_LIB "sha1")
@@ -30,10 +35,10 @@ file(GLOB_RECURSE MY_SHARED_C_INCLUDES "${SHARED_INC_DIR}/*.h")
 
 # Define the directory of the Hype SDK
 set(HYPE_INC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/hype/${ABI}/include)
-set(HYPE_LIB ${CMAKE_CURRENT_SOURCE_DIR}/hype//${ABI}/lib/libhype.a)
 file(GLOB_RECURSE HYPE_C_INCLUDES "${HYPE_INC_DIR}/*.h")
+set(HYPE_LIB ${CMAKE_CURRENT_SOURCE_DIR}/hype//${ABI}/lib/libhype.a)
 
-#
+# Include headers directories
 include_directories( ${INC_DIR})
 include_directories( ${SHARED_INC_DIR})
 include_directories( ${SHA1_INC_DIR})
@@ -99,39 +104,23 @@ if(HYPE_PUB_SUB_COMPILE_TESTS) # Compile for testing
     target_link_libraries(TestHypePubSub ${C_UNIT} ${HYPE_LIB} ";m;bluetooth;dl;avahi-client;pthread")
 endif()
 
-
+# Find avahi-client
 find_path(AVAHI_INCLUDE_DIR avahi-client)
-find_path(AVAHI_COMMON_INCLUDE_DIR avahi-common)
-
-find_library(PTHREAD_LIBRARIES pthread)
-
-if(NOT PTHREAD_LIBRARIES)
-  message(FATAL_ERROR "pthread not found")
-endif()
-
 find_library(AVAHI_CLIENT_LIBRARIES avahi-client)
 if(NOT AVAHI_CLIENT_LIBRARIES)
   message(FATAL_ERROR "avahi-client not found")
 endif()
 
-
+# Find avahi-common
+find_path(AVAHI_COMMON_INCLUDE_DIR avahi-common)
 find_library(AVAHI_COMMON_LIBRARIES avahi-common)
 if(NOT AVAHI_COMMON_LIBRARIES)
   message(FATAL_ERROR "avahi-common not found")
 endif()
-
-#include_directories(${AVAHI_COMMON_INCLUDE_DIR})
-
-
-set(AVAHI_LIBRARIES ${AVAHI_CLIENT_LIBRARIES} ${AVAHI_COMMON_LIBRARIES})
-set(LIBS_TO_LINK ${LIBS_TO_LINK} ${AVAHI_LIBRARIES})
-set(LIBS_TO_LINK ${LIBS_TO_LINK} ${PTHREAD_LIBRARIES})
 
 find_path(AVAHI_INCLUDE_DIR avahi-client/client.h)
 if(NOT AVAHI_INCLUDE_DIR)
   message(FATAL_ERROR "avahi-client/client.h not found")
 endif()
 
-
-target_link_libraries(${PROJECT_NAME} "${HYPE_LIB};m;bluetooth;dl")
-target_link_libraries(${PROJECT_NAME} "${LIBS_TO_LINK};pthread;avahi-client")
+target_link_libraries(${PROJECT_NAME} "${AVAHI_CLIENT_LIBRARIES};${AVAHI_COMMON_LIBRARIES};${HYPE_LIB};m;bluetooth;dl;pthread;avahi-client")
