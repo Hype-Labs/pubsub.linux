@@ -78,8 +78,9 @@ HLByte *hpb_protocol_send_info_msg(HLByte service_key[], HypeInstance * instance
 
 size_t hpb_protocol_build_packet(HLByte ** packet,int n_fields, ...)
 {
-    if(n_fields <=0)
+    if(n_fields <=0) {
         return 0;
+    }
 
     va_list p_fields;
     size_t p_size = 0;
@@ -111,8 +112,9 @@ size_t hpb_protocol_build_packet(HLByte ** packet,int n_fields, ...)
 
 int hpb_protocol_receive_msg(HpbProtocol *protocol, HypeInstance * instance_origin, HLByte *msg, size_t msg_length)
 {
-    if(msg_length <= 0)
+    if(msg_length <= 0) {
         return -1;
+    }
 
     int m_type = hpb_protocol_get_message_type(msg);
 
@@ -139,8 +141,9 @@ int hpb_protocol_receive_msg(HpbProtocol *protocol, HypeInstance * instance_orig
 
 int hpb_protocol_receive_subscribe_msg(HpbProtocol *protocol, HypeInstance * instance_origin, HLByte *msg, size_t msg_length)
 {
-    if(msg_length != (MESSAGE_TYPE_BYTE_SIZE + SHA1_BLOCK_SIZE))
+    if(msg_length != (MESSAGE_TYPE_BYTE_SIZE + SHA1_BLOCK_SIZE)) {
         return -1; // Invalid lenght for a subscribe message
+    }
 
     HLByte *service_key = (HLByte *) malloc(SHA1_BLOCK_SIZE * sizeof(char));
     memmove(service_key,msg+MESSAGE_TYPE_BYTE_SIZE, SHA1_BLOCK_SIZE);
@@ -150,8 +153,9 @@ int hpb_protocol_receive_subscribe_msg(HpbProtocol *protocol, HypeInstance * ins
 
 int hpb_protocol_receive_unsubscribe_msg(HpbProtocol *protocol, HypeInstance * instance_origin, HLByte *msg, size_t msg_length)
 {
-    if(msg_length != (MESSAGE_TYPE_BYTE_SIZE + SHA1_BLOCK_SIZE))
+    if(msg_length != (MESSAGE_TYPE_BYTE_SIZE + SHA1_BLOCK_SIZE)) {
         return -1; // Invalid lenght for a unsubscribe message
+    }
 
     HLByte *service_key = (HLByte *) malloc(SHA1_BLOCK_SIZE * sizeof(char));
     memmove(service_key,msg+MESSAGE_TYPE_BYTE_SIZE, SHA1_BLOCK_SIZE);
@@ -161,8 +165,9 @@ int hpb_protocol_receive_unsubscribe_msg(HpbProtocol *protocol, HypeInstance * i
 
 int hpb_protocol_receive_publish_msg(HpbProtocol *protocol, HypeInstance * instance_origin, HLByte *msg, size_t msg_length)
 {
-    if(msg_length <= (MESSAGE_TYPE_BYTE_SIZE + SHA1_BLOCK_SIZE))
+    if(msg_length <= (MESSAGE_TYPE_BYTE_SIZE + SHA1_BLOCK_SIZE)) {
         return -1; // Invalid lenght for a publish message
+    }
 
     HLByte *service_key = (HLByte *) malloc(SHA1_BLOCK_SIZE * sizeof(char));
     memmove(service_key,msg+MESSAGE_TYPE_BYTE_SIZE, SHA1_BLOCK_SIZE);

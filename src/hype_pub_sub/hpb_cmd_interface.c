@@ -61,8 +61,9 @@ void hpb_cmd_interface_print_managed_services(HypePubSub *hpb)
     {
         HpbServiceManager *srvc = (HpbServiceManager *) linked_list_iterator_get_element(it);
 
-        if(srvc == NULL)
+        if(srvc == NULL) {
             continue;
+        }
 
         printf("Managed Service %i Key: ", srvc_n);
         binary_utils_print_hex_array(srvc->service_key, SHA1_BLOCK_SIZE);
@@ -93,8 +94,9 @@ void hpb_cmd_interface_print_subscriptions(HypePubSub *hpb)
     {
         HpbSubscription *sbscrptn = (HpbSubscription *) linked_list_iterator_get_element(it);
 
-        if(sbscrptn == NULL)
+        if(sbscrptn == NULL) {
             continue;
+        }
 
         printf("Subscription %i service name: %s\n", sbscrptn_n, sbscrptn->service_name);
         printf("Subscription %i service key: ", sbscrptn_n);
@@ -143,8 +145,9 @@ void hpb_cmd_interface_print_client_list(HpbClientsList *lst_cl)
     do
     {
         HpbClient *client = (HpbClient *) linked_list_iterator_get_element(it);
-        if(client == NULL)
+        if(client == NULL) {
             continue;
+        }
 
         printf("Device %i ID: ", cl_n);
         binary_utils_print_hex_array(client->hype_instance->identifier->data, client->hype_instance->identifier->size);

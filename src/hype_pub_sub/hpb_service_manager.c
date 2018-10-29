@@ -13,8 +13,9 @@ HpbServiceManager *hpb_service_manager_create(HLByte service_key[SHA1_BLOCK_SIZE
 
 int hpb_service_manager_add_subscriber(HpbServiceManager *serv_man, HypeInstance * instance)
 {
-    if(serv_man == NULL)
+    if(serv_man == NULL) {
         return -1;
+    }
 
     hpb_list_clients_add(serv_man->subscribers, instance);
     return 0;
@@ -22,8 +23,9 @@ int hpb_service_manager_add_subscriber(HpbServiceManager *serv_man, HypeInstance
 
 int hpb_service_manager_remove_subscriber(HpbServiceManager *serv_man, HypeInstance * instance)
 {
-    if(serv_man == NULL)
+    if(serv_man == NULL) {
         return -1;
+    }
 
     hpb_list_clients_remove(serv_man->subscribers, instance);
     return 0;
@@ -31,8 +33,9 @@ int hpb_service_manager_remove_subscriber(HpbServiceManager *serv_man, HypeInsta
 
 void hpb_service_manager_destroy(HpbServiceManager **serv_man)
 {
-    if((*serv_man) == NULL)
+    if((*serv_man) == NULL) {
         return;
+    }
 
     hpb_list_clients_destroy(&((*serv_man)->subscribers));
     free(*serv_man);

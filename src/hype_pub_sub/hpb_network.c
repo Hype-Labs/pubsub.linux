@@ -24,8 +24,9 @@ HypeInstance *hpb_network_get_service_manager_id(HpbNetwork *net, HLByte service
     {
         HpbClient *client = (HpbClient*) linked_list_iterator_get_element(it);
 
-        if(client == NULL)
+        if(client == NULL) {
             continue;
+        }
 
         HLByte *dist = binary_utils_xor(service_key, client->key, SHA1_BLOCK_SIZE);
 
@@ -54,15 +55,17 @@ void hpb_network_update_clients(HpbNetwork *net)
 
 bool hpb_network_is_client_online(HpbNetwork *net, HpbClient * client)
 {
-    if(hpb_list_clients_find(net->network_clients, client->hype_instance) != NULL)
+    if(hpb_list_clients_find(net->network_clients, client->hype_instance) != NULL) {
         return true;
+    }
     return false;
 }
 
 void hpb_network_destroy(HpbNetwork **net)
 {
-    if((*net) == NULL)
+    if((*net) == NULL) {
         return;
+    }
 
     hpb_client_destroy(&((*net)->own_client));
     hpb_list_clients_destroy(&((*net)->network_clients));

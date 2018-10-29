@@ -9,8 +9,6 @@ bool parse_user_arguments(int n_args, char *args[], HypePubSub *hpb);
 
 int main()
 {
-
-
     //Start Hype Services
     hpb_hype_interface_request_to_start();
 
@@ -54,8 +52,9 @@ int main()
 
         bool is_to_quit = parse_user_arguments(n_args, args, hpb);
 
-        if(is_to_quit)
+        if(is_to_quit) {
             break;
+        }
     }
 
     // TODO: Hype Stop

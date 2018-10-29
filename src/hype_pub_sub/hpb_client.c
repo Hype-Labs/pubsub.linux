@@ -22,7 +22,11 @@ bool hpb_client_is_instance_equal(HpbClient *client, HypeInstance *instance)
 
 void hpb_client_destroy(HpbClient **client)
 {
-    free(*client);
+    if((*client) == NULL) {
+        return;
+    }
+
     hype_instance_release((*client)->hype_instance);
+    free(*client);
     (*client) = NULL;
 }

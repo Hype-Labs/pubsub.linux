@@ -31,10 +31,12 @@ int hpb_issue_subscribe_req(char* service_name)
 
     // if this client is the manager of the service we don't need to send the subscribe message to
     // the protocol manager
-    if(hpb_client_is_instance_equal(hpb->network->own_client, manager_instance))
+    if(hpb_client_is_instance_equal(hpb->network->own_client, manager_instance)) {
         hpb_process_subscribe_req(service_key, hpb->network->own_client->hype_instance);
-    else
+    }
+    else {
         hpb_protocol_send_subscribe_msg(service_key, manager_instance);
+    }
 
     return 0;
 }
@@ -59,10 +61,12 @@ int hpb_issue_unsubscribe_req(char *service_name)
 
     // if this client is the manager of the service we don't need to send the unsubscribe message
     // to the protocol manager
-    if(hpb_client_is_instance_equal(hpb->network->own_client, manager_instance))
+    if(hpb_client_is_instance_equal(hpb->network->own_client, manager_instance)) {
         hpb_process_unsubscribe_req(service_key, hpb->network->own_client->hype_instance);
-    else
+    }
+    else {
         hpb_protocol_send_unsubscribe_msg(service_key, manager_instance);
+    }
 
     return 0;
 }
@@ -78,10 +82,12 @@ int hpb_issue_publish_req(char *service_name, char *msg, size_t msg_length)
 
     // if this client is the manager of the service we don't need to send the publish message
     // to the protocol manager
-    if(hpb_client_is_instance_equal(hpb->network->own_client, manager_instance))
+    if(hpb_client_is_instance_equal(hpb->network->own_client, manager_instance)) {
         hpb_process_publish_req(service_key, msg, msg_length);
-    else
+    }
+    else {
         hpb_protocol_send_publish_msg(service_key, manager_instance, msg, msg_length);
+    }
 
     return 0;
 }
@@ -95,8 +101,9 @@ int hpb_process_subscribe_req(HLByte service_key[], HypeInstance * instance_orig
     if(service == NULL) // If the service does not exist we create it.
     {
         service = hpb_list_service_managers_add(hpb->managed_services, service_key);
-        if(service == NULL)  // If the service could not be created we exit.
+        if(service == NULL) { // If the service could not be created we exit.
             return -2;
+        }
     }
 
     hpb_list_clients_add(service->subscribers, instance_origin);
@@ -110,13 +117,15 @@ int hpb_process_unsubscribe_req(HLByte service_key[], HypeInstance * instance_or
 
     HpbServiceManager *service = hpb_list_service_managers_find(hpb->managed_services, service_key);
 
-    if(service == NULL) // If the service does not exist we ignore the unsubscribe request.
+    if(service == NULL) { // If the service does not exist we ignore the unsubscribe request.
         return -2;
+    }
 
     hpb_list_clients_remove(service->subscribers, instance_origin);
 
-    if(service->subscribers->size == 0) // Remove the service if there is no subscribers
+    if(service->subscribers->size == 0) { // Remove the service if there is no subscribers
         hpb_list_service_managers_remove(hpb->managed_services, service_key);
+    }
 
     return 0;
 }
@@ -127,20 +136,24 @@ int hpb_process_publish_req(HLByte service_key[], char *msg, size_t msg_length)
 
     HpbServiceManager *service = hpb_list_service_managers_find(hpb->managed_services, service_key);
 
-    if(service == NULL)
+    if(service == NULL) {
         return -2;
+    }
 
     LinkedListIterator *it = linked_list_iterator_create(service->subscribers);
     do
     {
         HpbClient* client = (HpbClient*) linked_list_iterator_get_element(it);
-        if(client == NULL)
+        if(client == NULL) {
             continue;
+        }
 
-        if(hpb_client_is_instance_equal(hpb->network->own_client, client->hype_instance))
+        if(hpb_client_is_instance_equal(hpb->network->own_client, client->hype_instance)) {
             hpb_process_info_msg(service_key, msg, msg_length);
-        else
+        }
+        else {
             hpb_protocol_send_info_msg(service_key, client->hype_instance, msg, msg_length);
+        }
 
     } while(linked_list_iterator_advance(it) != -1);
     linked_list_iterator_destroy(&it);
@@ -175,14 +188,16 @@ int hpb_update_managed_services()
     do
     {
         HpbServiceManager* service_man = (HpbServiceManager*) linked_list_iterator_get_element(it);
-        if(service_man == NULL)
+        if(service_man == NULL) {
             continue;
+        }
 
         // Check if a new Hype client with a closer key to this service key has appeared. If this happens
         // we remove the service from the list of managed services of this Hype client.
         HypeInstance *new_manager_instance = hpb_network_get_service_manager_id(hpb->network, service_man->service_key);
-        if(memcmp(hpb->network->own_client->hype_instance, new_manager_instance, new_manager_instance->identifier->size) != 0)
+        if(memcmp(hpb->network->own_client->hype_instance, new_manager_instance, new_manager_instance->identifier->size) != 0) {
             hpb_list_service_managers_remove(hpb->managed_services, service_man->service_key);
+        }
 
     } while(linked_list_iterator_advance(it) != -1);
 
@@ -198,8 +213,9 @@ int hpb_update_own_subscriptions()
     do
     {
         HpbSubscription* subscription = (HpbSubscription*) linked_list_iterator_get_element(it);
-        if(subscription == NULL)
+        if(subscription == NULL) {
             continue;
+        }
 
         HypeInstance *new_manager_instance = hpb_network_get_service_manager_id(hpb->network, subscription->service_key);
 
@@ -219,8 +235,9 @@ int hpb_update_own_subscriptions()
 
 void hpb_destroy(HypePubSub **hpb)
 {
-    if((*hpb) == NULL)
+    if((*hpb) == NULL) {
         return;
+    }
 
     hpb_list_subscriptions_destroy(&((*hpb)->own_subscriptions));
     hpb_list_service_managers_destroy(&((*hpb)->managed_services));
