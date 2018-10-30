@@ -176,14 +176,15 @@ static int hpb_protocol_receive_publish_msg(HypeInstance * instance_origin, HLBy
 
 static int hpb_protocol_receive_info_msg(HLByte *msg, size_t msg_length)
 {
-    if(msg_length <= (MESSAGE_TYPE_BYTE_SIZE + SHA1_BLOCK_SIZE))
+    if(msg_length <= (MESSAGE_TYPE_BYTE_SIZE + SHA1_BLOCK_SIZE)) {
         return -1; // Invalid lenght for a info message
+    }
 
     HLByte *service_key = (HLByte *) malloc(SHA1_BLOCK_SIZE * sizeof(char));
     memmove(service_key, msg+MESSAGE_TYPE_BYTE_SIZE, SHA1_BLOCK_SIZE);
     size_t msg_content_size = msg_length - MESSAGE_TYPE_BYTE_SIZE - SHA1_BLOCK_SIZE + 1; // +1 to add \0
     char *msg_content = (char *) malloc(msg_content_size* sizeof(char));
-    memmove(msg_content, (msg + MESSAGE_TYPE_BYTE_SIZE + SHA1_BLOCK_SIZE), msg_content_size);
+    memmove(msg_content, (msg + MESSAGE_TYPE_BYTE_SIZE + SHA1_BLOCK_SIZE), msg_content_size-1);
     msg_content[msg_content_size-1] = '\0';
     hpb_process_info_msg(service_key, msg_content, msg_content_size);
 

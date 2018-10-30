@@ -138,7 +138,7 @@ void hpb_protocol_test_receiving_msg()
     CU_ASSERT(hpb_protocol_receive_msg(instance1, packet, packet_size) == PUBLISH);
     free(packet);
 
-    packet_size = hpb_protocol_build_info_msg(SERVICE_KEY, (char*) MSG, MSG_SIZE, &packet);
+    packet_size = hpb_protocol_build_info_msg(SERVICE_KEY, MSG, MSG_SIZE, &packet);
     CU_ASSERT(hpb_protocol_receive_msg(instance1, packet, packet_size) == INFO);
     free(packet);
 
