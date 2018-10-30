@@ -11,13 +11,13 @@ HypePubSub* hpb_get()
         hpb->own_subscriptions = hpb_list_subscriptions_create();
         hpb->managed_services = hpb_list_service_managers_create();
 
-        #ifdef UNIT_TESTING
+#ifdef HPB_UNIT_TESTING
         HypeBuffer *buf = hype_buffer_create_from(HPB_DUMMY_OWN_INSTANCE_ID, HPB_DUMMY_OWN_INSTANCE_SIZE);
         HypeInstance *own_instance = hype_instance_create(buf, NULL, false);
         hype_buffer_release(buf);
-        #else
+#else
         HypeInstance *own_instance = hype_get_host_instance();
-        #endif
+#endif
         hpb->network = hpb_network_create(own_instance);
     }
 

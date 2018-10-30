@@ -19,11 +19,13 @@ void hpb_protocol_test_build_subscribe_msg()
     HLByte SERVICE_KEY2[] = "\xe4\x9a\xa7\x79\x2c\xf4\xfd\x09\x6c\x10\x3f\x4b\xa4\x63\xe2\x7b\x91\x60\x9e\x6b";
 
     packet_size = hpb_protocol_build_subscribe_msg(SERVICE_KEY1, &packet);
+    CU_ASSERT_EQUAL(packet_size, 21)
     CU_ASSERT(packet[0] == (HLByte) SUBSCRIBE_SERVICE);
     CU_ASSERT(memcmp(packet + MESSAGE_TYPE_BYTE_SIZE, SERVICE_KEY1, SHA1_BLOCK_SIZE) == 0);
     free(packet);
 
     packet_size = hpb_protocol_build_subscribe_msg(SERVICE_KEY2, &packet);
+    CU_ASSERT_EQUAL(packet_size, 21)
     CU_ASSERT(packet[0] == (HLByte) SUBSCRIBE_SERVICE);
     CU_ASSERT(memcmp(packet + MESSAGE_TYPE_BYTE_SIZE, SERVICE_KEY2, SHA1_BLOCK_SIZE) == 0);
     free(packet);
@@ -37,11 +39,13 @@ void hpb_protocol_test_build_unsubscribe_msg()
     HLByte SERVICE_KEY2[] = "\xf6\xcb\x6d\x9d\xb0\x98\x91\x9b\x2d\x39\x55\x11\x41\xc5\xcb\xe7\x67\xb5\x06\xd6";
 
     packet_size = hpb_protocol_build_unsubscribe_msg(SERVICE_KEY1, &packet);
+    CU_ASSERT_EQUAL(packet_size, 21)
     CU_ASSERT(packet[0] == (HLByte) UNSUBSCRIBE_SERVICE);
     CU_ASSERT(memcmp(packet + MESSAGE_TYPE_BYTE_SIZE, SERVICE_KEY1, SHA1_BLOCK_SIZE) == 0);
     free(packet);
 
     packet_size = hpb_protocol_build_unsubscribe_msg(SERVICE_KEY2, &packet);
+    CU_ASSERT_EQUAL(packet_size, 21)
     CU_ASSERT(packet[0] == (HLByte) UNSUBSCRIBE_SERVICE);
     CU_ASSERT(memcmp(packet + MESSAGE_TYPE_BYTE_SIZE, SERVICE_KEY2, SHA1_BLOCK_SIZE) == 0);
     free(packet);
@@ -60,6 +64,7 @@ void hpb_protocol_test_build_publish_msg()
     size_t MSG2_SIZE = 13;
 
     packet_size = hpb_protocol_build_publish_msg(SERVICE_KEY1, (char*) MSG1, MSG1_SIZE, &packet);
+    CU_ASSERT_EQUAL(packet_size, 35)
     CU_ASSERT(packet[0] == (HLByte) PUBLISH);
     offset = MESSAGE_TYPE_BYTE_SIZE;
     CU_ASSERT(memcmp(packet + offset, SERVICE_KEY1, SHA1_BLOCK_SIZE) == 0);
@@ -68,6 +73,7 @@ void hpb_protocol_test_build_publish_msg()
     free(packet);
 
     packet_size = hpb_protocol_build_publish_msg(SERVICE_KEY2, (char*) MSG2, MSG2_SIZE, &packet);
+    CU_ASSERT_EQUAL(packet_size, 34)
     CU_ASSERT(packet[0] == (HLByte) PUBLISH);
     offset = MESSAGE_TYPE_BYTE_SIZE;
     CU_ASSERT(memcmp(packet + offset, SERVICE_KEY2, SHA1_BLOCK_SIZE) == 0);
@@ -89,6 +95,7 @@ void hpb_protocol_test_build_info_msg()
     size_t MSG2_SIZE = 18;
 
     packet_size = hpb_protocol_build_info_msg(SERVICE_KEY1, (char*) MSG1, MSG1_SIZE, &packet);
+    CU_ASSERT_EQUAL(packet_size, 40)
     CU_ASSERT(packet[0] == (HLByte) INFO);
     offset = MESSAGE_TYPE_BYTE_SIZE;
     CU_ASSERT(memcmp(packet + offset, SERVICE_KEY1, SHA1_BLOCK_SIZE) == 0);
@@ -97,6 +104,7 @@ void hpb_protocol_test_build_info_msg()
     free(packet);
 
     packet_size = hpb_protocol_build_info_msg(SERVICE_KEY2, (char*) MSG2, MSG2_SIZE, &packet);
+    CU_ASSERT_EQUAL(packet_size, 39)
     CU_ASSERT(packet[0] == (HLByte) INFO);
     offset = MESSAGE_TYPE_BYTE_SIZE;
     CU_ASSERT(memcmp(packet + offset, SERVICE_KEY2, SHA1_BLOCK_SIZE) == 0);
@@ -108,8 +116,6 @@ void hpb_protocol_test_build_info_msg()
 
 void hpb_protocol_test_receiving_msg()
 {
-    /*
-    TODO: These tests are dependent of hpb_get() which requires a valid own instance
 
     HLByte *packet;
     size_t packet_size;
@@ -134,5 +140,4 @@ void hpb_protocol_test_receiving_msg()
     packet_size = hpb_protocol_build_info_msg(SERVICE_KEY, (char*) MSG, MSG_SIZE, &packet);
     CU_ASSERT(hpb_protocol_receive_msg(instance1, packet, packet_size) == INFO);
     free(packet);
-    */
 }
