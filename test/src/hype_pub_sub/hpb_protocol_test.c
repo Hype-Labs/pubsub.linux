@@ -4,6 +4,8 @@ static int CLIENT_HYPE_ID_SIZE = 12;
 
 void hpb_protocol_test()
 {
+    hpb_destroy(); // Clears the hpb singleton to run the tests from a clean state
+
     hpb_protocol_test_build_subscribe_msg();
     hpb_protocol_test_build_unsubscribe_msg();
     hpb_protocol_test_build_publish_msg();
@@ -116,7 +118,6 @@ void hpb_protocol_test_build_info_msg()
 
 void hpb_protocol_test_receiving_msg()
 {
-
     HLByte *packet;
     size_t packet_size;
     HLByte SERVICE_KEY[] = "\x9a\xc1\xb0\x41\x5e\x0a\x97\x73\x8c\x57\xe7\xe6\x3f\x68\x50\xab\x21\xe4\x7e\xb4";
@@ -140,4 +141,7 @@ void hpb_protocol_test_receiving_msg()
     packet_size = hpb_protocol_build_info_msg(SERVICE_KEY, (char*) MSG, MSG_SIZE, &packet);
     CU_ASSERT(hpb_protocol_receive_msg(instance1, packet, packet_size) == INFO);
     free(packet);
+
+    hype_instance_release(instance1);
+    hype_buffer_release(client1_buffer_id);
 }
