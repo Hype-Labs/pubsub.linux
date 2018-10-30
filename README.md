@@ -74,8 +74,8 @@ This application can be controlled using its command line interface. The followi
 
 Besides Linux, this project is available for the following platforms:
 
-[Android](https://github.com/Hype-Labs/pubsub.android) <br>
-[iOS](https://github.com/Hype-Labs/pubsub.ios)
+- [Android](https://github.com/Hype-Labs/pubsub.android) <br>
+- [iOS](https://github.com/Hype-Labs/pubsub.ios)
 
 ## License
 
