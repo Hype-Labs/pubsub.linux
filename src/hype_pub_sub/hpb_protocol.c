@@ -142,7 +142,7 @@ static int hpb_protocol_receive_subscribe_msg(HypeInstance * instance_origin, HL
     }
 
     HLByte *service_key = (HLByte *) malloc(SHA1_BLOCK_SIZE * sizeof(char));
-    memmove(service_key, msg+MESSAGE_TYPE_BYTE_SIZE, SHA1_BLOCK_SIZE);
+    memcpy(service_key, msg+MESSAGE_TYPE_BYTE_SIZE, SHA1_BLOCK_SIZE);
     hpb_process_subscribe_req(service_key, instance_origin);
     return 0;
 }
@@ -154,7 +154,7 @@ static int hpb_protocol_receive_unsubscribe_msg(HypeInstance * instance_origin, 
     }
 
     HLByte *service_key = (HLByte *) malloc(SHA1_BLOCK_SIZE * sizeof(char));
-    memmove(service_key, msg+MESSAGE_TYPE_BYTE_SIZE, SHA1_BLOCK_SIZE);
+    memcpy(service_key, msg+MESSAGE_TYPE_BYTE_SIZE, SHA1_BLOCK_SIZE);
     hpb_process_unsubscribe_req(service_key, instance_origin);
     return 0;
 }
@@ -166,10 +166,10 @@ static int hpb_protocol_receive_publish_msg(HypeInstance * instance_origin, HLBy
     }
 
     HLByte *service_key = (HLByte *) malloc(SHA1_BLOCK_SIZE * sizeof(char));
-    memmove(service_key, msg+MESSAGE_TYPE_BYTE_SIZE, SHA1_BLOCK_SIZE);
+    memcpy(service_key, msg+MESSAGE_TYPE_BYTE_SIZE, SHA1_BLOCK_SIZE);
     size_t msg_content_size = msg_length - MESSAGE_TYPE_BYTE_SIZE - SHA1_BLOCK_SIZE;
     char *msg_content = (char *) malloc(msg_content_size* sizeof(char));
-    memmove(msg_content, (msg + MESSAGE_TYPE_BYTE_SIZE + SHA1_BLOCK_SIZE), msg_content_size);
+    memcpy(msg_content, (msg + MESSAGE_TYPE_BYTE_SIZE + SHA1_BLOCK_SIZE), msg_content_size);
     hpb_process_publish_req(service_key, msg_content, msg_content_size);
     return 0;
 }
