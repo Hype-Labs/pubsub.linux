@@ -15,6 +15,8 @@ HLByte HPB_TEST_CLIENT10[] = "\x6a\x56\xdb\xe9\x91\x66\xd8\xf2\x20\x23\x3b\xc2";
 HLByte HPB_TEST_SERVICE1[] = "\x8b\xa1\x04\x94\xc2\x9d\x24\x76\x04\xb1\x5c\xd2\x40\x01\x32\x33\x58\xa8\x9b\xf5";
 HLByte HPB_TEST_SERVICE2[] = "\xf2\x95\xa7\x85\x27\x72\xfd\x6c\x88\xb5\x14\x37\xf3\x5e\x5e\x73\x08\x9f\xad\x3e";
 
+static int CLIENT_HYPE_ID_SIZE = 12;
+
 void hpb_test()
 {
     HypePubSub *hpb = hpb_get();
@@ -53,18 +55,39 @@ void hpb_test_issue_publish_req(HypePubSub *hpb)
 
 void hpb_test_process_subscribe_and_unsubscribe(HypePubSub *hpb)
 {
+    HypeBuffer *client1_buffer_id = hype_buffer_create_from(HPB_TEST_CLIENT1, CLIENT_HYPE_ID_SIZE);
+    HypeBuffer *client2_buffer_id = hype_buffer_create_from(HPB_TEST_CLIENT2, CLIENT_HYPE_ID_SIZE);
+    HypeBuffer *client3_buffer_id = hype_buffer_create_from(HPB_TEST_CLIENT3, CLIENT_HYPE_ID_SIZE);
+    HypeBuffer *client4_buffer_id = hype_buffer_create_from(HPB_TEST_CLIENT4, CLIENT_HYPE_ID_SIZE);
+    HypeBuffer *client5_buffer_id = hype_buffer_create_from(HPB_TEST_CLIENT5, CLIENT_HYPE_ID_SIZE);
+    HypeBuffer *client6_buffer_id = hype_buffer_create_from(HPB_TEST_CLIENT6, CLIENT_HYPE_ID_SIZE);
+    HypeBuffer *client7_buffer_id = hype_buffer_create_from(HPB_TEST_CLIENT7, CLIENT_HYPE_ID_SIZE);
+    HypeBuffer *client8_buffer_id = hype_buffer_create_from(HPB_TEST_CLIENT8, CLIENT_HYPE_ID_SIZE);
+    HypeBuffer *client9_buffer_id = hype_buffer_create_from(HPB_TEST_CLIENT9, CLIENT_HYPE_ID_SIZE);
+    HypeBuffer *client10_buffer_id = hype_buffer_create_from(HPB_TEST_CLIENT10, CLIENT_HYPE_ID_SIZE);
+    HypeInstance *instance1 = hype_instance_create(client1_buffer_id, NULL, false);
+    HypeInstance *instance2 = hype_instance_create(client2_buffer_id, NULL, false);
+    HypeInstance *instance3 = hype_instance_create(client3_buffer_id, NULL, false);
+    HypeInstance *instance4 = hype_instance_create(client1_buffer_id, NULL, false);
+    HypeInstance *instance5 = hype_instance_create(client2_buffer_id, NULL, false);
+    HypeInstance *instance6 = hype_instance_create(client3_buffer_id, NULL, false);
+    HypeInstance *instance7 = hype_instance_create(client1_buffer_id, NULL, false);
+    HypeInstance *instance8 = hype_instance_create(client2_buffer_id, NULL, false);
+    HypeInstance *instance9 = hype_instance_create(client3_buffer_id, NULL, false);
+    HypeInstance *instance10 = hype_instance_create(client3_buffer_id, NULL, false);
+
     CU_ASSERT(hpb->managed_services->size == 0);
 
-    CU_ASSERT(hpb_process_subscribe_req(HPB_TEST_SERVICE1, HPB_TEST_CLIENT1) == -1);
-    CU_ASSERT(hpb_process_unsubscribe_req(HPB_TEST_SERVICE1, HPB_TEST_CLIENT1) == -1);
-    CU_ASSERT(hpb_process_unsubscribe_req(HPB_TEST_SERVICE1, HPB_TEST_CLIENT1) == -2);
+    CU_ASSERT(hpb_process_subscribe_req(HPB_TEST_SERVICE1, instance1) == -1);
+    CU_ASSERT(hpb_process_unsubscribe_req(HPB_TEST_SERVICE1, instance1) == -1);
+    CU_ASSERT(hpb_process_unsubscribe_req(HPB_TEST_SERVICE1, instance1) == -2);
 
     // Basic test with 2 services with 3 clients
-    hpb_process_subscribe_req(HPB_TEST_SERVICE1, HPB_TEST_CLIENT1);
+    hpb_process_subscribe_req(HPB_TEST_SERVICE1, instance1);
     CU_ASSERT(hpb->managed_services->size == 1);
-    hpb_process_subscribe_req(HPB_TEST_SERVICE2, HPB_TEST_CLIENT2);
+    hpb_process_subscribe_req(HPB_TEST_SERVICE2, instance2);
     CU_ASSERT(hpb->managed_services->size == 2);
-    hpb_process_subscribe_req(HPB_TEST_SERVICE1, HPB_TEST_CLIENT3);
+    hpb_process_subscribe_req(HPB_TEST_SERVICE1, instance3);
     CU_ASSERT(hpb->managed_services->size == 2);
 
     HpbServiceManager *service1 = hpb_list_service_managers_find(hpb->managed_services, HPB_TEST_SERVICE1);
@@ -74,7 +97,7 @@ void hpb_test_process_subscribe_and_unsubscribe(HypePubSub *hpb)
     CU_ASSERT_PTR_NOT_NULL_FATAL(service2);
     CU_ASSERT(service2->subscribers->size == 1);
 
-    CU_ASSERT_PTR_NOT_NULL(hpb_list_clients_find(service1->subscribers, HPB_TEST_CLIENT1));
+    CU_ASSERT_PTR_NOT_NULL(hpb_list_clients_find(service1->subscribers, instance1instance1instance1instance1instance1instance1instance1instance1instance1instance1instance1instance1instance1instance1instance1instance1instance1instance1instance1instance1instance1instance1instance1instance1instance1instance1instance1instance1instance1instance1instance1instance1instance1instance1instance1instance1instance1instance1instance1instance1instance1instance1instance1instance1instance1instance1instance1instance1instance1instance1instance1instance1instance1instance1instance1instance1instance1));
     CU_ASSERT_PTR_NULL(hpb_list_clients_find(service1->subscribers, HPB_TEST_CLIENT2));
     CU_ASSERT_PTR_NOT_NULL(hpb_list_clients_find(service1->subscribers, HPB_TEST_CLIENT3));
     CU_ASSERT_PTR_NULL(hpb_list_clients_find(service2->subscribers, HPB_TEST_CLIENT1));
