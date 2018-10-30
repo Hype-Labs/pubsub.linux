@@ -87,7 +87,6 @@ void hpb_hype_interface_request_to_start()
 
 void hpb_hype_interface_request_to_stop()
 {
-    printf("Stop the Hype services");
     hype_stop();
 }
 
@@ -97,8 +96,6 @@ void hpb_hype_interface_request_to_stop()
 
 static void hpb_hype_on_start()
 {
-    printf("Hype started!\n");
-
     //Signal the start of hype service
     if (pthread_cond_signal(&cond) != 0) {
         perror("pthread_cond_signal() error");
@@ -106,7 +103,6 @@ static void hpb_hype_on_start()
     }
 
     fflush(stdout);
-
 }
 
 static void hpb_hype_on_stop(HypeError * err)
@@ -120,8 +116,6 @@ static void hpb_hype_on_stop(HypeError * err)
         // to stop the framework might do so with an error.
         description = err->description;
     }
-
-    printf("Hype stopped [%s]\n", description);
 
     // The framework has stopped working for some reason. If it was asked to do so (by
     // calling stop) the error parameter is null. If, on the other hand, it was forced
@@ -143,13 +137,10 @@ static void hpb_hype_on_start_failed(HypeError * err)
     // cause for the failure, it's never null.
 
     exit(1);
-
-    fflush(stdout);
 }
 
 static void hpb_hype_on_state_change()
 {
-    printf("Hype state change\n");
 
     // State change updates are triggered before their corresponding, specific, observer
     // call. For instance, when Hype starts, it transits to the State.Running state,
@@ -157,12 +148,10 @@ static void hpb_hype_on_state_change()
     // such event has a corresponding observer method, so state change notifications
     // are mostly for convenience. This method is often not used.
 
-    fflush(stdout);
 }
 
 static void hpb_hype_on_ready()
 {
-    printf("Hype ready \n");
 
     // This Hype delegate event indicates that the framework believes that it's capable
     // of recovering from a previous start failure. This event is only triggered once.
@@ -178,7 +167,6 @@ static void hpb_hype_on_ready()
 
 static const char * hpb_hype_on_request_access_token(uint32_t user_identifier)
 {
-    printf("Hype request access token to user identifier: %d\n", (int)user_identifier);
 
     // This method is called because Hype is requiring a new digital certificate. This
     // may happen because no certificate exists or the current one has already expired.
@@ -194,9 +182,6 @@ static const char * hpb_hype_on_request_access_token(uint32_t user_identifier)
 
 static void hpb_hype_on_instance_found(HypeInstance * instance)
 {
-    printf("Hype Found instance:  \n");
-    printf("instance->string_identifier= %s ", instance->string_identifier);
-
     // Resolving an instance consists of forcing the two devices to perform an handshake,
     // a necessary step for communicating. In this demo all instances are resolved, but
     // implementations should first assert whether the found instance is interesting,
@@ -216,8 +201,6 @@ static void hpb_hype_on_instance_lost(HypeInstance * instance, HypeError * err)
     // times out or the device goes out of range. Another possibility is the user turning
     // the adapters off, in which case not only are all instances lost but the framework
     // also stops with an error.
-    printf("Hype lost instance: %s [%s]\n", instance->string_identifier, err->description);
-
     HypePubSub * hpb_get();
 
     hpb_list_clients_remove(hpb_get()->network->network_clients, instance);
@@ -229,8 +212,6 @@ static void hpb_hype_on_instance_lost(HypeInstance * instance, HypeError * err)
 
 static void hpb_hype_on_instance_resolved(HypeInstance * instance)
 {
-    printf("Hype resolve instance: %s\n", instance->string_identifier);
-
     hpb_list_clients_add(hpb_get()->network->network_clients, instance);
     hpb_update_managed_services();
     hpb_update_own_subscriptions();
@@ -240,8 +221,6 @@ static void hpb_hype_on_instance_resolved(HypeInstance * instance)
 
 static void hpb_hype_on_instance_failed_resolving(HypeInstance * instance, HypeError * err)
 {
-    printf("Hype failed to resolve instance: %s [%s]\n", instance->string_identifier, err->description);
-
     // Failing to resolve an instance may indicate that the instance went out of range.
     // It's also a possibility that the instance was an attacker in disguise, but failed
     // to perform an handshake and Hype is refusing to communicate with it. The error
@@ -252,8 +231,6 @@ static void hpb_hype_on_instance_failed_resolving(HypeInstance * instance, HypeE
 
 static void hpb_hype_on_message_received(HypeMessage * message, HypeInstance * instance)
 {
-    printf("Hype receive message from: %s | %s\n",instance->string_identifier, (char *)message->buffer->data);
-
     // A message has arrived from another device. In this case, the message is expected
     // to be text encoded in UTF-8 format, the same protocol that was used when sending
     // a message.
@@ -265,7 +242,6 @@ static void hpb_hype_on_message_received(HypeMessage * message, HypeInstance * i
 
 static void hpb_hype_on_message_send_failed(HypeMessageInfo * message_info, HypeInstance * instance, HypeError * err)
 {
-    printf("Failed to send message: %d [%s]", message_info->identifier, err->description);
 
     // Sending messages can fail for a lot of reasons, such as the adapters
     // (Bluetooth) being turned off by the user while the process
@@ -276,8 +252,6 @@ static void hpb_hype_on_message_send_failed(HypeMessageInfo * message_info, Hype
 
 static void hpb_hype_on_message_sent(HypeMessageInfo * message_info,HypeInstance * instance, float progress, bool done)
 {
-
-    printf("Hype is sending a message: %d | %f (%s)", message_info->identifier, progress, done ? "done" : "ongoing" );
 
     // A message being sent indicates that it has been written to the output streams.
     // However, the content could still be buffered for output, so it has not necessarily
@@ -291,8 +265,6 @@ static void hpb_hype_on_message_sent(HypeMessageInfo * message_info,HypeInstance
 
 static void hpb_hype_on_message_delivered(HypeMessageInfo * message_info, HypeInstance * instance, float progress, bool done)
 {
-
-
     // A message being delivered indicates that the destination device has
     // acknowledge reception. If the "done" argument is true, then the message
     // has been fully delivered and the content is available on the destination
