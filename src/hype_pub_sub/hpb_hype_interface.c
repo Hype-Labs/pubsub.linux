@@ -15,8 +15,86 @@
 #include <hype_pub_sub/hype_pub_sub.h>
 #include <stdio.h>
 
+//
+// Static functions declaration
+//
 
-//Hype callbacks definition
+static void hpb_hype_on_start();
+static void hpb_hype_on_stop(HypeError * err);
+static void hpb_hype_on_start_failed(HypeError * err);
+static void hpb_hype_on_state_change();
+static void hpb_hype_on_ready();
+static const char * hpb_hype_on_request_access_token(uint32_t user_identifier);
+static void hpb_hype_on_instance_found(HypeInstance * instance);
+static void hpb_hype_on_instance_lost(HypeInstance * instance, HypeError * err);
+static void hpb_hype_on_instance_resolved(HypeInstance * instance);
+static void hpb_hype_on_instance_failed_resolving(HypeInstance * instance, HypeError * err);
+static void hpb_hype_on_message_received(HypeMessage * message, HypeInstance * instance);
+static void hpb_hype_on_message_send_failed(HypeMessageInfo * message_info, HypeInstance * instance, HypeError * err);
+static void hpb_hype_on_message_sent(HypeMessageInfo * message_info,HypeInstance * instance, float progress, bool done);
+static void hpb_hype_on_message_delivered(HypeMessageInfo * message_info, HypeInstance * instance, float progress, bool done);
+
+//
+// Headers functions implementation
+//
+
+void hpb_hype_interface_request_to_start()
+{
+    // Adding itself as an Hype state observer makes sure that the application gets
+    // notifications for lifecycle events being triggered by the Hype framework. These
+    // events include starting and stopping, as well as some error handling.
+    hype_set_on_start_callback(hpb_hype_on_start);
+    hype_set_on_stop_callback(hpb_hype_on_stop);
+    hype_set_on_start_failed_callback(hpb_hype_on_start_failed);
+    hype_set_on_state_change_callback(hpb_hype_on_state_change);
+    hype_set_on_ready_callback(hpb_hype_on_ready);
+    hype_set_on_request_access_token_callback(hpb_hype_on_request_access_token);
+
+    // Network observer notifications include other devices entering and leaving the
+    // network. When a device is found all observers get a hype_on_instance_found notification,
+    // and when they leave hype_on_instance_lost is triggered instead.
+    hype_set_on_instance_found_callback(hpb_hype_on_instance_found);
+    hype_set_on_instance_lost_callback(hpb_hype_on_instance_lost);
+    hype_set_on_instance_resolved_callback(hpb_hype_on_instance_resolved);
+    hype_set_on_instance_failed_resolving_callback(hpb_hype_on_instance_failed_resolving);
+
+    // I/O notifications indicate when messages are sent, delivered, or fail to be sent.
+    // Notice that a message being sent does not imply that it has been delivered, only
+    // that it has been queued for output. This is especially important when using mesh
+    // networking, as the destination device might not be connect in a direct link.
+    hype_set_on_message_received_callback(hpb_hype_on_message_received);
+    hype_set_on_message_send_failed_callback(hpb_hype_on_message_send_failed);
+    hype_set_on_message_sent_callback(hpb_hype_on_message_sent);
+    hype_set_on_message_delivered_callback(hpb_hype_on_message_delivered);
+
+
+    // For generating a app identifier go to https://hypelabs.io, login, access the dashboard
+    // under the Apps section and click "Create New App". The resulting app should
+    // display a realm number. Copy and paste that here.
+    //Hype.hype_set_app_identifier("{{app_identifier}}");
+    hype_set_app_identifier(HPB_HYPE_APP_IDENTIFIER);
+
+    hype_set_transport_type(HYPE_TRANSPORT_TYPE_WIFI_INFRA);
+
+    hype_set_user_identifier(HPB_HYPE_USER_IDENTIFIER);
+
+    // Requesting Hype to start is equivalent to requesting the device to publish
+    // itself on the network and start browsing for other devices in proximity. If
+    // everything goes well, the onStart(Hype) observer method gets called, indicating
+    // that the device is actively participating on the network.
+    hype_start();
+}
+
+void hpb_hype_interface_request_to_stop()
+{
+    printf("Stop the Hype services");
+    hype_stop();
+}
+
+//
+// Static functions implementation
+//
+
 static void hpb_hype_on_start()
 {
     printf("Hype started!\n");
@@ -222,77 +300,3 @@ static void hpb_hype_on_message_delivered(HypeMessageInfo * message_info, HypeIn
 
     fflush(stdout);
 }
-
-static void hpb()
-{
-
-}
-
-void hpb_hype_interface_request_to_start()
-{
-    // Adding itself as an Hype state observer makes sure that the application gets
-    // notifications for lifecycle events being triggered by the Hype framework. These
-    // events include starting and stopping, as well as some error handling.
-    hype_set_on_start_callback(hpb_hype_on_start);
-    hype_set_on_stop_callback(hpb_hype_on_stop);
-    hype_set_on_start_failed_callback(hpb_hype_on_start_failed);
-    hype_set_on_state_change_callback(hpb_hype_on_state_change);
-    hype_set_on_ready_callback(hpb_hype_on_ready);
-    hype_set_on_request_access_token_callback(hpb_hype_on_request_access_token);
-
-    // Network observer notifications include other devices entering and leaving the
-    // network. When a device is found all observers get a hype_on_instance_found notification,
-    // and when they leave hype_on_instance_lost is triggered instead.
-    hype_set_on_instance_found_callback(hpb_hype_on_instance_found);
-    hype_set_on_instance_lost_callback(hpb_hype_on_instance_lost);
-    hype_set_on_instance_resolved_callback(hpb_hype_on_instance_resolved);
-    hype_set_on_instance_failed_resolving_callback(hpb_hype_on_instance_failed_resolving);
-
-    // I/O notifications indicate when messages are sent, delivered, or fail to be sent.
-    // Notice that a message being sent does not imply that it has been delivered, only
-    // that it has been queued for output. This is especially important when using mesh
-    // networking, as the destination device might not be connect in a direct link.
-    hype_set_on_message_received_callback(hpb_hype_on_message_received);
-    hype_set_on_message_send_failed_callback(hpb_hype_on_message_send_failed);
-    hype_set_on_message_sent_callback(hpb_hype_on_message_sent);
-    hype_set_on_message_delivered_callback(hpb_hype_on_message_delivered);
-
-
-    // For generating a app identifier go to https://hypelabs.io, login, access the dashboard
-    // under the Apps section and click "Create New App". The resulting app should
-    // display a realm number. Copy and paste that here.
-    //Hype.hype_set_app_identifier("{{app_identifier}}");
-    hype_set_app_identifier(HPB_HYPE_APP_IDENTIFIER);
-
-    hype_set_transport_type(HYPE_TRANSPORT_TYPE_WIFI_INFRA);
-
-    hype_set_user_identifier(HPB_HYPE_USER_IDENTIFIER);
-
-    // Requesting Hype to start is equivalent to requesting the device to publish
-    // itself on the network and start browsing for other devices in proximity. If
-    // everything goes well, the onStart(Hype) observer method gets called, indicating
-    // that the device is actively participating on the network.
-    hype_start();
-
-}
-
-void hpb_hype_interface_request_to_stop()
-{
-    printf("Stop the Hype services");
-    hype_stop();
-}
-
-void hpb_hype_interface_instance_resolved_add(HypeInstance * instance)
-{
-    HypePubSub * hpb = hpb_get();
-
-   //hpb->network->network_clients
-   hpb_list_clients_add(hpb->network->network_clients, instance);
-
-}
-
-void hpb_hype_interface_instance_remove(HypeInstance * instance)
-{
-
-}
-
