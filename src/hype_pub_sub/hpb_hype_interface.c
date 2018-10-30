@@ -76,8 +76,6 @@ void hpb_hype_interface_request_to_start()
 
     hype_set_transport_type(HYPE_TRANSPORT_TYPE_WIFI_INFRA);
 
-    hype_set_user_identifier(HPB_HYPE_USER_IDENTIFIER);
-
     // Requesting Hype to start is equivalent to requesting the device to publish
     // itself on the network and start browsing for other devices in proximity. If
     // everything goes well, the onStart(Hype) observer method gets called, indicating
