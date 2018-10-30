@@ -5,10 +5,13 @@
 #include "hype_pub_sub/hpb_cmd_interface.h"
 #include <hype_pub_sub/hpb_hype_interface.h>
 
+#define HPB_INVALID_COMMAND_MESSAGE "Invalid command. Please see the helper (-h)"
+
 bool parse_user_arguments(int n_args, char *args[], HypePubSub *hpb);
 
 int main()
 {
+    int ret;
     //Start Hype Services
     hpb_hype_interface_request_to_start();
 
@@ -41,6 +44,15 @@ int main()
         char user_input[user_input_size];
         fgets(user_input, user_input_size, stdin);
 
+        ret = strncmp(user_input, "-", 1);
+
+        //Validation for use '-' i the beginning of the option.
+        if(ret != 0)
+        {
+             printf("%s\n",HPB_INVALID_COMMAND_MESSAGE);
+             continue;
+        }
+
         // Remove \n read by fgets()
         user_input[strcspn(user_input, "\n")] = '\0';
 
@@ -69,7 +81,7 @@ bool parse_user_arguments(int n_args, char *args[], HypePubSub *hpb)
     int opt = 0;
     optind = 0;
 
-    while((opt = getopt_long_only(n_args, args,"", hpb_cmd_interface_long_options, &long_index)) != -1)
+    while((opt = getopt_long_only(n_args, args,":", hpb_cmd_interface_long_options, &long_index)) != -1)
     {
         switch (opt)
         {
@@ -100,7 +112,7 @@ bool parse_user_arguments(int n_args, char *args[], HypePubSub *hpb)
             case 'q' :
                 return true;
             default:
-                hpb_cmd_interface_print_helper();
+                 printf("%s\n",HPB_INVALID_COMMAND_MESSAGE);
         }
     }
     return false;
