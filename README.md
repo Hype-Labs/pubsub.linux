@@ -55,6 +55,21 @@ make
 NOTE: {{ABI}} must be replaced by a valid Hype SDK architecture: amd64, i686, armel or armhf.
 ```
 
+## Usage
+
+This application can be controlled using its command line interface. The following commands are available:
+
+- --subscribe `{{service_name}}`       : Allows to subscribe a service.
+- --unsubscribe `{{service_name}}`		 : Allows to unsubscribe a service.
+- --publish `{{service_name}}`    		 : Allows to publish a message in a service.
+- --print-own-id              			 : Prints the Hype identifier and the key of this device.
+- --print-hype-devices        			 : Prints the Hype identifier and the key of the devices found in the network.
+- --print-managed-services    			 : Prints the services which are managed by this device.
+- --print-subscriptions       			 : Prints the services subscribed by this device.
+- --help                     			 : Prints the helper menu of this application.
+- --quit                     			 : Terminates the application.
+
+
 ## Other platforms
 
 Besides Linux, this project is available for the following platforms:

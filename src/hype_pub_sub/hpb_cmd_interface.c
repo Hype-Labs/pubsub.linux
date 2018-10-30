@@ -118,9 +118,9 @@ void hpb_cmd_interface_print_helper()
     printf(" --%-25s : Allows to subscribe a service.\n" ,HPB_CMD_INTERFACE_SUBSCRIBE);
     printf(" --%-25s : Allows to unsubscribe a service.\n" ,HPB_CMD_INTERFACE_UNSUBSCRIBE);
     printf(" --%-25s : Allows to publish a message in a service.\n" ,HPB_CMD_INTERFACE_PUBLISH);
-    printf(" --%-25s : Prints the Hype ID and the key of this device.\n" ,HPB_CMD_INTERFACE_PRINT_OWN_ID);
-    printf(" --%-25s : Prints the Hype ID and the key of the known network devices.\n" ,HPB_CMD_INTERFACE_PRINT_HYPE_DEVICES);
-    printf(" --%-25s : Prints the services which are responsibility of this device.\n" ,HPB_CMD_INTERFACE_PRINT_MANAGED_SERVICES);
+    printf(" --%-25s : Prints the Hype identifier and the key of this device.\n" ,HPB_CMD_INTERFACE_PRINT_OWN_ID);
+    printf(" --%-25s : Prints the Hype identifier and the key of the devices found in the network.\n" ,HPB_CMD_INTERFACE_PRINT_HYPE_DEVICES);
+    printf(" --%-25s : Prints the services which are managed by this device.\n" ,HPB_CMD_INTERFACE_PRINT_MANAGED_SERVICES);
     printf(" --%-25s : Prints the services subscribed by this device.\n" ,HPB_CMD_INTERFACE_PRINT_SUBSCRIPTIONS);
     printf(" --%-25s : Prints the helper menu of this application.\n" ,HPB_CMD_INTERFACE_HELP);
     printf(" --%-25s : Terminates the application.\n" ,HPB_CMD_INTERFACE_QUIT);
