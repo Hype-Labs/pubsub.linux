@@ -180,7 +180,7 @@ static void hpb_hype_on_message_received(HypeMessage * message, HypeInstance * i
     // to be text encoded in UTF-8 format, the same protocol that was used when sending
     // a message.
 
-    hpb_protocol_receive_msg(hpb_get()->protocol, instance,message->buffer->data,message->buffer->size);
+    hpb_protocol_receive_msg(instance,message->buffer->data,message->buffer->size);
 
     fflush(stdout);
 }

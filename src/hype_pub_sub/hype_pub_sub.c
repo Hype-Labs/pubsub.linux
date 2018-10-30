@@ -1,17 +1,24 @@
 
 #include "hype_pub_sub/hype_pub_sub.h"
 
+static HypePubSub *hpb = NULL;
+
 HypePubSub* hpb_get()
 {
-    static HypePubSub *hpb = NULL;
-
     if(hpb == NULL)
     {
         hpb = (HypePubSub*) malloc(sizeof(HypePubSub));
         hpb->own_subscriptions = hpb_list_subscriptions_create();
         hpb->managed_services = hpb_list_service_managers_create();
-        hpb->network = hpb_network_create(hype_get_host_instance());
-        hpb->protocol = hpb_protocol_create(hpb);
+
+#ifdef HPB_UNIT_TESTING
+        HypeBuffer *buf = hype_buffer_create_from(HPB_DUMMY_OWN_INSTANCE_ID, HPB_DUMMY_OWN_INSTANCE_SIZE);
+        HypeInstance *own_instance = hype_instance_create(buf, NULL, false);
+        hype_buffer_release(buf);
+#else
+        HypeInstance *own_instance = hype_get_host_instance();
+#endif
+        hpb->network = hpb_network_create(own_instance);
     }
 
     return hpb;
@@ -35,7 +42,11 @@ int hpb_issue_subscribe_req(char* service_name)
         hpb_process_subscribe_req(service_key, hpb->network->own_client->hype_instance);
     }
     else {
-        hpb_protocol_send_subscribe_msg(service_key, manager_instance);
+        HLByte *packet;
+        size_t packet_size = hpb_protocol_build_subscribe_msg(service_key, &packet);
+        HypeMessage *hype_msg = hype_send(packet, packet_size, manager_instance, false);
+        free(packet);
+        hype_message_release(hype_msg);
     }
 
     return 0;
@@ -53,7 +64,7 @@ int hpb_issue_unsubscribe_req(char *service_name)
     if(hpb_list_subscriptions_find(hpb->own_subscriptions, service_key) == NULL)
     {
         printf("Trying to unsubscribe a service that was not previously subscribed: %s.\n", service_name);
-        return -2;
+        return -1;
     }
 
     // Remove the subscription from the list of own subscriptions
@@ -65,7 +76,11 @@ int hpb_issue_unsubscribe_req(char *service_name)
         hpb_process_unsubscribe_req(service_key, hpb->network->own_client->hype_instance);
     }
     else {
-        hpb_protocol_send_unsubscribe_msg(service_key, manager_instance);
+        HLByte *packet;
+        size_t packet_size = hpb_protocol_build_unsubscribe_msg(service_key, &packet);
+        HypeMessage *hype_msg = hype_send(packet, packet_size, manager_instance, false);
+        free(packet);
+        hype_message_release(hype_msg);
     }
 
     return 0;
@@ -86,7 +101,11 @@ int hpb_issue_publish_req(char *service_name, char *msg, size_t msg_length)
         hpb_process_publish_req(service_key, msg, msg_length);
     }
     else {
-        hpb_protocol_send_publish_msg(service_key, manager_instance, msg, msg_length);
+        HLByte *packet;
+        size_t packet_size = hpb_protocol_build_publish_msg(service_key, msg, msg_length, &packet);
+        HypeMessage *hype_msg = hype_send(packet, packet_size, manager_instance, false);
+        free(packet);
+        hype_message_release(hype_msg);
     }
 
     return 0;
@@ -102,7 +121,7 @@ int hpb_process_subscribe_req(HLByte service_key[], HypeInstance * instance_orig
     {
         service = hpb_list_service_managers_add(hpb->managed_services, service_key);
         if(service == NULL) { // If the service could not be created we exit.
-            return -2;
+            return -1;
         }
     }
 
@@ -118,7 +137,7 @@ int hpb_process_unsubscribe_req(HLByte service_key[], HypeInstance * instance_or
     HpbServiceManager *service = hpb_list_service_managers_find(hpb->managed_services, service_key);
 
     if(service == NULL) { // If the service does not exist we ignore the unsubscribe request.
-        return -2;
+        return -1;
     }
 
     hpb_list_clients_remove(service->subscribers, instance_origin);
@@ -137,7 +156,7 @@ int hpb_process_publish_req(HLByte service_key[], char *msg, size_t msg_length)
     HpbServiceManager *service = hpb_list_service_managers_find(hpb->managed_services, service_key);
 
     if(service == NULL) {
-        return -2;
+        return -1;
     }
 
     LinkedListIterator *it = linked_list_iterator_create(service->subscribers);
@@ -152,7 +171,11 @@ int hpb_process_publish_req(HLByte service_key[], char *msg, size_t msg_length)
             hpb_process_info_msg(service_key, msg, msg_length);
         }
         else {
-            hpb_protocol_send_info_msg(service_key, client->hype_instance, msg, msg_length);
+            HLByte *packet;
+            size_t packet_size = hpb_protocol_build_info_msg(service_key, msg, msg_length, &packet);
+            HypeMessage *hype_msg = hype_send(packet, packet_size, client->hype_instance, false);
+            free(packet);
+            hype_message_release(hype_msg);
         }
 
     } while(linked_list_iterator_advance(it) != -1);
@@ -205,6 +228,21 @@ int hpb_update_managed_services()
     return 0;
 }
 
+void hpb_remove_subscriptions_from_lost_instance(HypeInstance * instance)
+{
+    HypePubSub *hpb = hpb_get();
+
+    LinkedListIterator * it = linked_list_iterator_create(hpb->managed_services);
+    do
+    {
+        HpbServiceManager * service_manager = (HpbServiceManager*) linked_list_iterator_get_element(it);
+        hpb_process_unsubscribe_req(service_manager->service_key,instance);
+
+    } while(linked_list_iterator_advance(it) != -1);
+
+    linked_list_iterator_destroy(&it);
+}
+
 int hpb_update_own_subscriptions()
 {
     HypePubSub *hpb = hpb_get();
@@ -233,32 +271,15 @@ int hpb_update_own_subscriptions()
     return 0;
 }
 
-void hpb_remove_subscriptions_from_lost_instance(HypeInstance * instance)
+void hpb_destroy()
 {
-    HypePubSub *hpb = hpb_get();
-
-    LinkedListIterator * it = linked_list_iterator_create(hpb->managed_services);
-
-    do
-    {
-        HpbServiceManager * service_manager = (HpbServiceManager*) linked_list_iterator_get_element(it);
-        hpb_process_unsubscribe_req(service_manager->service_key,instance);
-
-    } while(linked_list_iterator_advance(it) != -1);
-
-    linked_list_iterator_destroy(&it);
-}
-
-void hpb_destroy(HypePubSub **hpb)
-{
-    if((*hpb) == NULL) {
+    if(hpb == NULL) {
         return;
     }
 
-    hpb_list_subscriptions_destroy(&((*hpb)->own_subscriptions));
-    hpb_list_service_managers_destroy(&((*hpb)->managed_services));
-    hpb_network_destroy(&((*hpb)->network));
-    hpb_protocol_destroy(&((*hpb)->protocol));
-    free(*hpb);
-    *hpb = NULL;
+    hpb_list_subscriptions_destroy(&(hpb->own_subscriptions));
+    hpb_list_service_managers_destroy(&(hpb->managed_services));
+    hpb_network_destroy(&(hpb->network));
+    free(hpb);
+    hpb = NULL;
 }

@@ -60,7 +60,7 @@ int main()
     }
 
     // TODO: Hype Stop
-    hpb_destroy(&hpb);
+    hpb_destroy();
 }
 
 bool parse_user_arguments(int n_args, char *args[], HypePubSub *hpb)

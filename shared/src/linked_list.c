@@ -5,8 +5,9 @@ LinkedList *linked_list_create()
 {
     LinkedList *list = (LinkedList *) malloc(sizeof(LinkedList));
 
-    if(list == NULL)
+    if(list == NULL) {
         return NULL;
+    }
 
     list->head = NULL;
     list->size = 0;
@@ -17,8 +18,9 @@ LinkedListNode *linked_list_node_create(void *element)
 {
     LinkedListNode *node = (LinkedListNode *) malloc(sizeof(LinkedListNode));
 
-    if(node == NULL)
+    if(node == NULL) {
         return NULL;
+    }
 
     node->element = element;
     node->next = NULL;
@@ -27,13 +29,15 @@ LinkedListNode *linked_list_node_create(void *element)
 
 LinkedListIterator *linked_list_iterator_create(LinkedList *list)
 {
-    if(list == NULL)
+    if(list == NULL) {
         return NULL;
+    }
 
     LinkedListIterator *it = (LinkedListIterator *) malloc(sizeof(LinkedListIterator));
 
-    if(it == NULL)
+    if(it == NULL) {
         return NULL;
+    }
 
     it->list = list;
     it->it_node = list->head;
@@ -42,8 +46,9 @@ LinkedListIterator *linked_list_iterator_create(LinkedList *list)
 
 int linked_list_add(LinkedList *list, void *element)
 {
-    if(list == NULL)
+    if(list == NULL) {
         return -1;
+    }
 
     if(linked_list_is_empty(list)) // List is empty. Add element in the first node.
     {
@@ -52,8 +57,9 @@ int linked_list_add(LinkedList *list, void *element)
     else
     {
         LinkedListNode *current_node = list->head;
-        while(current_node->next != NULL) // Get to the tail of the list.
+        while(current_node->next != NULL) { // Get to the tail of the list.
             current_node = current_node->next;
+        }
 
         current_node->next = linked_list_node_create(element);
     }
@@ -64,8 +70,9 @@ int linked_list_add(LinkedList *list, void *element)
 
 int linked_list_remove(LinkedList *list, void *element, LinkedListCompareElementsCallback cmp_elements, LinkedListFreeElementCallback free_element)
 {
-    if(linked_list_is_empty(list))
+    if(linked_list_is_empty(list)) {
         return -1;
+    }
 
     // Check if the element is in the head position
     if(cmp_elements(list->head->element, element) == true)
@@ -97,23 +104,26 @@ int linked_list_remove(LinkedList *list, void *element, LinkedListCompareElement
 
 bool linked_list_is_empty(LinkedList *list)
 {
-    if(list == NULL || list->size == 0)
+    if(list == NULL || list->size == 0) {
         return true;
+    }
 
     return false;
 }
 
 LinkedListNode *linked_list_find(LinkedList *list, void *element, LinkedListCompareElementsCallback cmp_elements) // its responsibility of the list to prevent duplicates if needed
 {
-    if(list == NULL)
+    if(list == NULL) {
         return NULL;
+    }
 
     LinkedListNode *current_node = list->head;
     while(current_node != NULL)
     {
         LinkedListNode *next_node = current_node->next;
-        if(cmp_elements(current_node->element, element) == true)
+        if(cmp_elements(current_node->element, element) == true) {
             return current_node;
+        }
         current_node = next_node;
     }
 
@@ -127,16 +137,18 @@ void linked_list_iterator_reset(LinkedListIterator *it)
 
 void *linked_list_iterator_get_element(LinkedListIterator *it)
 {
-    if(it == NULL || it->it_node == NULL)
+    if(it == NULL || it->it_node == NULL) {
         return NULL;
+    }
 
     return it->it_node->element;
 }
 
 int linked_list_iterator_advance(LinkedListIterator *it)
 {
-    if(it == NULL || it->it_node == NULL || it->it_node->next == NULL || it->list->size == 0)
+    if(it == NULL || it->it_node == NULL || it->it_node->next == NULL || it->list->size == 0) {
         return -1;
+    }
 
     it->it_node = it->it_node->next;
     return 0;
@@ -157,8 +169,9 @@ void linked_list_node_destroy(LinkedListNode **node, LinkedListFreeElementCallba
 
 void linked_list_destroy(LinkedList **list, LinkedListFreeElementCallback free_element)
 {
-    if((*list) == NULL)
+    if((*list) == NULL) {
         return;
+    }
 
     LinkedListNode *current_node = (*list)->head;
     while(current_node != NULL)
