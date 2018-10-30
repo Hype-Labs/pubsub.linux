@@ -5,8 +5,9 @@
 HLByte *binary_utils_xor(HLByte *byte_array1, HLByte *byte_array2, size_t byte_array_size)
 {
     HLByte *str_xor = (HLByte*) malloc(byte_array_size * sizeof(HLByte));
-    for(int i=0; i < byte_array_size; i++)
+    for(int i=0; i < byte_array_size; i++) {
         str_xor[i] = byte_array1[i] ^ byte_array2[i];
+    }
     return str_xor;
 }
 
@@ -17,15 +18,16 @@ int binary_utils_get_higher_byte_array(HLByte *byte_array1, HLByte *byte_array2,
         unsigned int byte1 = byte_array1[i];
         unsigned int byte2 = byte_array2[i];
 
-        if(byte1 == byte2) // Search for the first difference
+        if(byte1 == byte2) { // Search for the first difference
             continue;
+        }
 
         // When facing a difference the array with the highest
         // byte it's the higher one -> Considering Big Endianness
-        if(byte1 > byte2)
+        if(byte1 > byte2) {
             return 1;
-        else
-            return 2;
+        }
+        return 2;
     }
 
     return 0;
@@ -61,14 +63,14 @@ char *binary_utils_get_formatted_binary_str(HLByte *byte_array, size_t byte_arra
     // 1 \0 to terminate string
     size_t formatted_str_size = byte_array_size*8 + byte_array_size*2 + 1;
     char *formatted_str = (char*) calloc(formatted_str_size, sizeof(char));
-
     char  *bin_array = binary_utils_to_binary_char_array(byte_array, byte_array_size);
 
     int j=0;
     for(int i=0; i < byte_array_size*8; i++)
     {
-        if(i%4 == 0 && i != 0)
+        if(i%4 == 0 && i != 0) {
             formatted_str[j++] = ' '; // Adds a space at every 4 bits
+        }
 
         formatted_str[j++] = bin_array[i];
     }
@@ -81,7 +83,8 @@ char *binary_utils_get_formatted_binary_str(HLByte *byte_array, size_t byte_arra
 void binary_utils_print_hex_array(HLByte *array, size_t len)
 {
     printf("0x");
-    for(int i=0; i<len; i++)
+    for(int i=0; i<len; i++) {
         printf("%.2x", array[i]);
+    }
     printf("\n");
 }
