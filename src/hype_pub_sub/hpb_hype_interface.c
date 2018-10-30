@@ -189,7 +189,7 @@ static const char * hpb_hype_on_request_access_token(uint32_t user_identifier)
     // generate and validate access tokens before the app is deployed. The test token
     // for this app is given below, but it's only valid for 10 deployments.
 
-    return HPB_HYPE_TOKEN_IDENTIFIER;
+    return HPB_HYPE_ACCESS_TOKEN;
 }
 
 static void hpb_hype_on_instance_found(HypeInstance * instance)
