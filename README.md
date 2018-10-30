@@ -51,6 +51,8 @@ If you also want to compile the unit tests you can use the following commands (T
 mkdir -p build && cd build
 cmake -G "Unix Makefiles" -DHYPE_PUB_SUB_COMPILE_TESTS=ON -DABI={{ABI}} ../
 make
+
+NOTE: {{ABI}} must be replaced by a valid Hype SDK architecture: amd64, i686, armel or armhf.
 ```
 
 ## Other platforms
