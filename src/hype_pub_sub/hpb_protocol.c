@@ -144,6 +144,8 @@ static int hpb_protocol_receive_subscribe_msg(HypeInstance * instance_origin, HL
     HLByte *service_key = (HLByte *) malloc(SHA1_BLOCK_SIZE * sizeof(char));
     memcpy(service_key, msg+MESSAGE_TYPE_BYTE_SIZE, SHA1_BLOCK_SIZE);
     hpb_process_subscribe_req(service_key, instance_origin);
+
+    free(service_key);
     return 0;
 }
 
@@ -156,6 +158,8 @@ static int hpb_protocol_receive_unsubscribe_msg(HypeInstance * instance_origin, 
     HLByte *service_key = (HLByte *) malloc(SHA1_BLOCK_SIZE * sizeof(char));
     memcpy(service_key, msg+MESSAGE_TYPE_BYTE_SIZE, SHA1_BLOCK_SIZE);
     hpb_process_unsubscribe_req(service_key, instance_origin);
+
+    free(service_key);
     return 0;
 }
 
@@ -171,6 +175,9 @@ static int hpb_protocol_receive_publish_msg(HypeInstance * instance_origin, HLBy
     char *msg_content = (char *) malloc(msg_content_size* sizeof(char));
     memcpy(msg_content, (msg + MESSAGE_TYPE_BYTE_SIZE + SHA1_BLOCK_SIZE), msg_content_size);
     hpb_process_publish_req(service_key, msg_content, msg_content_size);
+
+    free(service_key);
+    free(msg_content);
     return 0;
 }
 
@@ -188,5 +195,7 @@ static int hpb_protocol_receive_info_msg(HLByte *msg, size_t msg_length)
     msg_content[msg_content_size-1] = '\0';
     hpb_process_info_msg(service_key, msg_content, msg_content_size);
 
+    free(service_key);
+    free(msg_content);
     return 0;
 }

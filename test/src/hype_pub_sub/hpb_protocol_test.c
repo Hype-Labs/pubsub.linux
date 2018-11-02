@@ -1,6 +1,5 @@
 #include "hpb_protocol_test.h"
-
-static int CLIENT_HYPE_ID_SIZE = 12;
+#include "hpb_test_utils.h"
 
 void hpb_protocol_test()
 {
@@ -11,6 +10,8 @@ void hpb_protocol_test()
     hpb_protocol_test_build_publish_msg();
     hpb_protocol_test_build_info_msg();
     hpb_protocol_test_receiving_msg();
+
+    hpb_destroy(); // Frees the memory allocated by hpb_get() method calls
 }
 
 void hpb_protocol_test_build_subscribe_msg()
@@ -123,25 +124,23 @@ void hpb_protocol_test_receiving_msg()
     HLByte SERVICE_KEY[] = "\x9a\xc1\xb0\x41\x5e\x0a\x97\x73\x8c\x57\xe7\xe6\x3f\x68\x50\xab\x21\xe4\x7e\xb4";
     HLByte MSG[] = "HelloHypeWorld";
     size_t MSG_SIZE = 14;
-    HypeBuffer *client1_buffer_id = hype_buffer_create_from("\x85\xa9\xd4\xc4\xde\xd2\x87\x75\x0f\xc0\xed\x32", 12);
-    HypeInstance *instance1 = hype_instance_create(client1_buffer_id, NULL, false);
+    HypeInstance *instance = hpb_test_utils_get_instance_from_id("\x85\xa9\xd4\xc4\xde\xd2\x87\x75\x0f\xc0\xed\x32", 12);
 
     packet_size = hpb_protocol_build_subscribe_msg(SERVICE_KEY, &packet);
-    CU_ASSERT(hpb_protocol_receive_msg(instance1, packet, packet_size) == SUBSCRIBE_SERVICE);
+    CU_ASSERT(hpb_protocol_receive_msg(instance, packet, packet_size) == SUBSCRIBE_SERVICE);
     free(packet);
 
     packet_size = hpb_protocol_build_unsubscribe_msg(SERVICE_KEY, &packet);
-    CU_ASSERT(hpb_protocol_receive_msg(instance1, packet, packet_size) == UNSUBSCRIBE_SERVICE);
+    CU_ASSERT(hpb_protocol_receive_msg(instance, packet, packet_size) == UNSUBSCRIBE_SERVICE);
     free(packet);
 
     packet_size = hpb_protocol_build_publish_msg(SERVICE_KEY, (char*) MSG, MSG_SIZE, &packet);
-    CU_ASSERT(hpb_protocol_receive_msg(instance1, packet, packet_size) == PUBLISH);
+    CU_ASSERT(hpb_protocol_receive_msg(instance, packet, packet_size) == PUBLISH);
     free(packet);
 
     packet_size = hpb_protocol_build_info_msg(SERVICE_KEY, (char *) MSG, MSG_SIZE, &packet);
-    CU_ASSERT(hpb_protocol_receive_msg(instance1, packet, packet_size) == INFO);
+    CU_ASSERT(hpb_protocol_receive_msg(instance, packet, packet_size) == INFO);
     free(packet);
 
-    hype_instance_release(instance1);
-    hype_buffer_release(client1_buffer_id);
+    hype_instance_release(instance);
 }

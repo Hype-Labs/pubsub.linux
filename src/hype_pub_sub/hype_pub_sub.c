@@ -19,6 +19,10 @@ HypePubSub* hpb_get()
         HypeInstance *own_instance = hype_get_host_instance();
 #endif
         hpb->network = hpb_network_create(own_instance);
+
+#ifdef HPB_UNIT_TESTING
+        hype_instance_release(own_instance);
+#endif
     }
 
     return hpb;
