@@ -20,6 +20,7 @@ void hpb_subscription_destroy(HpbSubscription **subs)
     }
 
     free((*subs)->service_name);
+    hype_instance_release((*subs)->manager_instance);
     free(*subs);
     (*subs) = NULL;
 }

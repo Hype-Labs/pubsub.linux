@@ -30,7 +30,8 @@ int main()
       return CU_get_error();
    }
 
-   if ((CU_add_test(pSuite, "Test LinkedList module", linked_list_test) == NULL) ||
+   if (
+       (CU_add_test(pSuite, "Test LinkedList module", linked_list_test) == NULL) ||
        (CU_add_test(pSuite, "Test BinaryUtils module", binary_utils_test) == NULL) ||
        (CU_add_test(pSuite, "Test StringUtils module", string_utils_test) == NULL) ||
        (CU_add_test(pSuite, "Test HypePubSub module", hpb_test) == NULL) ||
@@ -41,7 +42,8 @@ int main()
        (CU_add_test(pSuite, "Test HpbProtocol module", hpb_protocol_test) == NULL) ||
        (CU_add_test(pSuite, "Test HpbClientsList module", hpb_list_clients_test) == NULL) ||
        (CU_add_test(pSuite, "Test HpbServiceManagersList module", hpb_list_service_managers_test) == NULL) ||
-       (CU_add_test(pSuite, "Test HpbSubscriptionsList module", hpb_list_subscriptions_test) == NULL))
+       (CU_add_test(pSuite, "Test HpbSubscriptionsList module", hpb_list_subscriptions_test) == NULL)
+      )
    {
       CU_cleanup_registry();
       return CU_get_error();
