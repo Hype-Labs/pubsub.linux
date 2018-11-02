@@ -1,8 +1,9 @@
 <map id="hype_pub_sub.h" name="hype_pub_sub.h">
-<area shape="rect" id="node2" href="$cmd__interface_8h.html" title="cmd_interface.h" alt="" coords="29,79,145,104"/>
-<area shape="rect" id="node4" href="$main_8c.html" title="main.c" alt="" coords="145,152,205,177"/>
-<area shape="rect" id="node5" href="$protocol_8h.html" title="protocol.h" alt="" coords="220,79,300,104"/>
-<area shape="rect" id="node7" href="$hype__pub__sub_8c.html" title="hype_pub_sub.c" alt="" coords="325,79,444,104"/>
-<area shape="rect" id="node3" href="$cmd__interface_8c.html" title="cmd_interface.c" alt="" coords="5,152,121,177"/>
-<area shape="rect" id="node6" href="$protocol_8c.html" title="protocol.c" alt="" coords="229,152,308,177"/>
+<area shape="rect" id="node2" href="$hpb__cmd__interface_8h.html" title="hpb_cmd_interface.h" alt="" coords="52,80,195,107"/>
+<area shape="rect" id="node4" href="$hpb__main_8c.html" title="hpb_main.c" alt="" coords="172,155,261,181"/>
+<area shape="rect" id="node5" href="$hpb__protocol_8h.html" title="hpb_protocol.h" alt="" coords="270,80,377,107"/>
+<area shape="rect" id="node7" href="$hpb__hype__interface_8c.html" title="hpb_hype_interface.c" alt="" coords="401,80,547,107"/>
+<area shape="rect" id="node8" href="$hype__pub__sub_8c.html" title="hype_pub_sub.c" alt="" coords="571,80,689,107"/>
+<area shape="rect" id="node3" href="$hpb__cmd__interface_8c.html" title="hpb_cmd_interface.c" alt="" coords="5,155,148,181"/>
+<area shape="rect" id="node6" href="$hpb__protocol_8c.html" title="hpb_protocol.c" alt="" coords="286,155,393,181"/>
 </map>

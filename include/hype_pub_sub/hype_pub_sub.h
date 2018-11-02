@@ -134,9 +134,4 @@ int hpb_update_own_subscriptions();
  */
 void hpb_destroy();
 
-// TODO: Review this later. Currently it seems that these methods are replaced by the hpb_update_subscriptions() and hpb_update_managed_services() methods
-// int hpb_process_change_service_manager_req(HypePubSub *pub_sub, byte service_key[SHA1_BLOCK_SIZE], byte new_manager_id[HYPE_ID_BYTE_SIZE], byte** subscribers_id[HYPE_ID_BYTE_SIZE]);
-// static int hpb_issue_change_service_manager_req(HypePubSub *pub_sub, byte service_key[SHA1_BLOCK_SIZE], byte new_manager_id[HYPE_ID_BYTE_SIZE], byte** subscribers_id[HYPE_ID_BYTE_SIZE]);
-
-
 #endif /* HPB_H_INCLUDED_ */

@@ -74,8 +74,4 @@ size_t hpb_protocol_build_info_msg(HLByte service_key[SHA1_BLOCK_SIZE], char *ms
  */
 int hpb_protocol_receive_msg(HypeInstance * instance_origin, HLByte *msg, size_t msg_length);
 
-// TODO: Review this later. Currently it seems that these methods are replaced by the hpb_update_subscriptions() and hpb_update_managed_services() methods
-// int hpb_protocol_send_change_service_manager_msg(byte service_key[SHA1_BLOCK_SIZE], byte dest_network_id[HYPE_CONSTANTS_ID_BYTE_SIZE], byte** subscribers_ids[SHA1_BLOCK_SIZE]);
-// int hpb_protocol_receive_change_service_manager_msg(Protocol* protocol, char* msg);
-
 #endif /* HPB_PROTOCOL_H_INCLUDED_ */
