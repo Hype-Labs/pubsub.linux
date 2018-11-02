@@ -1,8 +1,8 @@
 #include "hpb_service_manager_test.h"
+#include "hpb_test_utils.h"
 
 static HLByte SUBSCRIBER_ID1[] = "\x85\xa9\xd4\xc4\xde\xd2\x87\x75\x0f\xc0\xed\x32";
 static HLByte SUBSCRIBER_ID2[] = "\xe7\x79\x34\x6c\x66\x9c\x17\xf4\x34\xc8\xce\x0e";
-static size_t CLIENT_HYPE_ID_SIZE = 12;
 
 void hpb_service_manager_test()
 {
@@ -23,22 +23,20 @@ void hpb_service_manager_test()
     CU_ASSERT_PTR_NULL(serv2->subscribers->head);
 
     // Test add_subscriber
-    HypeBuffer *client1_buffer_id = hype_buffer_create_from(SUBSCRIBER_ID1, CLIENT_HYPE_ID_SIZE);
-    HypeBuffer *client2_buffer_id = hype_buffer_create_from(SUBSCRIBER_ID2, CLIENT_HYPE_ID_SIZE);
-    HypeInstance *instance1 = hype_instance_create(client1_buffer_id, NULL, false);
-    HypeInstance *instance2 = hype_instance_create(client2_buffer_id, NULL, false);
+    HypeInstance *instance1 = hpb_test_utils_get_instance_from_id(SUBSCRIBER_ID1, HPB_UTILS_CLIENT_ID_TEST_SIZE);
+    HypeInstance *instance2 = hpb_test_utils_get_instance_from_id(SUBSCRIBER_ID2, HPB_UTILS_CLIENT_ID_TEST_SIZE);
     hpb_service_manager_add_subscriber(serv1, instance1);
     CU_ASSERT_PTR_NOT_NULL(serv1->subscribers->head);
     CU_ASSERT(serv1->subscribers->size == 1);
     hpb_service_manager_add_subscriber(serv1, instance2);
     CU_ASSERT_FATAL(serv1->subscribers->size == 2);
-    CU_ASSERT_NSTRING_EQUAL(((HpbClient *) serv1->subscribers->head->element)->hype_instance->identifier->data, SUBSCRIBER_ID1, CLIENT_HYPE_ID_SIZE);
-    CU_ASSERT_NSTRING_EQUAL(((HpbClient *) serv1->subscribers->head->next->element)->hype_instance->identifier->data, SUBSCRIBER_ID2, CLIENT_HYPE_ID_SIZE);
+    CU_ASSERT_NSTRING_EQUAL(((HpbClient *) serv1->subscribers->head->element)->hype_instance->identifier->data, SUBSCRIBER_ID1, HPB_UTILS_CLIENT_ID_TEST_SIZE);
+    CU_ASSERT_NSTRING_EQUAL(((HpbClient *) serv1->subscribers->head->next->element)->hype_instance->identifier->data, SUBSCRIBER_ID2, HPB_UTILS_CLIENT_ID_TEST_SIZE);
 
     // Test remove_subscriber
     hpb_service_manager_remove_subscriber(serv1, instance1);
     CU_ASSERT_FATAL(serv1->subscribers->size == 1);
-    CU_ASSERT_NSTRING_EQUAL(((HpbClient *) serv1->subscribers->head->element)->hype_instance->identifier->data, SUBSCRIBER_ID2, CLIENT_HYPE_ID_SIZE);
+    CU_ASSERT_NSTRING_EQUAL(((HpbClient *) serv1->subscribers->head->element)->hype_instance->identifier->data, SUBSCRIBER_ID2, HPB_UTILS_CLIENT_ID_TEST_SIZE);
     hpb_service_manager_remove_subscriber(serv1, instance1);
     CU_ASSERT_FATAL(serv1->subscribers->size == 1);
     hpb_service_manager_remove_subscriber(serv1, instance2);
@@ -52,6 +50,4 @@ void hpb_service_manager_test()
 
     hype_instance_release(instance1);
     hype_instance_release(instance2);
-    hype_buffer_release(client1_buffer_id);
-    hype_buffer_release(client2_buffer_id);
 }

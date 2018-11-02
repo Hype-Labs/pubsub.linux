@@ -1,4 +1,6 @@
 #include "hpb_network_test.h"
+#include "hpb_test_utils.h"
+
 
 // ID1 KEY:     0000010111101011011000110111110010111101001111110011001101101001000111010111010000111100001010100011100110101111111011101101101001011110110010010100010110101101
 static HLByte CLIENT1_HYPE_ID[] = "\x85\xa9\xd4\xc4\xde\xd2\x87\x75\x0f\xc0\xed\x32";
@@ -8,7 +10,6 @@ static HLByte CLIENT2_HYPE_ID[] = "\xe7\x79\x34\x6c\x66\x9c\x17\xf4\x34\xc8\xce\
 static HLByte CLIENT3_HYPE_ID[] = "\x10\x11\x12\x01\x02\x03\x04\x05\x06\x07\x08\x09";
 // ID4 KEY:     1111011011001011011011011001110110110000100110001001000110011011001011010011100101010101000100010100000111000101110010111110011101100111101101010000011011010110
 static HLByte CLIENT4_HYPE_ID[] = "\x66\xd8\xf2\x20\x6a\x56\xdb\xe9\x91\x23\x3b\xc2";
-static HLByte CLIENT_HYPE_ID_SIZE = 12;
 
 // SV1 KEY:     1111111010110101110001101010111010001010101110010111101011011111010100111111100010111100100100101110010101010001011010011000001010110110001000000000111010100100
 static HLByte SERVICE_KEY1[] = "\xfe\xb5\xc6\xae\x8a\xb9\x7a\xdf\x53\xf8\xbc\x92\xe5\x51\x69\x82\xb6\x20\x0e\xa4";
@@ -27,14 +28,10 @@ static HLByte SERVICE_KEY2[] = "\x24\x62\xc4\x5a\x65\xd5\x91\x31\x86\xc9\xb3\x10
 
 void hpb_network_test()
 {
-    HypeBuffer *client1_buffer_id = hype_buffer_create_from(CLIENT1_HYPE_ID, CLIENT_HYPE_ID_SIZE);
-    HypeBuffer *client2_buffer_id = hype_buffer_create_from(CLIENT2_HYPE_ID, CLIENT_HYPE_ID_SIZE);
-    HypeBuffer *client3_buffer_id = hype_buffer_create_from(CLIENT3_HYPE_ID, CLIENT_HYPE_ID_SIZE);
-    HypeBuffer *client4_buffer_id = hype_buffer_create_from(CLIENT4_HYPE_ID, CLIENT_HYPE_ID_SIZE);
-    HypeInstance *instance1 = hype_instance_create(client1_buffer_id, NULL, false);
-    HypeInstance *instance2 = hype_instance_create(client2_buffer_id, NULL, false);
-    HypeInstance *instance3 = hype_instance_create(client3_buffer_id, NULL, false);
-    HypeInstance *instance4 = hype_instance_create(client4_buffer_id, NULL, false);
+    HypeInstance *instance1 = hpb_test_utils_get_instance_from_id(CLIENT1_HYPE_ID, HPB_UTILS_CLIENT_ID_TEST_SIZE);
+    HypeInstance *instance2 = hpb_test_utils_get_instance_from_id(CLIENT2_HYPE_ID, HPB_UTILS_CLIENT_ID_TEST_SIZE);
+    HypeInstance *instance3 = hpb_test_utils_get_instance_from_id(CLIENT3_HYPE_ID, HPB_UTILS_CLIENT_ID_TEST_SIZE);
+    HypeInstance *instance4 = hpb_test_utils_get_instance_from_id(CLIENT4_HYPE_ID, HPB_UTILS_CLIENT_ID_TEST_SIZE);
 
     HpbNetwork *network = hpb_network_create(instance1);
     CU_ASSERT_PTR_NOT_NULL_FATAL(network);
@@ -44,21 +41,13 @@ void hpb_network_test()
     hpb_list_clients_add(network->network_clients, instance3);
     hpb_list_clients_add(network->network_clients, instance4);
 
-    // Reset own client id
-    network->own_client = hpb_client_create(instance1);
-    sha1_digest(network->own_client->hype_instance->identifier->data, CLIENT_HYPE_ID_SIZE, network->own_client->key);
-
-    CU_ASSERT_NSTRING_EQUAL(hpb_network_get_service_manager_id(network, SERVICE_KEY1)->identifier->data, CLIENT4_HYPE_ID, CLIENT_HYPE_ID_SIZE);
-    CU_ASSERT_NSTRING_EQUAL(hpb_network_get_service_manager_id(network, SERVICE_KEY2)->identifier->data, CLIENT1_HYPE_ID, CLIENT_HYPE_ID_SIZE);
+    CU_ASSERT_NSTRING_EQUAL(hpb_network_get_service_manager_id(network, SERVICE_KEY1)->identifier->data, CLIENT4_HYPE_ID, HPB_UTILS_CLIENT_ID_TEST_SIZE);
+    CU_ASSERT_NSTRING_EQUAL(hpb_network_get_service_manager_id(network, SERVICE_KEY2)->identifier->data, CLIENT1_HYPE_ID, HPB_UTILS_CLIENT_ID_TEST_SIZE);
 
     hype_instance_release(instance1);
     hype_instance_release(instance2);
     hype_instance_release(instance3);
     hype_instance_release(instance4);
-    hype_buffer_release(client1_buffer_id);
-    hype_buffer_release(client2_buffer_id);
-    hype_buffer_release(client3_buffer_id);
-    hype_buffer_release(client4_buffer_id);
 
     hpb_network_destroy(&network);
     CU_ASSERT_PTR_NULL(network);
