@@ -1,5 +1,5 @@
 <map id="HpbNetwork_" name="HpbNetwork_">
-<area shape="rect" id="node2" href="$structHpbClient__.html" title="This struct represents an Hype client. " alt="" coords="5,92,93,117"/>
-<area shape="rect" id="node3" href="$structLinkedList__.html" title="This struct represents a linked list. " alt="" coords="117,92,205,117"/>
-<area shape="rect" id="node4" href="$structLinkedListNode__.html" title="This struct represents a node of the linked list. " alt="" coords="101,5,221,31"/>
+<area shape="rect" id="node2" href="$structHpbClient__.html" title="This struct represents a publisher&#45;subscriber client. " alt="" coords="5,95,92,121"/>
+<area shape="rect" id="node3" href="$structLinkedList__.html" title="This struct represents a linked list. " alt="" coords="117,95,205,121"/>
+<area shape="rect" id="node4" href="$structLinkedListNode__.html" title="This struct represents a node of the linked list. " alt="" coords="101,5,220,32"/>
 </map>

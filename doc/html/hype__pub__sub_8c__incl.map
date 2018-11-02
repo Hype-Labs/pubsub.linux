@@ -1,14 +1,14 @@
 <map id="hype_pub_sub.c" name="hype_pub_sub.c">
-<area shape="rect" id="node2" href="$hype__pub__sub_8h.html" title="hype_pub_sub/hype_pub\l_sub.h" alt="" coords="573,79,744,117"/>
-<area shape="rect" id="node5" href="$list__service__managers_8h.html" title="list_service_managers.h" alt="" coords="355,165,520,191"/>
-<area shape="rect" id="node15" href="$list__subscriptions_8h.html" title="list_subscriptions.h" alt="" coords="592,312,726,337"/>
-<area shape="rect" id="node17" href="$network_8h.html" title="network.h" alt="" coords="723,239,802,264"/>
-<area shape="rect" id="node18" href="$protocol_8h.html" title="protocol.h" alt="" coords="916,165,996,191"/>
-<area shape="rect" id="node6" href="$linked__list_8h.html" title="linked_list.h" alt="" coords="296,385,387,411"/>
-<area shape="rect" id="node9" href="$service__manager_8h.html" title="service_manager.h" alt="" coords="149,239,283,264"/>
-<area shape="rect" id="node13" href="$constants_8h.html" title="constants.h" alt="" coords="874,459,963,484"/>
-<area shape="rect" id="node10" href="$list__clients_8h.html" title="list_clients.h" alt="" coords="424,312,518,337"/>
-<area shape="rect" id="node11" href="$client_8h.html" title="client.h" alt="" coords="462,385,525,411"/>
-<area shape="rect" id="node14" href="$binary__utils_8h.html" title="binary_utils.h" alt="" coords="517,459,617,484"/>
-<area shape="rect" id="node16" href="$subscription_8h.html" title="subscription.h" alt="" coords="651,385,754,411"/>
+<area shape="rect" id="node2" href="$hype__pub__sub_8h.html" title="hype_pub_sub/hype_pub\l_sub.h" alt="" coords="663,80,830,121"/>
+<area shape="rect" id="node5" href="$hpb__service__managers__list_8h.html" title="hpb_service_managers\l_list.h" alt="" coords="519,169,675,211"/>
+<area shape="rect" id="node16" href="$hpb__subscriptions__list_8h.html" title="hpb_subscriptions_list.h" alt="" coords="144,333,307,360"/>
+<area shape="rect" id="node18" href="$hpb__network_8h.html" title="hpb_network.h" alt="" coords="693,259,800,285"/>
+<area shape="rect" id="node19" href="$hpb__protocol_8h.html" title="hpb_protocol.h" alt="" coords="967,177,1073,203"/>
+<area shape="rect" id="node6" href="$linked__list_8h.html" title="linked_list.h" alt="" coords="195,408,285,435"/>
+<area shape="rect" id="node9" href="$hpb__service__manager_8h.html" title="hpb_service_manager.h" alt="" coords="381,259,541,285"/>
+<area shape="rect" id="node13" href="$hpb__constants_8h.html" title="hpb_constants.h" alt="" coords="865,483,983,509"/>
+<area shape="rect" id="node10" href="$hpb__clients__list_8h.html" title="hpb_clients_list.h" alt="" coords="584,333,707,360"/>
+<area shape="rect" id="node11" href="$hpb__client_8h.html" title="hpb_client.h" alt="" coords="462,408,554,435"/>
+<area shape="rect" id="node14" href="$binary__utils_8h.html" title="binary_utils.h" alt="" coords="384,483,483,509"/>
+<area shape="rect" id="node17" href="$hpb__subscription_8h.html" title="hpb_subscription.h" alt="" coords="579,408,709,435"/>
 </map>

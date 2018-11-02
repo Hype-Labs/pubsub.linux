@@ -23,11 +23,5 @@ var searchData=
   ['linkedlistiterator_5f',['LinkedListIterator_',['../structLinkedListIterator__.html',1,'']]],
   ['linkedlistnode',['LinkedListNode',['../linked__list_8h.html#ab8b572dc32426b7923ba6c36d82af3ac',1,'linked_list.h']]],
   ['linkedlistnode_5f',['LinkedListNode_',['../structLinkedListNode__.html',1,'']]],
-  ['list',['list',['../structLinkedListIterator__.html#a165ddb6d8603066e7f724903bc03cfff',1,'LinkedListIterator_']]],
-  ['list_5fclients_2ec',['list_clients.c',['../list__clients_8c.html',1,'']]],
-  ['list_5fclients_2eh',['list_clients.h',['../list__clients_8h.html',1,'']]],
-  ['list_5fservice_5fmanagers_2ec',['list_service_managers.c',['../list__service__managers_8c.html',1,'']]],
-  ['list_5fservice_5fmanagers_2eh',['list_service_managers.h',['../list__service__managers_8h.html',1,'']]],
-  ['list_5fsubscriptions_2ec',['list_subscriptions.c',['../list__subscriptions_8c.html',1,'']]],
-  ['list_5fsubscriptions_2eh',['list_subscriptions.h',['../list__subscriptions_8h.html',1,'']]]
+  ['list',['list',['../structLinkedListIterator__.html#a165ddb6d8603066e7f724903bc03cfff',1,'LinkedListIterator_']]]
 ];

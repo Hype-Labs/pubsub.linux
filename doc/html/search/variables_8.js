@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['own_5fclient',['own_client',['../structHpbNetwork__.html#a1b2ab3801a1b0401eb6a4a23e5f7ac7a',1,'HpbNetwork_']]],
-  ['own_5fsubscriptions',['own_subscriptions',['../structHypePubSub__.html#a5be8a02ffe7f6e064c0f42daac5cae8f',1,'HypePubSub_']]]
+  ['network',['network',['../structHypePubSub__.html#ad72cac497941b4f5211be9d91e652ed4',1,'HypePubSub_']]],
+  ['network_5fclients',['network_clients',['../structHpbNetwork__.html#a95a91178e9cdb82621aa953837757328',1,'HpbNetwork_']]],
+  ['next',['next',['../structLinkedListNode__.html#a40ee7d40a5dc0a826fbc3eefaf6a8f43',1,'LinkedListNode_']]]
 ];

@@ -2,9 +2,9 @@ var indexSectionsWithContent =
 {
   0: "bcdehiklmnopsu",
   1: "hl",
-  2: "bchlmnps",
-  3: "bhlmp",
-  4: "dehiklmnops",
+  2: "bhls",
+  3: "bhlmps",
+  4: "cdehiklmnos",
   5: "hl",
   6: "m",
   7: "ipsu",
