@@ -11,7 +11,8 @@
 #include "sha/sha1.h"
 
 /**
- * @brief This struct represents a service managed by this HypePubSub application. Each HpbServiceManager associates a given service with a list of subscribers.
+ * @brief This struct represents a service managed by this HypePubSub application.
+ * Each HpbServiceManager associates a given service with a list of subscribers.
  */
 typedef struct HpbServiceManager_
 {
