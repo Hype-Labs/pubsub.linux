@@ -21,17 +21,15 @@
 pthread_cond_t cond;
 pthread_mutex_t mutex;
 
-//Request the Hype services to start
+/**
+ * @brief This method should be invoked to request the Hype SDK to start.
+ */
 void hpb_hype_interface_request_to_start();
 
-//Request the Hype services to stop
+/**
+ * @brief This method should be invoked to request the Hype SDK to stop.
+ */
 void hpb_hype_interface_request_to_stop();
-
-//Add resolved intances
-void hpb_hype_interface_instance_resolved_add(HypeInstance * instance);
-
-//Remove lost intances
-void hpb_hype_interface_instance_remove(HypeInstance * instance);
 
 
 #endif /* HPB_HYPE_INTERFACE_H_INCLUDED_ */
